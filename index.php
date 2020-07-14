@@ -1,5 +1,7 @@
 <h1>Flock Book</h1>
 
+<p>Redesign site</p>
+
 <?php
 
 // -- Set up database connection ---------------------------------------
