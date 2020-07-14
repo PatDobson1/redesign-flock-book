@@ -12,7 +12,7 @@
     $pdo = $pdo -> prepare("SELECT * FROM sheep");
     // $pdo -> bindParam(':id', $id);
     if( $pdo -> execute() ){
-        if($results = $pdo -> fetch(PDO::FETCH_NAMED)){
+        if($results = $pdo -> fetch(PDO::FETCH_ASSOC)){
             $page = $results['content'];
             var_dump($results);
         }else{
