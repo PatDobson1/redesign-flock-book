@@ -1,9 +1,5 @@
 <h1>Flock Book</h1>
 
-Bjb29v&6__7][hGuye788
-
-fb_redesign
-
 <?php
 
 // -- Set up database connection ---------------------------------------
