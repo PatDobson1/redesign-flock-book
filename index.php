@@ -9,7 +9,7 @@
     $pdo -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // $pdo = self::$conn -> prepare("SELECT * FROM sheep WHERE id = :id");
-    $pdo = self::$conn -> prepare("SELECT * FROM sheep");
+    $pdo = $pdo -> prepare("SELECT * FROM sheep");
     // $pdo -> bindParam(':id', $id);
     if( $pdo -> execute() ){
         if($results = $pdo -> fetch(PDO::FETCH_NAMED)){
