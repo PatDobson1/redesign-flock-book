@@ -13,7 +13,7 @@
     // $pdo -> bindParam(':id', $id);
     $sql->execute();
     while( $row = $sql -> fetch() ){
-            var_dump($row);
+            echo "<p>$row[uk_tag_no]</p>";
     }
 
     $pdo = null;
