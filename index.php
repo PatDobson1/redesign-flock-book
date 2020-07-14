@@ -11,6 +11,7 @@
     // $pdo = self::$conn -> prepare("SELECT * FROM sheep WHERE id = :id");
     $sql = $pdo -> prepare("SELECT * FROM sheep");
     // $pdo -> bindParam(':id', $id);
+    $sql->execute();
     while( $row = $sql -> fetch() ){
             var_dump($row);
     }
