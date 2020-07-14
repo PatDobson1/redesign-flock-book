@@ -14,7 +14,7 @@
     if( $pdo -> execute() ){
         if($results = $pdo -> fetch(PDO::FETCH_NAMED)){
             $page = $results['content'];
-            return $page;
+            var_dump($results);
         }else{
             return "Page not found";
         }
