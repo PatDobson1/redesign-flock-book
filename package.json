@@ -1,0 +1,23 @@
+{
+  "name": "redesign-flock-book",
+  "version": "1.0.0",
+  "description": "Redesigned using OOPHP",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PatDobson1/redesign-flock-book.git"
+  },
+  "author": "Pat Dobson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PatDobson1/redesign-flock-book/issues"
+  },
+  "homepage": "https://github.com/PatDobson1/redesign-flock-book#readme",
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-sass": "^4.1.0"
+  }
+}

@@ -8,15 +8,16 @@
                 echo "
                         <html>
                             <head>
+                                <link href='https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Raleway:wght@300;600&display=swap' rel='stylesheet'>
+                                <link rel='stylesheet' href='includes/style/reset.css' />
                                 <link rel='stylesheet' href='includes/style/style.css' />
                             </head>
                             <body>
                             <div class='overall'>
-                                <div class='header'>
+                                <header>
                                     <h1>H E A D E R</h1>
-                                </div>
-                                <hr/ >
-                                <div class='content'>";
+                                </header>
+                                <content>";
 
             }
         // -----------------------------------------------------
@@ -25,11 +26,10 @@
             public function footer(){
              
                 echo "
-                        </div>
-                        <hr />
-                        <div class='footer'>
+                        </content>
+                        <footer>
                             <p>F O O T E R</p>
-                        </div>
+                        </footer>
                     </div>
                 </body>
             </html>";

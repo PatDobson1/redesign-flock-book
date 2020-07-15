@@ -1,0 +1,22 @@
+
+Data changes
+
+- Changed names of gender.gender from [Ram,Ewe] to [Male.Female]  
+
+Structure changes
+
+- Added table 'species'
+- Added table 'previous_tags'
+
+Sheep table
+
+- Table 'sheep' renamed as 'livestock'
+- Column 'sheep_name' renamed as 'livestock_name'
+- Column 'dam' remaned as 'mother'
+- Column 'sire' renamed as 'father'
+- Column 'tag' removed
+- Column 'management_tag_number' removed
+- Column 'replacement_tag_number' removed
+- Column 'historic' removed
+- Column 'previous_tags' added [varChar255] [links to previous_tags table]
+- Column 'species' added - [int] [link to species table]
