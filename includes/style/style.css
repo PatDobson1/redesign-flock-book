@@ -1,8 +1,9 @@
 body {
-  font-family: 'Raleway', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-weight: 300;
   font-size: 16px;
-  background-color: #f5fff5; }
+  background-color: #f5fff5;
+  color: #0f3510; }
 
 strong {
   font-weight: 600; }
@@ -10,10 +11,14 @@ strong {
 p {
   margin: 0 0 20px 0; }
 
+* {
+  box-sizing: border-box; }
+
 header,
 content,
 footer {
   display: block;
+  position: relative;
   background-color: #ffffff;
   border-color: #c5c5c5;
   max-width: 1200px;
@@ -28,8 +33,32 @@ header {
 footer {
   border-width: 1px 1px 0 1px; }
 
+menu li,
+rightMenu li {
+  float: left;
+  margin: 0 10px 0 0; }
+  menu li a,
+  rightMenu li a {
+    text-decoration: none;
+    border: 1px solid #c5c5c5;
+    padding: 5px 10px;
+    color: #0f3510; }
+    menu li a:hover,
+    rightMenu li a:hover {
+      color: #ffffff;
+      background-color: #c5c5c5; }
+
+menu {
+  min-height: 20px;
+  margin: 30px 0 0 0; }
+
+rightMenu {
+  position: absolute;
+  top: 20px;
+  right: 10px; }
+
 h1, h2, h3, h4, h5, h5 {
-  ont-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 600;
   margin-bottom: 20px; }
 

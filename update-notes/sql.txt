@@ -1,7 +1,7 @@
 
 Data changes
 
-- Changed names of gender.gender from [Ram,Ewe] to [Male.Female]  
+- Changed names of gender.gender from [Ram,Ewe] to [Male.Female]
 
 Structure changes
 
@@ -20,3 +20,4 @@ Sheep table
 - Column 'historic' removed
 - Column 'previous_tags' added [varChar255] [links to previous_tags table]
 - Column 'species' added - [int] [link to species table]
+- Column 'date_of_sale' added - [date]

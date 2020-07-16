@@ -3,16 +3,20 @@
 
 // -- General ---------------------------------------------------
     body{
-        font-family: 'Raleway', sans-serif;
+        font-family: $body-font;
         font-weight: 300;
         font-size: 16px;
         background-color: $page-background-colour;
+        color: $font-colour;
     }
     strong{
         font-weight: 600;
     }
     p{
         margin: 0 0 20px 0;
+    }
+    *{
+        box-sizing: border-box;
     }
 // --------------------------------------------------------------
 
@@ -21,6 +25,7 @@
     content,
     footer{
         display: block;
+        position: relative;
         background-color: $content-background-colour;
         border-color: $border-colour;
         max-width: 1200px;
@@ -38,9 +43,38 @@
 
 // --------------------------------------------------------------
 
+// -- Menus -----------------------------------------------------
+    menu,
+    rightMenu{
+        li{
+            float: left;
+            margin: 0 10px 0 0;
+            a{
+                text-decoration: none;
+                border: 1px solid $border-colour;
+                padding: 5px 10px;
+                color: $font-colour;
+                &:hover{
+                    color: $white;
+                    background-color: $border-colour;
+                }
+            }
+        }
+    }
+    menu{
+        min-height: 20px;
+        margin: 30px 0 0 0;
+    }
+    rightMenu{
+        position: absolute;
+        top: 20px;
+        right: 10px;
+    }
+// --------------------------------------------------------------
+
 // -- Headers ---------------------------------------------------
     h1,h2,h3,h4,h5,h5{
-        ont-family: 'Montserrat', sans-serif;
+        font-family: $header-font;
         font-weight: 600;
         margin-bottom: 20px;
     }
