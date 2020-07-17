@@ -1,0 +1,23 @@
+
+// -- Layout ----------------------------------------------------
+    header,
+    content,
+    footer{
+        display: block;
+        position: relative;
+        background-color: $content-background-colour;
+        border-color: $border-colour;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        border-width: 0 1px;
+        border-style: solid;
+    }
+    header{
+        border-width: 0 1px 1px 1px;
+    }
+    footer{
+        border-width: 1px 1px 0 1px;
+    }
+
+// --------------------------------------------------------------

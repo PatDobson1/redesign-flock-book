@@ -17,8 +17,22 @@
                                     <h1>$site_data[site_name] flockbook</h1>
                                     <menu>
                                         <ul>
-                                            <li><a href='#'>Menu 1</a></li>
-                                            <li><a href='#'>Menu 2</a></li>
+                                            <li><a href='#' class='dropdown'>Menu 1</a>
+                                                <ul>
+                                                    <li><a href='#'>subMenu 1</a></li>
+                                                    <li><a href='#'>subMenu 2</a></li>
+                                                    <li><a href='#'>subMenu 3</a></li>
+                                                    <li><a href='#'>subMenu 4</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href='#' class='dropdown'>Menu 2</a>
+                                                <ul>
+                                                    <li><a href='#'>subMenu 1</a></li>
+                                                    <li><a href='#'>subMenu 2</a></li>
+                                                    <li><a href='#'>subMenu 3</a></li>
+                                                    <li><a href='#'>subMenu 4</a></li>
+                                                </ul>
+                                            </li>
                                             <li><a href='#'>Menu 3</a></li>
                                             <li><a href='#'>Menu 4</a></li>
                                             <li><a href='#'>Menu 5</a></li>

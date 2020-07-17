@@ -1,0 +1,70 @@
+
+// -- Menus -----------------------------------------------------
+    menu,
+    rightMenu{
+        li{
+            float: left;
+            margin: 0 10px 0 0;
+            position: relative;
+            a{
+                text-decoration: none;
+                border: 1px solid $border-colour;
+                border-radius: $border-radius;
+                padding: 5px 10px 8px 10px;
+                color: $font-colour;
+                &:hover{
+                    color: $white;
+                    background-color: $border-colour;
+                }
+                &.dropdown{
+                    padding-right: 30px;
+                    &::after{
+                        content: '>';
+                        transform: scaleY(0.7) rotate(90deg);
+                        position: absolute;
+                        right: 10px;
+                        font-size: 1.2em;
+                        font-weight: 600;
+                        transition: transform 0.5s ease-in-out;
+                    }
+                    &:hover::after{
+                        transform: scaleY(0.7) rotate(-90deg);
+                    }
+                }
+            }
+            &:hover ul,
+            &:focus-within ul{
+                display: block;
+            }
+            ul{
+                display: none;
+                // padding: 10px 10px 10px 0;
+                position: absolute;
+                top: 27px;
+                left: 0;
+                z-index: 101;
+                background-color: $white;
+                li{
+                    float: none;
+                    background-color: $white;
+                    margin: 0;
+                    a{
+                        width: 300px;
+                        display: block;
+                        padding: 10px;
+                        margin: 10px 0;
+                    }
+                }
+            }
+        }
+    }
+    menu{
+        min-height: 20px;
+        margin: 40px 0 0 0;
+    }
+    rightMenu{
+        position: absolute;
+        top: 20px;
+        right: 10px;
+    }
+// --------------------------------------------------------------

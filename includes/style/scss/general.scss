@@ -1,0 +1,30 @@
+
+// -- General ---------------------------------------------------
+    body{
+        font-family: $body-font;
+        font-weight: 300;
+        font-size: 16px;
+        background-color: $page-background-colour;
+        color: $font-colour;
+    }
+    strong{
+        font-weight: 600;
+    }
+    p{
+        margin: 0 0 20px 0;
+    }
+    *{
+        box-sizing: border-box;
+    }
+// --------------------------------------------------------------
+
+// -- Headers ---------------------------------------------------
+    h1,h2,h3,h4,h5,h5{
+        font-family: $header-font;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+    h1{
+        font-size: 2em;
+    }
+// --------------------------------------------------------------
