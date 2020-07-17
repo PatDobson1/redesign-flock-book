@@ -57,21 +57,21 @@ rightMenu li {
     rightMenu li a:hover {
       color: #ffffff;
       background-color: #c5c5c5; }
-    menu li a.dropdown,
-    rightMenu li a.dropdown {
-      padding-right: 30px; }
-      menu li a.dropdown::after,
-      rightMenu li a.dropdown::after {
-        content: '>';
-        transform: scaleY(0.7) rotate(90deg);
-        position: absolute;
-        right: 10px;
-        font-size: 1.2em;
-        font-weight: 600;
-        transition: transform 0.5s ease-in-out; }
-      menu li a.dropdown:hover::after,
-      rightMenu li a.dropdown:hover::after {
-        transform: scaleY(0.7) rotate(-90deg); }
+  menu li.dropdown a,
+  rightMenu li.dropdown a {
+    padding: 5px 30px 8px 10px; }
+  menu li.dropdown::after,
+  rightMenu li.dropdown::after {
+    content: '>';
+    transform: scaleY(0.7) rotate(90deg);
+    position: absolute;
+    right: 10px;
+    font-size: 1.2em;
+    font-weight: 600;
+    transition: transform 0.5s ease-in-out; }
+  menu li.dropdown:hover::after,
+  rightMenu li.dropdown:hover::after {
+    transform: scaleY(0.7) rotate(-90deg); }
   menu li:hover ul,
   menu li:focus-within ul,
   rightMenu li:hover ul,
@@ -92,7 +92,8 @@ rightMenu li {
       margin: 0; }
       menu li ul li a,
       rightMenu li ul li a {
-        width: 300px;
+        white-space: nowrap;
+        min-width: 130px;
         display: block;
         padding: 10px;
         margin: 10px 0; }
@@ -105,3 +106,6 @@ rightMenu {
   position: absolute;
   top: 20px;
   right: 10px; }
+  rightMenu li ul {
+    left: auto;
+    right: 0; }
