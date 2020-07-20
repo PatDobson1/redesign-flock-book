@@ -17,6 +17,7 @@
                                     <h1>$site_data[site_name] flockbook</h1>
                                     <menu>
                                         <ul>
+                                            <li><a href='$site_data[site_root]'>Dashboard</a></li>
                                             <li class='dropdown'><a href='#'>Menu 1</a>
                                                 <ul>
                                                     <li><a href='#'>subMenu long 1</a></li>

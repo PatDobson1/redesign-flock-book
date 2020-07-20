@@ -17,7 +17,22 @@
         border-width: 0 1px 1px 1px;
     }
     footer{
-        border-width: 1px 1px 0 1px;
+        border-width: 1px;
     }
 
+// --------------------------------------------------------------
+
+// -- Flex ------------------------------------------------------
+    .col_2{
+        display: flex;
+        div{
+            flex-basis: 50%;
+            &:first-child{
+                margin-right: 10px;
+            }
+            &:last-child{
+                margin-left: 10px;
+            }
+        }
+    }
 // --------------------------------------------------------------

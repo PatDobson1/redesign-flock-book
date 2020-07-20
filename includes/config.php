@@ -15,7 +15,8 @@
 
     // -- Site settings --------------------------------------------------------
         $site_data = array(
-            "site_name" => "Broadstone"
+            "site_name" => "Broadstone",
+            "site_root" => "/redesign-flock-book"
         );
 	    date_default_timezone_set('Europe/London');
     // -------------------------------------------------------------------------
