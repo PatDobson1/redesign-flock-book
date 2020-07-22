@@ -25,12 +25,11 @@ h1, h2, h3, h4, h5, h5 {
 h1 {
   font-size: 2em; }
 
-div.temp {
-  padding: 20px;
-  margin: 10px 0;
-  box-shadow: 0 5px 14px -13px #000000;
-  border: 1px solid #c5c5c5;
-  border-radius: 5px; }
+h2 {
+  font-size: 1.4em; }
+
+h3 {
+  font-size: 1.2em; }
 
 header {
   background-color: #ffffff;
@@ -70,6 +69,13 @@ footer {
       margin-right: 10px; }
     .col_2 div:last-child {
       margin-left: 10px; }
+
+.card {
+  padding: 20px;
+  margin: 10px 0;
+  box-shadow: 0 5px 14px -13px #000000;
+  border: 1px solid #c5c5c5;
+  border-radius: 5px; }
 
 menu li,
 rightMenu li {
@@ -139,3 +145,31 @@ rightMenu {
   rightMenu li ul {
     left: auto;
     right: 0; }
+
+table {
+  width: 100%;
+  border-collapse: collapse; }
+  table th,
+  table td {
+    padding: 10px;
+    border: 1px solid #c5c5c5; }
+  table th {
+    font-weight: 700;
+    border: 0; }
+  table td {
+    text-align: right;
+    font-size: 1.1em; }
+    table td.left {
+      text-align: left; }
+  table.sortable th {
+    cursor: pointer;
+    position: relative; }
+    table.sortable th::after {
+      position: absolute;
+      content: '';
+      background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzg0IiBoZWlnaHQ9IjM4NCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KCiA8Zz4KICA8dGl0bGU+YmFja2dyb3VuZDwvdGl0bGU+CiAgPHJlY3QgZmlsbD0ibm9uZSIgaWQ9ImNhbnZhc19iYWNrZ3JvdW5kIiBoZWlnaHQ9IjYwMiIgd2lkdGg9IjgwMiIgeT0iLTEiIHg9Ii0xIj48L3JlY3Q+CiA8L2c+CiA8Zz4KICA8dGl0bGU+TGF5ZXIgMTwvdGl0bGU+CiAgPGcgaWQ9InN2Z18xIj4KICAgPGcgaWQ9InN2Z18yIj4KICAgIDxnIGlkPSJzdmdfMyI+CiAgICAgPGcgaWQ9InN2Z180Ij4KICAgICAgPHBvbHlnb24gaWQ9InN2Z181IiBmaWxsPSIjMEYzNTEwIiBjbGFzcz0iYWN0aXZlLXBhdGgiIHBvaW50cz0iMTI4LDAgNDIuNjY3LDg1LjEyIDEwNi42NjcsODUuMTIgMTA2LjY2NywyMzQuNjY3IDE0OS4zMzMsMjM0LjY2NyAxNDkuMzMzLDg1LjEyIDIxMy4zMzMsODUuMTIgICAgIj48L3BvbHlnb24+CiAgICAgIDxwb2x5Z29uIGlkPSJzdmdfNiIgZmlsbD0iIzBGMzUxMCIgY2xhc3M9ImFjdGl2ZS1wYXRoIiBwb2ludHM9IjI3Ny4zMzMsMjk4Ljg4IDI3Ny4zMzMsMTQ5LjMzMyAyMzQuNjY3LDE0OS4zMzMgMjM0LjY2NywyOTguODggMTcwLjY2NywyOTguODggMjU2LDM4NCAzNDEuMzMzLDI5OC44OCAgICAiPjwvcG9seWdvbj4KICAgICA8L2c+CiAgICA8L2c+CiAgIDwvZz4KICA8L2c+CiA8L2c+Cjwvc3ZnPg==");
+      width: 17px;
+      height: 17px;
+      background-size: 17px;
+      background-repeat: no-repeat;
+      right: 5px; }

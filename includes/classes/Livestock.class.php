@@ -25,28 +25,109 @@
             }
         // ---------------------------------------------------------------------
 
-        // -- Get species ------------------------------------------------------
-            public function getSpecies(){
-                $livestock = new Livestock();
+        // -- Species card -----------------------------------------------------
+            public function speciesCard(){
                 $this -> connect();
                     $query = "SELECT * FROM species ORDER by species";
                     $sql = self::$conn -> prepare($query);
                     $sql -> execute();
+                    echo "  <table>
+                                <tr>
+                                    <th>Species</th>
+                                    <th>Female</th>
+                                    <th>Male</th>
+                                    <th>Total</th>
+                                </tr>";
+                                    while( $row = $sql -> fetch() ){
+                                        $livestockCount_male = $this -> countSpecies($row['id'],1);
+                                        $livestockCount_female = $this -> countSpecies($row['id'],2);
+                                        $livestockCount = $livestockCount_female + $livestockCount_male;
+                                        echo " <tr>
+                                                    <td class='left'>$row[species]</td>
+                                                    <td>$livestockCount_female</td>
+                                                    <td>$livestockCount_male</td>
+                                                    <td>$livestockCount</td>
+                                                </tr>";
+                                    }
+                    echo "  </table>";
+                $this -> disconnect();
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Breeds card ------------------------------------------------------
+            public function breedCard(){
+                $query = "  SELECT DISTINCT(breed.breed_name), breed.id AS breedId, livestock.species AS speciesId
+                            FROM breed
+                            INNER JOIN livestock ON breed.id = livestock.breed
+                            ORDER BY species, breed ";
+                $this -> connect();
+                    $sql = self::$conn -> prepare($query);
+                    $sql -> execute();
+                    echo "  <table class='sortable'>
+                                <tr>
+                                    <th>Breed</th>
+                                    <th>Species</th>
+                                    <th>Female</th>
+                                    <th>Male</th>
+                                    <th>Total</th>
+                                </tr>";
                     while( $row = $sql -> fetch() ){
-                        echo "<p>";
-                            echo $row['species'] . " :: " . $livestock -> countSpecies($row['id']);
-                        echo "</p>";
+                        $species = $this -> getSpecies($row['speciesId']);
+                        $breedCount_female = $this -> countBreed($row['breedId'],2);
+                        $breedCount_male = $this -> countBreed($row['breedId'],1);
+                        $breedCount_total = $breedCount_female + $breedCount_male;
+                        echo "  <tr>
+                                    <td class='left'>$row[breed_name]</td>
+                                    <td class='left'>$species</td>
+                                    <td>$breedCount_female</td>
+                                    <td>$breedCount_male</td>
+                                    <td>$breedCount_total</td>
+                                </tr>";
                     }
+                    echo "  </table>";
+                $this -> disconnect();
+            }
+            public function getSpecies($id){
+                $query = "SELECT species FROM species WHERE :id = id";
+                $this -> connect();
+                    $sql = self::$conn -> prepare($query);
+                    $sql -> bindParam(':id', $id);
+                    $sql -> execute();
+                    $row = $sql -> fetch();
+                    return $row['species'];
+                $this -> disconnect();
+            }
+            public function countBreed($breed,$gender){
+                $query = "  SELECT COUNT(id) AS breedCount
+                            FROM livestock
+                            WHERE :breed = breed AND :gender = gender
+                                    AND date_of_death IS null
+                                    AND date_of_sale IS null
+                                    AND deleted = 0";
+                $this -> connect();
+                    $sql = self::$conn -> prepare($query);
+                    $sql -> bindParam(':breed', $breed);
+                    $sql -> bindParam(':gender', $gender);
+                    $sql -> execute();
+                    $row = $sql -> fetch();
+                    return $row['breedCount'];
                 $this -> disconnect();
             }
         // ---------------------------------------------------------------------
 
         // -- Count species ----------------------------------------------------
-            public function countSpecies($species){
-                $query = "SELECT COUNT(id) as speciesCount FROM livestock WHERE :species = species AND deleted != 1 AND date_of_death IS null";
+            public function countSpecies($species, $gender){
+                $query = "  SELECT COUNT(id) as speciesCount
+                            FROM livestock
+                            WHERE :species = species
+                                    AND :gender = gender
+                                    AND deleted != 1
+                                    AND date_of_death IS null
+                                    AND date_of_sale IS null";
                 $this -> connect();
                     $sql = self::$conn -> prepare($query);
                     $sql -> bindParam(':species', $species);
+                    $sql -> bindParam(':gender', $gender);
                     $sql -> execute();
                     $row = $sql -> fetch();
                     return $row['speciesCount'];

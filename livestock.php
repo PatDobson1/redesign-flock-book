@@ -9,7 +9,18 @@
 
     // -- Content ---------------------------------------------------
 
-        echo "<h2>Livestock</h2>";
+        $livestock = new Livestock();
+            echo "<div class='card'>";
+                echo "<h2>Breeds</h2>";
+                $livestock -> breedCard();
+            echo "</div>";
+            echo "<div class='card'>";
+                echo "<h2>Species</h2>";
+                $livestock -> speciesCard();
+            echo "</div>";
+            echo "<div class='card'>";
+                $livestock -> getAllLivestock();
+            echo "</div>";
 
     // --------------------------------------------------------------
 

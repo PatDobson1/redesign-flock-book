@@ -11,19 +11,16 @@
 
         $livestock = new Livestock();
         echo "<div class='col_2'>";
-            echo "<div class='temp'>";
+            echo "<div class='card'>";
                 echo "<h2>Species</h2>";
-                $livestock -> getSpecies();
+                $livestock -> speciesCard();
             echo "</div>";
-            echo "<div class='temp'>";
-                echo "<h2>Livestock count</h2>";
-                echo "<p>All :: " . $livestock -> countLivestock('all') . "</p>";
-                echo "<p>Alive :: " . $livestock -> countLivestock('alive') . "</p>";
-                echo "<p>Females :: " . $livestock -> countLivestock('female') . "</p>";
-                echo "<p>Males :: " . $livestock -> countLivestock('male') . "</p>";
+            echo "<div class='card'>";
+                echo "<h2>Reminders</h2>";
             echo "</div>";
         echo "</div>";
-        echo "<div class='temp'>";
+        echo "<div class='card'>";
+            echo "<h2>Breeds</h2>";
             $livestock -> getAllLivestock();
         echo "</div>";
 
