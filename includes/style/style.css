@@ -2,7 +2,7 @@ body {
   font-family: "Open Sans", sans-serif;
   font-weight: 300;
   font-size: 16px;
-  background-color: #f5fff5;
+  background-color: #c4dcc4;
   color: #0f3510; }
 
 strong {
@@ -32,7 +32,16 @@ div.temp {
   border: 1px solid #c5c5c5;
   border-radius: 5px; }
 
-header,
+header {
+  background-color: #ffffff;
+  border-bottom: 1px solid #c5c5c5; }
+  header inner {
+    display: block;
+    max-width: 1200px;
+    position: relative;
+    margin: 0 auto;
+    padding: 20px; }
+
 content,
 footer {
   display: block;
@@ -50,6 +59,8 @@ header {
 
 footer {
   border-width: 1px; }
+  footer .col_2 div:last-child {
+    text-align: right; }
 
 .col_2 {
   display: flex; }

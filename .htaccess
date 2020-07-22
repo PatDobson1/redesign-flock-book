@@ -1,0 +1,9 @@
+Options -Indexes
+RewriteEngine On
+
+# -- Logout --
+    RewriteRule     ^logout index.php?logout    [NC,L]
+
+# -- Page rewrite --
+    # rewrite e.g. /sheep as /sheep.php
+        RewriteRule    ^([0-9a-zA-z]+)/?$   $1.php  [NC,L]
