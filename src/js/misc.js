@@ -1,10 +1,3 @@
-$(document).ready(function(){
-
-    console.log("WORKING? bhbhjbjhbvdfdsfds");
-    applySorting();
-
-})
-
 // -- Apply sorting to all tables ------------------------------------------
     var applySorting = function(){
         if( $('table').hasClass('sortable') ){
