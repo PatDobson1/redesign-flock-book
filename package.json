@@ -18,6 +18,8 @@
   "homepage": "https://github.com/PatDobson1/redesign-flock-book#readme",
   "devDependencies": {
     "gulp": "^4.0.2",
-    "gulp-sass": "^4.1.0"
+    "gulp-cssnano": "^2.1.3",
+    "gulp-sass": "^4.1.0",
+    "gulp-sourcemaps": "^2.6.5"
   }
 }
