@@ -31,7 +31,7 @@
                     $query = "SELECT * FROM species ORDER by species";
                     $sql = self::$conn -> prepare($query);
                     $sql -> execute();
-                    echo "  <table>
+                    echo "  <table class='species_table'>
                                 <tr>
                                     <th>Species</th>
                                     <th>Female</th>

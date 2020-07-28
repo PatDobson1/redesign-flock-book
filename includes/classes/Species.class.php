@@ -26,32 +26,22 @@
             }
         // ---------------------------------------------------------------------
 
-        // -- Species card -----------------------------------------------------
-            public function speciesCard(){
+        // -- Add species ------------------------------------------------------
+            public function sql_addSpecies($form_data){
+                $name = $form_data[0]['value'];
+                $notes = $form_data[1]['value'];
                 $this -> connect();
-                    $query = "SELECT * FROM species ORDER by species";
+                    $query = "INSERT INTO species (species, notes)
+                              VALUES (:name, :notes)";
                     $sql = self::$conn -> prepare($query);
+                    $sql -> bindParam(':name', $name);
+                    $sql -> bindParam(':notes', $notes);
                     $sql -> execute();
-                    echo "  <table>
-                                <tr>
-                                    <th>Species</th>
-                                    <th>Female</th>
-                                    <th>Male</th>
-                                    <th>Total</th>
-                                </tr>";
-                                    while( $row = $sql -> fetch() ){
-                                        $livestockCount_male = $this -> countSpecies($row['id'],1);
-                                        $livestockCount_female = $this -> countSpecies($row['id'],2);
-                                        $livestockCount = $livestockCount_female + $livestockCount_male;
-                                        echo " <tr>
-                                                    <td class='left'>$row[species]</td>
-                                                    <td>$livestockCount_female</td>
-                                                    <td>$livestockCount_male</td>
-                                                    <td>$livestockCount</td>
-                                                </tr>";
-                                    }
-                    echo "  </table>";
                 $this -> disconnect();
+                $output = new stdClass();
+                $output -> action = 'speciesAdded';
+                $output -> name = $name;
+                echo json_encode($output);
             }
         // ---------------------------------------------------------------------
 

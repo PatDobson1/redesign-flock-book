@@ -39,6 +39,25 @@
     }
 // --------------------------------------------------------------
 
+// -- Messages --------------------------------------------------
+    .message{
+        background-color: $font-colour;
+        padding: 20px;
+        border-radius: 0 0 6px 6px;
+        position: absolute;
+        z-index: 101;
+        width: 500px;
+        text-align: center;
+        left: calc( 50% - 150px );
+        top: -200px;
+        box-shadow: 0 0 60px -15px $font-colour;
+        font-size: 1.2em;
+        color: white;
+        font-weight: 600;
+        line-height: 1.5em;
+    }
+// --------------------------------------------------------------
+
 // -- !TEMP! ----------------------------------------------------
 
 // --------------------------------------------------------------
