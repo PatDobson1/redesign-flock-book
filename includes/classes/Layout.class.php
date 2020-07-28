@@ -28,13 +28,18 @@
 
         // -- Footer -------------------------------------------
             public function footer(){
-
+                $date = date('Y');
                 echo "
                         </content>
                         <footer>
-                            <div class='col_2'>
-                                <div>left</div>
-                                <div>right</div>
+                            <div class='col_3'>
+                                <div>
+                                    <p>All content &copy;$date Flock-book</p>
+                                </div>
+                                <div>
+                                    <p><a href='/terms'>Terms and conditions</a></p>
+                                </div>
+                                <div>For technical support contact <a href='mailto:admin@flock-book.uk'>admin@flock-book.uk</a></div>
                             </div>
                         </footer>
                     </div>

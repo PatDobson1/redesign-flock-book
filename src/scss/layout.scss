@@ -27,10 +27,25 @@
         border-width: 0 1px 1px 1px;
     }
     footer{
-        border-width: 1px;
-        .col_2{
+        padding: 20px 0;
+        border-width: 0;
+        background-color: $page-background-colour;
+        color: $white;
+        p{
+            margin: 0 0 10px 0;
+        }
+        .col_3{
+            div:nth-child(2){
+                text-align: center;
+            }
             div:last-child{
                 text-align: right;
+            }
+        }
+        a{
+            color: $white;
+            &:hover{
+                color: $font-colour;
             }
         }
     }
@@ -42,6 +57,18 @@
         display: flex;
         div{
             flex-basis: 50%;
+            &:first-child{
+                margin-right: 10px;
+            }
+            &:last-child{
+                margin-left: 10px;
+            }
+        }
+    }
+    .col_3{
+        display: flex;
+        div{
+            flex-basis: 33%;
             &:first-child{
                 margin-right: 10px;
             }
