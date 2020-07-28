@@ -6,6 +6,7 @@
         font-size: 16px;
         background-color: $page-background-colour;
         color: $font-colour;
+        overflow-y: scroll;
     }
     strong{
         font-weight: 600;

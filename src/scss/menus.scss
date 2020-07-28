@@ -76,3 +76,17 @@
         }
     }
 // --------------------------------------------------------------
+
+// -- Buttons ---------------------------------------------------
+    .btn_island{
+        border: 1px solid $border-colour;
+        border-radius: $border-radius;
+        padding: 10px;
+        margin-left: 20px; 
+        cursor: pointer;
+        &:hover{
+            background-color: $border-colour;
+            color: $white;
+        }
+    }
+// --------------------------------------------------------------

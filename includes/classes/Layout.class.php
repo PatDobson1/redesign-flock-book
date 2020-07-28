@@ -9,7 +9,6 @@
                         <html>
                             <head>
                                 <link href='https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans:wght@300;600&display=swap' rel='stylesheet'>
-                                <link rel='stylesheet' href='includes/style/reset.css' />
                                 <link rel='stylesheet' href='includes/style/style.css' />
                             </head>
                             <body>

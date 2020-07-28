@@ -1,0 +1,53 @@
+
+// -- General ------------------------------------------------------------------
+    .form_container{
+        padding: 20px;
+        margin: 10px 0 40px 0;
+        box-shadow: 0 5px 14px -13px $black;
+        border: 1px solid $border-colour;
+        border-radius: $border-radius;
+        font-size: 1.2em;
+        label{
+            display: block;
+            padding: 0 0 5px 0;
+            font-weight: 600;
+        }
+        input,
+        textarea{
+            outline: none;
+            border: 1px solid $border-colour;
+            border-radius: $border-radius;
+            padding: 10px;
+            width: 90%;
+            font-size: 1em;
+            &:focus{
+                background-color: $form-focus;
+            }
+        }
+        textarea{
+            max-width: 90%;
+            min-width: 90%;
+            min-height: 100px;
+            max-height: 500px;
+        }
+        .form_control{
+            input{
+                cursor: pointer;
+                &[type=reset],
+                &[type=submit]{
+                    width: 40%;
+                    background-color: $white;
+                    &:hover{
+                        background-color: $form-focus;
+                    }
+                }
+                &:first-child{
+                    margin-right: 10%;
+                }
+            }
+        }
+    }
+    .add_species{
+        display: none;
+    }
+// -----------------------------------------------------------------------------

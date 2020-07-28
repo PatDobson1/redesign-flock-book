@@ -136,33 +136,34 @@
         // ---------------------------------------------------------------------
 
         // -- Count all livestock ----------------------------------------------
-            public function countLivestock($varient){
-                switch($varient){
-                    case 'all':
-                        $query = "SELECT COUNT(id) AS livestockCount FROM livestock WHERE deleted != 1";
-                    break;
-                    case 'alive':
-                        $query = "SELECT COUNT(id) AS livestockCount FROM livestock WHERE deleted != 1 AND date_of_death IS null";
-                    break;
-                    case 'dead':
-                        $query = "SELECT COUNT(id) AS livestockCount FROM livestock WHERE deleted != 1 AND date_of_death IS NOT null";
-                    break;
-                    case 'female':
-                        $query = "SELECT COUNT(id) AS livestockCount FROM livestock WHERE deleted != 1 AND date_of_death IS null AND gender = 2";
-                    break;
-                    case 'male':
-                        $query = "SELECT COUNT(id) AS livestockCount FROM livestock WHERE deleted != 1 AND date_of_death IS null AND gender = 1";
-                    break;
-                }
-                $this -> connect();
-
-                    $sql = self::$conn -> prepare($query);
-                    $sql -> execute();
-                    $row = $sql -> fetch();
-                    return $row['livestockCount'];
-
-                $this -> disconnect();
-            }
+            // -- NOT USED -- //
+            // public function countLivestock($varient){
+            //     switch($varient){
+            //         case 'all':
+            //             $query = "SELECT COUNT(id) AS livestockCount FROM livestock WHERE deleted != 1";
+            //         break;
+            //         case 'alive':
+            //             $query = "SELECT COUNT(id) AS livestockCount FROM livestock WHERE deleted != 1 AND date_of_death IS null";
+            //         break;
+            //         case 'dead':
+            //             $query = "SELECT COUNT(id) AS livestockCount FROM livestock WHERE deleted != 1 AND date_of_death IS NOT null";
+            //         break;
+            //         case 'female':
+            //             $query = "SELECT COUNT(id) AS livestockCount FROM livestock WHERE deleted != 1 AND date_of_death IS null AND gender = 2";
+            //         break;
+            //         case 'male':
+            //             $query = "SELECT COUNT(id) AS livestockCount FROM livestock WHERE deleted != 1 AND date_of_death IS null AND gender = 1";
+            //         break;
+            //     }
+            //     $this -> connect();
+            //
+            //         $sql = self::$conn -> prepare($query);
+            //         $sql -> execute();
+            //         $row = $sql -> fetch();
+            //         return $row['livestockCount'];
+            //
+            //     $this -> disconnect();
+            // }
         // ---------------------------------------------------------------------
 
     }

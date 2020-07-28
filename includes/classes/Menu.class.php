@@ -9,9 +9,7 @@
                     <li class='dropdown'><a>Livestock</a>
                         <ul>
                             <li><a href='$site_data[site_root]/livestock'>View livestock</a></li>
-                            <li><a href='#'>subMenu 2</a></li>
-                            <li><a href='#'>subMenu even longer 3</a></li>
-                            <li><a href='#'>subMenu 4</a></li>
+                            <li><a href='$site_data[site_root]/species'>View species</a></li>
                         </ul>
                     </li>
                     <li class='dropdown'><a href='#'>Menu 2</a>
