@@ -10,7 +10,7 @@
                     echo "<form name='add_species' class='col_3 js_form' data-action='add_species'>";
                         echo "<div>";
                             $form_element -> input('required', '', '', false, '', '');
-                            $form_element -> input('text', 'species_name', 'Name', true, 'required,number', 'Please enter a Name');
+                            $form_element -> input('text', 'species_name', 'Name', true, 'required', 'Please enter a Name');
                             $form_element -> input('textarea', 'species_notes', 'Notes', false, '', '');
                             $form_element -> input('control', '', 'Add Species', false, '', '');
                         echo "</div>";

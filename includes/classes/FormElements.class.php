@@ -10,23 +10,18 @@
                 case 'text':
                     $input = "  <p $class>
                                     <label for='$name'>$text</label>
-                                    <input type='$type' name='$name'
-                                           data-validation='$validation'
-                                           data-errormessage='$error' />
+                                    <input type='$type' name='$name' data-validation='$validation' data-errormessage='$error' />
                                 </p>";
                     break;
                 case 'textarea':
                     $input = "  <p $class>
                                     <label for='$name'>$text</label>
-                                    <textarea name='$name'
-                                              data-validation='$validation'
-                                              data-errormessage='$error'></textarea>
+                                    <textarea name='$name' data-validation='$validation' data-errormessage='$error'></textarea>
                                 </p>";
                     break;
                 case 'control':
                     $input = "  <p class='form_control'>
-                                    <input type='submit' value='$text' />
-                                    <input type='reset' value='Reset' />
+                                    <input type='submit' value='$text' /><input type='reset' value='Reset' />
                                 </p>";
                     break;
                 case 'required':

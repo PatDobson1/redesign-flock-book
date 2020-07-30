@@ -13,8 +13,6 @@
                         $species -> sql_addSpecies($form_data);
                         break;
                 }
-                // var_dump($form_data);
-                // echo "species added";
             }
         // ---------------------------------------------------------------------
 

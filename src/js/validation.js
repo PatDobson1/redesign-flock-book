@@ -17,14 +17,14 @@
                         formValid = false;
                         input.addClass('error').after('<span class="error_message">' + input.data('errormessage') + '</span>');
                     }
-                    if( item === 'number' && isNaN(value) ){
+                    if( item === 'number' && (isNaN(value) || value == '') ){
                         formValid = false;
                         input.addClass('error').after('<span class="error_message">Please enter only numbers</span>');
                     }
                 });
             }
         });
-        return false;
+        return formValid;
 
     };
 

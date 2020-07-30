@@ -7,7 +7,6 @@
             $(document).on('submit','.js_form',function(e){
                 e.preventDefault();
                 var formValid = form_validation();
-                console.log("form.js :: " + formValid);
                 if( formValid ){
                     var payload = {
                         action: $(this).data('action'),
@@ -35,19 +34,25 @@
                 switch(returnedData.action){
                     case 'speciesAdded':
                         var newRow = "<tr><td class='left'>" + returnedData.name + "</td><td>0</td><td>0</td><td>0</td></tr>";
-                        $('body').prepend('<div class="message">The new species has been added</div>');
                         $('.species_table').append(newRow);
-                        $("html, body").animate({ scrollTop: 0 }, 500, function(){
-                            $('.message').animate({top: '0px'},500,function(){
-                                $('.add_species').slideUp(500,function(){
-                                    $('.js_showForm').show();
-                                    $('form[name=add_species]')[0].reset();
-                                    $('.message').delay(7000).animate({top: '-200px'},500);
-                                });
-                            });
+                        $('.add_species').slideUp(500,function(){
+                            displayMessage("The new species has been added");
+                            $('form')[0].reset();
+                            $('.js_showForm').show();
                         });
                         break;
                 }
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Display message --------------------------------------------------
+            var displayMessage = function(message){
+                $('body').prepend('<div class="message">' + message + '</div>');
+                $("html, body").animate({ scrollTop: 0 }, 500, function(){
+                    $('.message').animate({top: '0px'},500,function(){
+                        $('.message').delay(5000).animate({top: '-200px'},1000);
+                    });
+                });
             }
         // ---------------------------------------------------------------------
     }
