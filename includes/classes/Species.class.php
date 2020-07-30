@@ -4,22 +4,15 @@
 
         // -- Add species form -------------------------------------------------
             public function form_addSpecies(){
+                $form_element = new FormElements();
                 echo "<div class='form_container add_species'>";
                     echo "<h3>Add species</h3>";
                     echo "<form name='add_species' class='col_3 js_form' data-action='add_species'>";
                         echo "<div>";
-                            echo "<p>";
-                                echo "<label for='species_name'>Name</label>";
-                                echo "<input type='text' name='species_name' />";
-                            echo "</p>";
-                            echo "<p>";
-                                echo "<label for='species_notes'>Notes</label>";
-                                echo "<textarea name='species_notes'></textarea>";
-                            echo "</p>";
-                            echo "<p class='form_control'>";
-                                echo "<input type='submit' value='Add species' />";
-                                echo "<input type='reset' value='Reset' />";
-                            echo "</p>";
+                            $form_element -> input('required', '', '', false, '', '');
+                            $form_element -> input('text', 'species_name', 'Name', true, 'required,number', 'Please enter a Name');
+                            $form_element -> input('textarea', 'species_notes', 'Notes', false, '', '');
+                            $form_element -> input('control', '', 'Add Species', false, '', '');
                         echo "</div>";
                     echo "</form>";
                 echo "</div>";

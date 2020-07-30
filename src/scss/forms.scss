@@ -46,6 +46,30 @@
                 }
             }
         }
+        p.required label::after{
+            content: '*';
+            color: $red;
+            font-weight: 700;
+            margin-left: 5px;
+        }
+        .required-warning{
+            font-size: 0.8em;
+            span{
+                color: $red;
+                font-weight: 700;
+            }
+        }
+        .error_message{
+            color: red;
+            font-size: 0.9em;
+            font-style: italic;
+            margin: 4px 0 0 0;
+            display: block;
+        }
+        .error{
+            background-color: rgba(255,0,0,0.1);
+            border-color: $red;
+        }
     }
     .add_species{
         display: none;

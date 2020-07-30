@@ -41,7 +41,7 @@
             ul{
                 display: none;
                 position: absolute;
-                top: 30px;
+                top: 31px;
                 left: 0;
                 z-index: 101;
                 background-color: $white;
@@ -82,7 +82,7 @@
         border: 1px solid $border-colour;
         border-radius: $border-radius;
         padding: 10px;
-        margin-left: 20px; 
+        margin-left: 20px;
         cursor: pointer;
         &:hover{
             background-color: $border-colour;
