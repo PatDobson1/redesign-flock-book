@@ -8,7 +8,6 @@
     // --------------------------------------------------------------
 
     // -- Classes ---------------------------------------------------
-        $livestock = new Livestock();
         $species = new Species();
     // --------------------------------------------------------------
 
@@ -16,12 +15,13 @@
 
         echo "<div class='card'>";
             echo "<h2>Species</h2>";
-            $livestock -> speciesCard();
+            $species-> speciesCard(true);
         echo "</div>";
         echo "<p>";
             echo "<a class='js_showForm btn_island' data-form='add_species'>Add species</a>";
         echo "</p>";
         $species -> form_addSpecies();
+        $species -> form_editSpecies();
 
     // --------------------------------------------------------------
 

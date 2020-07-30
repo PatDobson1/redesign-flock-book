@@ -12,6 +12,10 @@
                         $species = new Species();
                         $species -> sql_addSpecies($form_data);
                         break;
+                    case 'edit_species':
+                        $species = new Species();
+                        $species -> sql_editSpecies($form_data);
+                        break;
                 }
             }
         // ---------------------------------------------------------------------

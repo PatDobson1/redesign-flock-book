@@ -7,13 +7,17 @@
         $layout -> header($site_data);
     // --------------------------------------------------------------
 
+    // -- Classes ---------------------------------------------------
+        $livestock = new Livestock();
+        $species = new Species();
+    // --------------------------------------------------------------
+
     // -- Content ---------------------------------------------------
 
-        $livestock = new Livestock();
         echo "<div class='col_2'>";
             echo "<div class='card'>";
                 echo "<h2>Species</h2>";
-                $livestock -> speciesCard();
+                $species -> speciesCard(false);
             echo "</div>";
             echo "<div class='card'>";
                 echo "<h2>Reminders</h2>";

@@ -1,12 +1,13 @@
 
 // -- Form validation ----------------------------------------------------------
 
-    var form_validation = function(){
+    var form_validation = function(form_name){
 
         var formValid = true;
         $('.error_message').remove();
         $('.error').removeClass('error');
-        $('form input').each(function(){
+        var form = 'form[name="' + form_name + '"] input';
+        $(form).each(function(){
             var validation = $(this).data('validation')
             var input = $(this);
             if( typeof validation != 'undefined' ){

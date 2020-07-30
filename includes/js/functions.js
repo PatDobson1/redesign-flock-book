@@ -6,14 +6,16 @@
         // -- Submit a form ----------------------------------------------------
             $(document).on('submit','.js_form',function(e){
                 e.preventDefault();
-                var formValid = form_validation();
+                var form = $(this).prop('name');
+                var formValid = form_validation(form);
                 if( formValid ){
                     var payload = {
                         action: $(this).data('action'),
                         formData: $(this).serializeArray()
                     }
-                    $.post('http://localhost/redesign-flock-book/form_process.php', payload, function(data){
-                        processAdd(data);
+                    var apiUrl = hostname + 'form_process.php';
+                    $.post(apiUrl, payload, function(data){
+                        processSubmit(data);
                     });
                 }
             });
@@ -28,8 +30,30 @@
             })
         // ---------------------------------------------------------------------
 
+        // -- Display form on click on 'edit' row ------------------------------
+            $(document).on('click','.js_edit',function(){
+                $('.form_container').hide();
+                var id = $(this).data('editid');
+                var form = '.' + $(this).data('form');
+                var table = $(this).data('table');
+                var payload = { id: id, table: table };
+                var apiUrl = hostname + 'data_get.php';
+
+                $.post(apiUrl,payload,function(data){
+                    var returnedData = JSON.parse(data);
+                    for( var key in returnedData){
+                        var input = form + ' [name=' + key + ']';
+                        $(input).val(returnedData[key]);
+                    }
+                    $('.js_showForm').fadeOut(300,function(){
+                        $(form).slideDown(500);
+                    });
+                });
+            });
+        // ---------------------------------------------------------------------
+
         // -- Form - add -------------------------------------------------------
-            var processAdd = function(data){
+            var processSubmit = function(data){
                 var returnedData = JSON.parse(data);
                 switch(returnedData.action){
                     case 'speciesAdded':
@@ -41,6 +65,19 @@
                             $('.js_showForm').show();
                         });
                         break;
+                    case 'speciesEdited':
+                        var target = $('[data-editid="' + returnedData.id + '"]');
+                        $('.edit_species').slideUp(500,function(){
+                            target.find('td:first-child').html(returnedData.species);
+                            target.addClass('edited');
+                            displayMessage("Species edited");
+                            $('form')[0].reset();
+                            $('.js_showForm').show();
+                            setTimeout(function(){
+                                target.removeClass('edited');
+                            },7000);
+                        });
+                        break;
                 }
             }
         // ---------------------------------------------------------------------
@@ -50,7 +87,9 @@
                 $('body').prepend('<div class="message">' + message + '</div>');
                 $("html, body").animate({ scrollTop: 0 }, 500, function(){
                     $('.message').animate({top: '0px'},500,function(){
-                        $('.message').delay(5000).animate({top: '-200px'},1000);
+                        $('.message').delay(5000).animate({top: '-200px'},1000,function(){
+                            $('.message').remove();
+                        });
                     });
                 });
             }
@@ -61,6 +100,7 @@
 
 $(document).ready(function(){
 
+    hostname = 'http://' + window.location.hostname + '/redesign-flock-book/';
     applySorting();
     form_functions();
 
@@ -91,12 +131,13 @@ $(document).ready(function(){
 
 // -- Form validation ----------------------------------------------------------
 
-    var form_validation = function(){
+    var form_validation = function(form_name){
 
         var formValid = true;
         $('.error_message').remove();
         $('.error').removeClass('error');
-        $('form input').each(function(){
+        var form = 'form[name="' + form_name + '"] input';
+        $(form).each(function(){
             var validation = $(this).data('validation')
             var input = $(this);
             if( typeof validation != 'undefined' ){

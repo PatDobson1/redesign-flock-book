@@ -13,6 +13,9 @@
                                     <input type='$type' name='$name' data-validation='$validation' data-errormessage='$error' />
                                 </p>";
                     break;
+                case 'hidden':
+                    $input = "  <input type='$type' name='$name'  />";
+                    break;
                 case 'textarea':
                     $input = "  <p $class>
                                     <label for='$name'>$text</label>
