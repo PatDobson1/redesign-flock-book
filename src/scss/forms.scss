@@ -13,7 +13,8 @@
             font-weight: 600;
         }
         input,
-        textarea{
+        textarea,
+        select{
             outline: none;
             border: 1px solid $border-colour;
             border-radius: $border-radius;

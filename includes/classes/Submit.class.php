@@ -16,6 +16,9 @@
                         $species = new Species();
                         $species -> sql_editSpecies($form_data);
                         break;
+                    case 'add_breed';
+                        $breeds = new Breeds();
+                        $breeds -> sql_addBreed($form_data);
                 }
             }
         // ---------------------------------------------------------------------

@@ -8,25 +8,19 @@
     // --------------------------------------------------------------
 
     // -- Classes ---------------------------------------------------
-        $livestock = new Livestock();
-        $species = new Species();
         $breeds = new Breeds();
     // --------------------------------------------------------------
 
     // -- Content ---------------------------------------------------
 
-
-            echo "<div class='card'>";
-                echo "<h2>Breeds</h2>";
-                $breeds -> breedCard();
-            echo "</div>";
-            echo "<div class='card'>";
-                echo "<h2>Species</h2>";
-                $species -> speciesCard(false);
-            echo "</div>";
-            echo "<div class='card'>";
-                $livestock -> getAllLivestock();
-            echo "</div>";
+        echo "<div class='card'>";
+            echo "<h2>Breeds</h2>";
+            $breeds-> simpleBreedCard();
+        echo "</div>";
+        echo "<p>";
+            echo "<a class='js_showForm btn_island' data-form='add_breed'>Add breed</a>";
+        echo "</p>";
+        $breeds -> form_addBreed();
 
     // --------------------------------------------------------------
 

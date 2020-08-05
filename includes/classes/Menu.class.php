@@ -10,6 +10,7 @@
                         <ul>
                             <li><a href='$site_data[site_root]/livestock'>View livestock</a></li>
                             <li><a href='$site_data[site_root]/species'>View species</a></li>
+                            <li><a href='$site_data[site_root]/breeds'>View breeds</a></li>
                         </ul>
                     </li>
                     <li class='dropdown'><a href='#'>Menu 2</a>

@@ -78,6 +78,15 @@
                             },7000);
                         });
                         break;
+                    case 'breedAdded':
+                        var newRow ="<tr><td class='left'>" + returnedData.name + "</td><td class='left'>"  + returnedData.species + "</td</tr>";
+                        $('.simple_breed_table').append(newRow);
+                        $('.add_breed').slideUp(500,function(){
+                            displayMessage("The new breed has been added");
+                            $('form')[0].reset();
+                            $('.js_showForm').show();
+                        });
+                        break;
                 }
             }
         // ---------------------------------------------------------------------

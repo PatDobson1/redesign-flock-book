@@ -2,7 +2,7 @@
 
     class FormElements{
 
-        public function input($type, $name, $text, $required, $validation, $error){
+        public function input($type, $name, $text, $required, $validation, $error, $selectOptions){
 
             $class = $required ? " class='required'" : "";
 
@@ -20,6 +20,12 @@
                     $input = "  <p $class>
                                     <label for='$name'>$text</label>
                                     <textarea name='$name' data-validation='$validation' data-errormessage='$error'></textarea>
+                                </p>";
+                    break;
+                case 'select':
+                    $input = "  <p $class>
+                                    <label for='$name'>$text</label>
+                                    <select name='$name'>$selectOptions</select>
                                 </p>";
                     break;
                 case 'control':
