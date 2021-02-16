@@ -52,12 +52,32 @@
             });
         // ---------------------------------------------------------------------
 
+        // -- Delete -----------------------------------------------------------
+            $(document).on('click', '.js-delete', function(e){
+                e.stopPropagation();
+                var deletetype = $(this).data('deletetype');
+                var deleteid = $(this).data('id');
+                switch(deletetype){
+                    case 'species':
+                        $modal_content = '<h2>Delete species</h2>' +
+                                         '<p>Are you sure you want to delete this species?</p><p>Deleting is permanent and cannot be undone</p>' +
+                                         '<form class="js_form" data-action="delete_species">' +
+                                         '<input type="hidden" name="id" value="' + deleteid + '" />' +
+                                         '<input type="submit" value="Confirm" class="form_btn" />' +
+                                         '</form>' +
+                                         '<button class="js_closeModal btn_right" />Cancel</button>';
+                    break;
+                }
+                openModal($modal_content);
+            })
+        // ---------------------------------------------------------------------
+
         // -- Form - add -------------------------------------------------------
             var processSubmit = function(data){
                 var returnedData = JSON.parse(data);
                 switch(returnedData.action){
                     case 'speciesAdded':
-                        var newRow = "<tr><td class='left'>" + returnedData.name + "</td><td>0</td><td>0</td><td>0</td></tr>";
+                        var newRow = "<tr><td class='left'>" + returnedData.name + "</td><td>0</td><td>0</td><td>0</td><td></td></tr>";
                         $('.species_table').append(newRow);
                         $('.add_species').slideUp(500,function(){
                             displayMessage("The new species has been added");
@@ -77,6 +97,11 @@
                                 target.removeClass('edited');
                             },7000);
                         });
+                        break;
+                    case 'speciesDeleted':
+                        var target = $('[data-editid="' + returnedData.id + '"]');
+                        target.remove();
+                        displayMessage("Species deleted");
                         break;
                     case 'breedAdded':
                         var newRow ="<tr><td class='left'>" + returnedData.name + "</td><td class='left'>"  + returnedData.species + "</td</tr>";

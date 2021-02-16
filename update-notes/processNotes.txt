@@ -1,0 +1,29 @@
+-- Processes -------------------------------------------------------------------
+
+    -- Form ----------------------------------------------------------------
+        - Form has class 'js_form'
+        - Form has 'data-action' e.g. data-action="delete_species"
+
+        1. Form is submitted via javascript function 'form_functions' in 'src\js\form.js'
+        2. Form submits ajax call to php 'form_process.php'
+        3. form_process.php calls 'submitForm' class in 'includes\classes\Submit.class.php'
+        4. Submit.class needs case based on data-action
+        5. This calls class e.g. sql_deleteSpecies($form_data) (This class is in appropriate class file e.g. 'includes\classes\Species.class.php')
+        6. Class returns JSON output (see note 1) to 'processSubmit' in 'src\js\form.js'
+        7. 'processSubmit' performs DOM manipulation
+
+    ------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+
+-- Notes -----------------------------------------------------------------------
+
+    -- 1 --
+        [sample output from class]
+            $output = new stdClass();
+            $output -> action = 'speciesDeleted';
+            $output -> id = $id;
+            echo json_encode($output);
+    -------
+
+--------------------------------------------------------------------------------

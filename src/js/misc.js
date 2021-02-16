@@ -19,3 +19,17 @@
         }
     }
 // -------------------------------------------------------------------------
+
+// -- Open/close modal -----------------------------------------------------
+    var openModal = function(modal_content){
+        $('.modal').empty().append(modal_content);
+        $('.modalFade').fadeIn(400, function(){
+            $('.modal').fadeIn(300);
+        });
+    }
+    var closeModal = function(){
+        $('.modal').fadeOut(200, function(){
+            $('.modalFade').fadeOut(100);
+        })
+    }
+// -------------------------------------------------------------------------

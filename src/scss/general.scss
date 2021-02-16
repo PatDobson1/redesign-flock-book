@@ -58,6 +58,90 @@
     }
 // --------------------------------------------------------------
 
+// -- Links -----------------------------------------------------
+    a{
+        &.delete_link{
+            color: $red;
+            border: 1px solid $red;
+            border-radius: $border-radius;
+            background-color: $white;
+            padding: 0 10px;
+            &:hover{
+                background-color: $red;
+                color: $white;
+            }
+        }
+    }
+// --------------------------------------------------------------
+
+// -- Buttons ---------------------------------------------------
+    button,
+    .form_btn{
+        padding: 10px 20px;
+        background: $white;
+        border: 1px solid $border-colour;
+        border-radius: $border-radius;
+        font-size: 1em;
+        cursor: pointer;
+        &:hover{
+            color: $white;
+            background-color: $border-colour;
+        }
+        &.btn_right{
+            margin-right: 15px;
+            float: right;
+        }
+    }
+// --------------------------------------------------------------
+
+// -- Modal -----------------------------------------------------
+    .modalFade{
+        display: none;
+        background: rgba(0,0,0,0.2);
+        z-index: 101;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        .modal{
+            display: none;
+            position: fixed;
+            width: 40%;
+            min-height: 200px;
+            background: white;
+            box-shadow: 0 5px 10px -5px $black;
+            border-radius: $border-radius;
+            left: calc(50% - 20%);
+            top: 200px;
+            &:before{
+                content: '';
+                background: url('#{$site-root}/assets/img/cancel.svg');
+                background-repeat: no-repeat;
+                background-size: 20px;
+                width: 20px;
+                height: 20px;
+                position: absolute;
+                top: 15px;
+                right: 15px;
+                cursor: pointer;
+            }
+            h2{
+                padding: 15px 0 15px 0;
+                margin: 0 15px 15px 15px;
+                border-bottom: 1px solid $border-colour
+            }
+            p{
+                padding: 0 0 0 15px;
+                font-size: 1.1em;
+            }
+            form{
+                padding-left: 15px;
+                display: inline-block;
+            }
+        }
+    }
+// --------------------------------------------------------------
 // -- !TEMP! ----------------------------------------------------
 
 // --------------------------------------------------------------

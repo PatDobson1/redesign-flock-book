@@ -8,23 +8,34 @@
                     $query = "SELECT * FROM species ORDER by species";
                     $sql = self::$conn -> prepare($query);
                     $sql -> execute();
+                    $edit_col = $edit ? '<th></th>' : '';
                     echo "  <table class='species_table'>
                                 <tr>
                                     <th>Species</th>
                                     <th>Female</th>
                                     <th>Male</th>
                                     <th>Total</th>
+                                    $edit_col
                                 </tr>";
                                     while( $row = $sql -> fetch() ){
                                         $data_tag = $edit ? "data-editid = '$row[id]' data-form='edit_species' data-table='species' class='js_edit'" : '';
                                         $livestockCount_male = $this -> countSpecies($row['id'],1);
                                         $livestockCount_female = $this -> countSpecies($row['id'],2);
                                         $livestockCount = $livestockCount_female + $livestockCount_male;
+                                        if( $edit && $livestockCount === 0 ){
+                                            $edit_cell = "<td><a class='js-delete delete_link' data-id='$row[id]' data-deletetype='species'>Delete</a></td>";
+                                        }elseif( $edit && $livestockCount > 0 ){
+                                            $edit_cell = '<td></td>';
+                                        }else{
+                                            $edit_cell = '';
+                                        }
+
                                         echo " <tr $data_tag>
                                                     <td class='left'>$row[species]</td>
                                                     <td>$livestockCount_female</td>
                                                     <td>$livestockCount_male</td>
                                                     <td>$livestockCount</td>
+                                                    $edit_cell
                                                 </tr>";
                                     }
                     echo "  </table>";
@@ -59,10 +70,10 @@
                     echo "<h3>Add species</h3>";
                     echo "<form name='add_species' class='col_3 js_form' data-action='add_species'>";
                         echo "<div>";
-                            $form_element -> input('required', '', '', false, '', '');
-                            $form_element -> input('text', 'species_name', 'Name', true, 'required', 'Please enter a Name');
-                            $form_element -> input('textarea', 'species_notes', 'Notes', false, '', '');
-                            $form_element -> input('control', '', 'Add Species', false, '', '');
+                            $form_element -> input('required', '', '', false, '', '', '');
+                            $form_element -> input('text', 'species_name', 'Name', true, 'required', 'Please enter a Name', '');
+                            $form_element -> input('textarea', 'species_notes', 'Notes', false, '', '', '');
+                            $form_element -> input('control', '', 'Add Species', false, '', '', '');
                         echo "</div>";
                     echo "</form>";
                 echo "</div>";
@@ -76,11 +87,11 @@
                     echo "<h3>Edit species</h3>";
                     echo "<form name='edit_species' class='col_3 js_form' data-action='edit_species'>";
                         echo "<div>";
-                            $form_element -> input('required', '', '', false, '', '');
-                            $form_element -> input('hidden', 'species_id', '', false, '', '');
-                            $form_element -> input('text', 'species_name', 'Name', true, 'required', 'Please enter a Name');
-                            $form_element -> input('textarea', 'species_notes', 'Notes', false, '', '');
-                            $form_element -> input('control', '', 'Edit Species', false, '', '');
+                            $form_element -> input('required', '', '', false, '', '', '');
+                            $form_element -> input('hidden', 'species_id', '', false, '', '', '');
+                            $form_element -> input('text', 'species_name', 'Name', true, 'required', 'Please enter a Name', '');
+                            $form_element -> input('textarea', 'species_notes', 'Notes', false, '', '', '');
+                            $form_element -> input('control', '', 'Edit Species', false, '', '', '');
                         echo "</div>";
                     echo "</form>";
                 echo "</div>";
@@ -125,6 +136,22 @@
                 $output = new stdClass();
                 $output -> action = 'speciesEdited';
                 $output -> species = $species;
+                $output -> id = $id;
+                echo json_encode($output);
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Delete species ---------------------------------------------------
+            public function sql_deleteSpecies($form_data){
+                $id = $form_data[0]['value'];
+                $this -> connect();
+                    $query = "DELETE FROM species WHERE id = :id";
+                    $sql = self::$conn -> prepare($query);
+                    $sql -> bindParam(':id', $id);
+                    $sql -> execute();
+                $this -> disconnect();
+                $output = new stdClass();
+                $output -> action = 'speciesDeleted';
                 $output -> id = $id;
                 echo json_encode($output);
             }

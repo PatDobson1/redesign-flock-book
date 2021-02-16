@@ -42,6 +42,7 @@
                             </div>
                         </footer>
                     </div>
+                    <div class='modalFade'><div class='modal'></div></div>
                 </body>
                 <script src='includes/js/libs/jquery.3.5.1.js'></script>
                 <script src='includes/js/functions.js'></script>
