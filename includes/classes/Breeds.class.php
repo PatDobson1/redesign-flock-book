@@ -3,7 +3,8 @@
     class Breeds extends Db{
 
         // -- Breeds card ------------------------------------------------------
-            public function breedCard(){
+            public function simpleBreedCard($sortable){
+                $sortable = $sortable ? 'sortable' : '';
                 $query = "  SELECT DISTINCT(breed.breed_name), breed.id AS breedId, livestock.species AS speciesId
                             FROM breed
                             INNER JOIN livestock ON breed.id = livestock.breed
@@ -11,7 +12,7 @@
                 $this -> connect();
                     $sql = self::$conn -> prepare($query);
                     $sql -> execute();
-                    echo "  <table class='sortable'>
+                    echo "  <table class='$sortable'>
                                 <tr>
                                     <th>Breed</th>
                                     <th>Species</th>
@@ -38,7 +39,7 @@
         // ---------------------------------------------------------------------
 
         // -- Simple breeds card ------------------------------------------------------
-            public function simpleBreedCard(){
+            public function breedCard($edit){
                 $query = "  SELECT *
                             FROM breed
                             ORDER BY species,breed_name";
@@ -49,12 +50,29 @@
                                 <tr>
                                     <th>Breed</th>
                                     <th>Species</th>
+                                    <th>Female</th>
+                                    <th>Male</th>
+                                    <th>Total</th>
+                                    <th class='delete_col no_sort'></th>
                                 </tr>";
                     while( $row = $sql -> fetch() ){
+                        $data_tag = $edit ? "data-editid = '$row[id]' data-form='edit_breed' data-table='breed' class='js_edit'" : '';
                         $species = $this -> getSpecies($row['species']);
-                        echo "  <tr>
+                        $breedCount_female = $this -> countBreed($row['id'],2);
+                        $breedCount_male = $this -> countBreed($row['id'],1);
+                        $breedCount_total = $breedCount_female + $breedCount_male;
+                        if( $breedCount_total === 0 ){
+                            $edit_cell = "<td><a class='js-delete delete_link' data-id='$row[id]' data-deletetype='breed'>Delete</a></td>";
+                        }else{
+                            $edit_cell = '<td></td>';
+                        }
+                        echo "  <tr $data_tag>
                                     <td class='left'>$row[breed_name]</td>
                                     <td class='left'>$species</td>
+                                    <td>$breedCount_female</td>
+                                    <td>$breedCount_male</td>
+                                    <td>$breedCount_total</td>
+                                    $edit_cell
                                 </tr>";
                     }
                     echo "  </table>";
@@ -146,6 +164,89 @@
                 $output -> action = 'breedAdded';
                 $output -> name = $name;
                 $output -> species = $this -> getSpecies($species);
+                echo json_encode($output);
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Edit breed form --------------------------------------------------
+            public function form_editBreed(){
+                $form_element = new FormElements();
+                echo "<div class='form_container edit_breed form_hide'>";
+                    echo "<h3>Edit breed</h3>";
+                    echo "<form name='edit_breed' class='col_3 js_form' data-action='edit_breed'>";
+                        echo "<div>";
+                            $form_element -> input('required', '', '', false, '', '','');
+                            $form_element -> input('text', 'breed_name', 'Name', true, 'required', 'Please enter a Name','');
+                            $form_element -> input('select', 'species', 'Species', false, '', '', $this -> getSpeciesList());
+                            $form_element -> input('textarea', 'breed_notes', 'Notes', false, '', '','');
+                            $form_element -> input('hidden', 'breed_id', '', 'false', '', '', '');
+                            $form_element -> input('control', '', 'Edit Breed', false, '', '','');
+                        echo "</div>";
+                    echo "</form>";
+                echo "</div>";
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Edit breed -------------------------------------------------------
+            public function sql_editBreed($form_data){
+                $name = $form_data[0]['value'];
+                $species = $form_data[1]['value'];
+                $notes = $form_data[2]['value'];
+                $id = $form_data[3]['value'];
+                $this -> connect();
+                    $query = "UPDATE breed
+                              SET breed_name = :name,
+                                  species = :species,
+                                  notes = :notes
+                              WHERE id = :id";
+                    $sql = self::$conn -> prepare($query);
+                    $sql -> bindParam(':name', $name);
+                    $sql -> bindParam(':species', $species);
+                    $sql -> bindParam(':notes', $notes);
+                    $sql -> bindParam(':id', $id);
+                    $sql -> execute();
+                $this -> disconnect();
+                $output = new stdClass();
+                $output -> action = 'breedEdited';
+                $output -> name = $name;
+                $output -> species = $this -> getSpecies($species);
+                $output -> id = $id;
+                echo json_encode($output);
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Get breed --------------------------------------------------------
+            public function sql_getBreed($id){
+                $this -> connect();
+                    $query = "SELECT * FROM breed WHERE :id = id";
+                    $sql = self::$conn -> prepare($query);
+                    $sql -> bindParam(':id', $id);
+                    $sql -> execute();
+                $this -> disconnect();
+                $output = new stdClass();
+                if($row = $sql -> fetch(PDO::FETCH_NAMED)){
+                    $output -> breed_id = $row['id'];
+                    $output -> breed_name = $row['breed_name'];
+                    $output -> species = $row['species'];
+                    $output -> breed_notes = $row['notes'];
+                    $output -> context = 'editBreed';
+                    echo json_encode($output);
+                }
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Delete breed -----------------------------------------------------
+            public function sql_deleteBreed($form_data){
+                $id = $form_data[0]['value'];
+                $this -> connect();
+                    $query = "DELETE FROM breed WHERE id = :id";
+                    $sql = self::$conn -> prepare($query);
+                    $sql -> bindParam(':id', $id);
+                    $sql -> execute();
+                $this -> disconnect();
+                $output = new stdClass();
+                $output -> action = 'breedDeleted';
+                $output -> id = $id;
                 echo json_encode($output);
             }
         // ---------------------------------------------------------------------

@@ -10,6 +10,9 @@ table{
     th{
         font-weight: 700;
         border: 0;
+        &.delete_col{
+            width: 100px;
+        }
     }
     td{
         text-align: right;
@@ -17,24 +20,31 @@ table{
         &.left{
             text-align: left;
         }
+        &.cen{
+            text-align: center;
+        }
     }
     tr{
         transition: background-color 0.5s ease-in-out;
         &:nth-child(even){
             background-color: $table-stripe;
         }
-        &.js_edit:hover{
-            background-color: darken($table-stripe,5%);
-            cursor: pointer;
+        &.js_edit,
+        &.js-view{
+            &:hover{
+                background-color: darken($table-stripe,5%);
+                cursor: pointer;
+            }
         }
         &.edited{
             background-color: $page-background-colour;
         }
     }
     &.sortable{
-        th{
+        th.sortThis{
             cursor: pointer;
             position: relative;
+            padding-right: 20px;
             &::after{
                 @include icon_sortable;
                 position: absolute;

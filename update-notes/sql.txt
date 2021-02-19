@@ -21,3 +21,7 @@ Sheep table
 - Column 'previous_tags' added [varChar255] [links to previous_tags table]
 - Column 'species' added - [int] [link to species table]
 - Column 'date_of_sale' added - [date]
+
+breed Table
+
+- Column 'species' added - [int] [link to species table]

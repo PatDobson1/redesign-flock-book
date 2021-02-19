@@ -15,12 +15,13 @@
 
         echo "<div class='card'>";
             echo "<h2>Breeds</h2>";
-            $breeds-> simpleBreedCard();
+            $breeds-> breedCard(true);
         echo "</div>";
         echo "<p>";
             echo "<a class='js_showForm btn_island' data-form='add_breed'>Add breed</a>";
         echo "</p>";
         $breeds -> form_addBreed();
+        $breeds -> form_editBreed();
 
     // --------------------------------------------------------------
 

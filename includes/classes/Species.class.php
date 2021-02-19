@@ -8,10 +8,11 @@
                     $query = "SELECT * FROM species ORDER by species";
                     $sql = self::$conn -> prepare($query);
                     $sql -> execute();
-                    $edit_col = $edit ? '<th></th>' : '';
+                    $edit_col = $edit ? '<th class="delete_col"></th>' : '';
                     echo "  <table class='species_table'>
                                 <tr>
                                     <th>Species</th>
+                                    <th>Breeds</th>
                                     <th>Female</th>
                                     <th>Male</th>
                                     <th>Total</th>
@@ -22,9 +23,10 @@
                                         $livestockCount_male = $this -> countSpecies($row['id'],1);
                                         $livestockCount_female = $this -> countSpecies($row['id'],2);
                                         $livestockCount = $livestockCount_female + $livestockCount_male;
-                                        if( $edit && $livestockCount === 0 ){
+                                        $breedCount = $this -> countBreeds($row['id']);
+                                        if( $edit && ($livestockCount == 0 && $breedCount == 0) ){
                                             $edit_cell = "<td><a class='js-delete delete_link' data-id='$row[id]' data-deletetype='species'>Delete</a></td>";
-                                        }elseif( $edit && $livestockCount > 0 ){
+                                        }elseif( $edit && ($livestockCount > 0 || $breedCount > 0) ){
                                             $edit_cell = '<td></td>';
                                         }else{
                                             $edit_cell = '';
@@ -32,6 +34,7 @@
 
                                         echo " <tr $data_tag>
                                                     <td class='left'>$row[species]</td>
+                                                    <td>$breedCount</td>
                                                     <td>$livestockCount_female</td>
                                                     <td>$livestockCount_male</td>
                                                     <td>$livestockCount</td>
@@ -39,6 +42,19 @@
                                                 </tr>";
                                     }
                     echo "  </table>";
+                $this -> disconnect();
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Get breeds based on id -------------------------------------------
+            public function countBreeds($species){
+                $query = "SELECT COUNT(id) AS breedCount FROM breed WHERE :species = species";
+                $this -> connect();
+                    $sql = self::$conn -> prepare($query);
+                    $sql -> bindParam(':species', $species);
+                    $sql -> execute();
+                    $row = $sql -> fetch();
+                    return $row['breedCount'];
                 $this -> disconnect();
             }
         // ---------------------------------------------------------------------

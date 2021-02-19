@@ -41,10 +41,17 @@
 
                 $.post(apiUrl,payload,function(data){
                     var returnedData = JSON.parse(data);
-                    for( var key in returnedData){
-                        var input = form + ' [name=' + key + ']';
-                        $(input).val(returnedData[key]);
-                    }
+                    // -- Populate inputs and textareas --
+                        for( var key in returnedData){
+                            var input = form + ' [name=' + key + ']';
+                            $(input).val(returnedData[key]);
+                        }
+                    // -- Set selected value for dropdowns --
+                        switch(returnedData.context){
+                            case 'editBreed':
+                                $('select[name=species]').val(returnedData.species);
+                            break;
+                        }
                     $('.js_showForm').fadeOut(300,function(){
                         $(form).slideDown(500);
                     });
@@ -62,6 +69,15 @@
                         $modal_content = '<h2>Delete species</h2>' +
                                          '<p>Are you sure you want to delete this species?</p><p>Deleting is permanent and cannot be undone</p>' +
                                          '<form class="js_form" data-action="delete_species">' +
+                                         '<input type="hidden" name="id" value="' + deleteid + '" />' +
+                                         '<input type="submit" value="Confirm" class="form_btn" />' +
+                                         '</form>' +
+                                         '<button class="js_closeModal btn_right" />Cancel</button>';
+                    break;
+                    case 'breed':
+                        $modal_content = '<h2>Delete breed</h2>' +
+                                         '<p>Are you sure you want to delete this breed?</p><p>Deleting is permanent and cannot be undone</p>' +
+                                         '<form class="js_form" data-action="delete_breed">' +
                                          '<input type="hidden" name="id" value="' + deleteid + '" />' +
                                          '<input type="submit" value="Confirm" class="form_btn" />' +
                                          '</form>' +
@@ -104,13 +120,32 @@
                         displayMessage("Species deleted");
                         break;
                     case 'breedAdded':
-                        var newRow ="<tr><td class='left'>" + returnedData.name + "</td><td class='left'>"  + returnedData.species + "</td</tr>";
+                        var newRow ="<tr><td class='left'>" + returnedData.name + "</td><td class='left'>"  + returnedData.species + "</td><td>0</td><td>0</td><td>0</td><td></td></tr>";
                         $('.simple_breed_table').append(newRow);
                         $('.add_breed').slideUp(500,function(){
                             displayMessage("The new breed has been added");
                             $('form')[0].reset();
                             $('.js_showForm').show();
                         });
+                        break;
+                    case 'breedEdited':
+                        var target = $('[data-editid="' + returnedData.id + '"]');
+                        $('.edit_breed').slideUp(500,function(){
+                            target.find('td:first-child').html(returnedData.name);
+                            target.find('td:last-child').html(returnedData.species);
+                            target.addClass('edited');
+                            displayMessage("Breed edited");
+                            $('form')[0].reset();
+                            $('.js_showForm').show();
+                            setTimeout(function(){
+                                target.removeClass('edited');
+                            },7000);
+                        });
+                        break;
+                    case 'breedDeleted':
+                        var target = $('[data-editid="' + returnedData.id + '"]');
+                        target.remove();
+                        displayMessage("Breed deleted");
                         break;
                 }
             }

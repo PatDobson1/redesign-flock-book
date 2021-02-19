@@ -20,9 +20,18 @@
                         $species = new Species();
                         $species -> sql_deleteSpecies($form_data);
                         break;
-                    case 'add_breed';
+                    case 'add_breed':
                         $breeds = new Breeds();
                         $breeds -> sql_addBreed($form_data);
+                        break;
+                    case 'edit_breed':
+                        $breeds = new Breeds();
+                        $breeds -> sql_editBreed($form_data);
+                        break;
+                    case 'delete_breed':
+                        $breeds = new Breeds();
+                        $breeds -> sql_deleteBreed($form_data);
+                        break;
                 }
             }
         // ---------------------------------------------------------------------

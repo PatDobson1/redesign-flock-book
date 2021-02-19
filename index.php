@@ -10,6 +10,7 @@
     // -- Classes ---------------------------------------------------
         $livestock = new Livestock();
         $species = new Species();
+        $breeds = new Breeds();
     // --------------------------------------------------------------
 
     // -- Content ---------------------------------------------------
@@ -20,12 +21,12 @@
                 $species -> speciesCard(false);
             echo "</div>";
             echo "<div class='card'>";
-                echo "<h2>Reminders</h2>";
+                echo "<h2>Breeds</h2>";
+                $breeds-> simpleBreedCard(false);
             echo "</div>";
         echo "</div>";
         echo "<div class='card'>";
-            echo "<h2>Breeds</h2>";
-            $livestock -> getAllLivestock();
+            echo "<h2>Reminders</h2>";
         echo "</div>";
 
     // --------------------------------------------------------------

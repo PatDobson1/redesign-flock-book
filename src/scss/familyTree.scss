@@ -1,0 +1,167 @@
+/* -- Family tree ------------------------------ */
+
+.family_tree {
+    white-space: nowrap;
+    display: inline-block;
+    padding-bottom: 30px;
+	overflow-x: auto;
+	width: 100%;
+    p{
+        margin: 0;
+    }
+	ul{
+		padding-top: 20px;
+		position: relative;
+		display: flex;
+		ul::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 50%;
+			border-left: 1px solid $border-colour;
+			width: 0;
+			height: 20px;
+		}
+	}
+	li{
+		float: left;
+		text-align: center;
+		list-style-type: none;
+		position: relative;
+		padding: 20px 5px 0 5px;
+        margin: 0 auto;
+		&::before, &::after{
+			content: '';
+			position: absolute;
+			top: 0;
+			right: 50%;
+			border-top: 1px solid $border-colour;
+			width: 50%;
+			height: 20px;
+		}
+		&::after{
+			right: auto;
+			left: 50%;
+			border-left: 1px solid $border-colour;
+		}
+		&:only-child::after, &:only-child::before {
+			display: none;
+		}
+		&:only-child {
+			padding-top: 0;
+		}
+		&:first-child::before, &:last-child::after {
+			border: 0 none;
+		}
+		&:last-child::before {
+			border-right: 1px solid $border-colour;
+			border-radius: 0 $border-radius 0 0;
+		}
+		&:first-child::after {
+			border-radius: $border-radius 0 0 0;
+		}
+		div{
+            position: relative;
+			border: 1px solid $border-colour;
+			padding: 10px 30px 10px 20px;
+			text-decoration: none;
+			display: inline-block;
+			border-radius: $border-radius;
+            cursor: pointer;
+            span.status{
+                border-radius: $border-radius;
+                position: absolute;
+                top: 2px;
+                left: 2px;
+                width: 9px;
+                height: 9px;
+                &.alive{
+                    background-color: $brightGreen;
+                }
+                &.dead{
+                    background-color: $brightRed;
+                }
+                &.unknown{
+                    background-color: $purple;
+                }
+            }
+            span{
+                line-height: 1.4em;
+				p{
+					font-size: 1em;
+					padding: 0;
+				}
+            }
+			&.ram{
+				background-color: $male;
+			}
+			&.ewe{
+				background-color: $female;
+			}
+			&.historic{
+				border-style: dashed;
+				font-size: 0.9em;
+			}
+            &:hover{
+                background-color: $page-background-colour;
+                color: $white;
+            }
+            a.icon_quickView{
+                position: absolute;
+                background-size: 15px;
+                width: 15px;
+                height: 15px;
+                top: 5px;
+                right: 5px;
+            }
+		}
+	}
+}
+
+.treeKey{
+    text-align: center;
+    border-top: 1px solid $border-colour;
+    padding-top: 10px;
+    div{
+        display: inline-block;
+        padding: 8px 10px 9px 5px;
+        margin: 0 20px 0 0;
+        span{
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            margin: 0 10px -6px 0;
+            border: 1px solid $border-colour;
+            border-radius: $border-radius;
+            &.key_ram{
+                background-color: $male;
+            }
+            &.key_ewe{
+                background-color: $female;
+            }
+            &.key_nonOwned{
+                border-style: dashed;
+            }
+        }
+        p{
+            &.key_alive, &.key_dead, &.key_unknown{
+                display: inline-block;
+                width: 9px;
+                height: 9px;
+                padding: 0;
+                border-radius: $border-radius;
+                margin: 0 5px 1px 0;
+            }
+            &.key_alive{
+                background-color: $brightGreen;
+            }
+            &.key_dead{
+                background-color: $brightRed;
+            }
+            &.key_unknown{
+                background-color: $purple;
+            }
+        }
+    }
+}
+/* --------------------------------------------- */

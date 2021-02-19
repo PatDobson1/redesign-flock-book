@@ -15,18 +15,28 @@
 
     // -- Content ---------------------------------------------------
 
-
+        // echo "<div class='col_2'>";
+        //     echo "<div class='card'>";
+        //         echo "<h2>Species</h2>";
+        //         $species -> speciesCard(false);
+        //     echo "</div>";
+        //     echo "<div class='card'>";
+        //         echo "<h2>Breeds</h2>";
+        //         $breeds -> simpleBreedCard(false);
+        //     echo "</div>";
+        // echo "</div>";
+        if( isset($_GET['id']) ){
+            $livestock -> animalCard($site_data, $_GET['id']);
+            $livestock -> siblingsCard($site_data, $_GET['id']);
+            $livestock -> childrenCard($site_data, $_GET['id']);
+            $livestock -> familyTree($site_data, $_GET['id']);
+            $livestock -> diaryCard($site_data, $_GET['id']);
+        }else{
             echo "<div class='card'>";
-                echo "<h2>Breeds</h2>";
-                $breeds -> breedCard();
+                echo "<h2>Livestock</h2>";
+                $livestock -> liveStockCard(true);
             echo "</div>";
-            echo "<div class='card'>";
-                echo "<h2>Species</h2>";
-                $species -> speciesCard(false);
-            echo "</div>";
-            echo "<div class='card'>";
-                $livestock -> getAllLivestock();
-            echo "</div>";
+        }
 
     // --------------------------------------------------------------
 

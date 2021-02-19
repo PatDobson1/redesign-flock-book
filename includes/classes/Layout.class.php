@@ -8,6 +8,9 @@
                 echo "
                         <html>
                             <head>
+                                <meta charset='utf-8'>
+                                <meta content='width=device-width, initial-scale=1.0' name='viewport'>
+                                <link rel='icon' href='$site_data[site_root]/favicon.ico'>
                                 <link href='https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans:wght@300;600&display=swap' rel='stylesheet'>
                                 <link rel='stylesheet' href='includes/style/style.css' />
                             </head>
