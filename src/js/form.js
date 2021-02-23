@@ -88,7 +88,7 @@
             })
         // ---------------------------------------------------------------------
 
-        // -- Form - add -------------------------------------------------------
+        // -- Process form submit ----------------------------------------------
             var processSubmit = function(data){
                 var returnedData = JSON.parse(data);
                 switch(returnedData.action){
@@ -147,6 +147,14 @@
                         target.remove();
                         displayMessage("Breed deleted");
                         break;
+                    case 'livestockFreeTextSearch':
+                        $('.search_results').html(returnedData.html).slideDown();
+                        applySorting();
+                        break;
+                    case 'livestockFiltered':
+                        $('.livestock_data').empty().append(returnedData.filter).append(returnedData.html);
+                        applySorting();
+                        break;
                 }
             }
         // ---------------------------------------------------------------------
@@ -162,6 +170,16 @@
                     });
                 });
             }
+        // ---------------------------------------------------------------------
+
+        // -- Filters ----------------------------------------------------------
+            $(document).on('change', '.js-filter select', function(){
+                $(this).closest('form').submit();
+            })
+            $(document).on('click','.js_clearFilters',function(){
+                $(this).closest('form').find('select').val('null');
+                $(this).closest('form').submit();
+            })
         // ---------------------------------------------------------------------
     }
 

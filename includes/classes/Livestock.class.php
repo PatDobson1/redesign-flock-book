@@ -24,19 +24,111 @@
             }
         // ---------------------------------------------------------------------
 
+        // -- Animal search ----------------------------------------------------
+            public function animalSearchCard($site_data){
+                // $type, $name, $text, $required, $validation, $error, $selectOptions
+                $form_element = new FormElements();
+                echo "<div class='form_container inline'>";
+                    echo "<h2>Livestock search</h2>";
+                    echo "<form name='search_livestock' class='js_form' data-action='search_livestock'>";
+                        echo "<div>";
+                            $form_element -> input('text', 'free_text', 'Text (name/tag)', false, '', '', '');
+                            $form_element -> input('submit', '', 'Search', false, '', '','');
+                        echo "</div>";
+                    echo "</form>";
+                echo "</div>";
+                echo "<div class='card search_results'></div>";
+
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Livestock filters ------------------------------------------------
+            private function livestockFilter($sql, $breed_selected, $species_selected, $year_selected){
+                $species_name = array('');
+                $species_id = array('');
+                $breeds_name = array('');
+                $breeds_id = array('');
+                $years = array('');
+                while( $row = $sql -> fetch(PDO::FETCH_NAMED)){
+                    if( array_search($row['species'], $species_name) == 0 ){
+                        array_push($species_name, $row['species']);
+                        array_push($species_id, $row['species_id']);
+                    }
+                    if( array_search($row['breed'], $breeds_name) == 0 ){
+                        array_push($breeds_name, $row['breed']);
+                        array_push($breeds_id, $row['breed_id']);
+                    }
+                    // $date =
+                    $year = date("Y",strtotime($row['date_of_birth']));
+                    if( array_search($year, $years) == 0 ){
+                        array_push($years, $year);
+                    }
+                }
+                array_shift($years);
+                rsort($years);
+                array_shift($species_name);
+                array_shift($species_id);
+                array_shift($breeds_name);
+                array_shift($breeds_id);
+
+                $breeds_select = "<select name='breed'>";
+                    $breeds_select .= "<option value=''>Select a breed</option>";
+                    foreach( $breeds_name as $key => $value ){
+                        $selected = ($breeds_id[$key] == $breed_selected) ? ' selected="selected"' : '';
+                        $breeds_select .= "<option value='$breeds_id[$key]' $selected>$value</option>";
+                    }
+                $breeds_select .= "</select>";
+
+                $species_select = "<select name='species'>";
+                    $species_select .= "<option value=''>Select a species</option>";
+                    foreach( $species_name as $key => $value ){
+                        $selected = ($species_id[$key] == $species_selected) ? ' selected="selected"' : '';
+                        $species_select .= "<option value='$species_id[$key]' $selected>$value</option>";
+                    }
+                $species_select .= "</select>";
+
+                $years_select = "<select name='year'>";
+                    $years_select .= "<option value=''>Select a birth year</option>";
+                    foreach( $years as $key => $value ){
+                        $selected = ($value == $year_selected) ? ' selected="selected"' : '';
+                        $years_select .= "<option value='$value' $selected>$value</option>";
+                    }
+                $years_select .= "</select>";
+
+                $filter = "<div class='filter js-filter'>";
+                    $filter .= "<h3>Filter results</h3>";
+                    $filter .= "<form name='filter_results' class='js_form' data-action='filter_results'>";
+                        $filter .= $breeds_select;
+                        $filter .= $species_select;
+                        $filter .= $years_select;
+                        $filter .= "<input type='button' value='Clear' class='js_clearFilters' />";
+                    $filter .= "</form>";
+                $filter .= "</div>";
+
+                return $filter;
+
+            }
+        // ---------------------------------------------------------------------
+
         // -- Livestock card ---------------------------------------------------
             public function liveStockCard($sortable){
-                $sortable = $sortable ? 'sortable' : '';
-                $this -> connect();
-                    $query = "  SELECT livestock.livestock_name, livestock.uk_tag_no, livestock.date_of_birth,
-                                       breed.breed_name AS breed, species.species AS species, livestock.id
-                                FROM livestock
-                                INNER JOIN species ON species.id = livestock.species
-                                INNER JOIN breed ON breed.id = livestock.breed
-                                ORDER BY species, livestock_name";
+                echo "<div class='livestock_data'>";
+                    $sortable = $sortable ? 'sortable' : '';
+                    $this -> connect();
+                        $query = "  SELECT livestock.livestock_name, livestock.uk_tag_no, livestock.date_of_birth,
+                                           breed.breed_name AS breed, species.species AS species, species.id AS species_id,
+                                           breed.id AS breed_id, livestock.id
+                                    FROM livestock
+                                    INNER JOIN species ON species.id = livestock.species
+                                    INNER JOIN breed ON breed.id = livestock.breed
+                                    ORDER BY species, livestock_name";
 
-                    $sql = self::$conn -> prepare($query);
-                    $sql->execute();
+                        $sql = self::$conn -> prepare($query);
+                        $sql->execute();
+                        echo $this -> livestockFilter($sql, null, null, null);
+                        $sql -> execute();
+                    $this -> disconnect();
+
                     echo "  <table class='$sortable'>
                                 <tr>
                                     <th>Tag No.</th>
@@ -44,7 +136,7 @@
                                     <th>DOB</th>
                                     <th>Species</th>
                                     <th>Breed</th>
-                                    <th></th>
+                                    <th class='no_sort'></th>
                                 </tr>";
                     while( $row = $sql -> fetch() ){
                         // $data_tag = $edit ? "data-editid = '$row[id]' data-form='edit_breed' data-table='breed' class='js_edit'" : '';
@@ -58,7 +150,61 @@
                                 </tr>";
                     }
                     echo "</table>";
+                echo "</div>";
 
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Filter livestock -------------------------------------------------
+            public function livestock_filter($form_data){
+                $breed = ($form_data[0]['value'] == '') ? 'livestock.breed' : $form_data[0]['value'];
+                $species = ($form_data[1]['value'] == '') ? 'livestock.species' : $form_data[1]['value'];
+                $year = ($form_data[2]['value'] == '') ? 'YEAR(livestock.date_of_birth)' : $form_data[2]['value'];
+
+                $this -> connect();
+
+                    $query = "  SELECT livestock.livestock_name, livestock.uk_tag_no, livestock.date_of_birth,
+                                       breed.breed_name AS breed, species.species AS species, species.id AS species_id,
+                                       breed.id AS breed_id, livestock.id
+                                FROM livestock
+                                INNER JOIN species ON species.id = livestock.species
+                                INNER JOIN breed ON breed.id = livestock.breed
+                                WHERE livestock.breed = :breed AND livestock.species = :species AND YEAR(livestock.date_of_birth) = :year
+                                ORDER BY species, livestock_name";
+                    $sql = self::$conn -> prepare($query);
+                    $sql -> bindParam(':species', $species);
+                    $sql -> bindParam(':year', $year);
+                    $sql -> bindParam(':breed', $breed);
+
+                    $sql -> execute();
+
+                    $html = "  <table class='sortable'>
+                                <tr>
+                                    <th>Tag No.</th>
+                                    <th>Name</th>
+                                    <th>DOB</th>
+                                    <th>Species</th>
+                                    <th>Breed</th>
+                                    <th class='no_sort'></th>
+                                </tr>";
+                    while( $row = $sql -> fetch() ){
+                        $html .= "  <tr data-id='$row[id]' class='js-view'>
+                                    <td class='left'>$row[uk_tag_no]</td>
+                                    <td class='left'>$row[livestock_name]</td>
+                                    <td class='cen'>$row[date_of_birth]</td>
+                                    <td class='left'>$row[species]</td>
+                                    <td class='left'>$row[breed]</td>
+                                    <td><span class='icon icon_quickView js-quickView' data-id='$row[id]'></span></td>
+                                </tr>";
+                    }
+                    $html .= "</table>";
+
+                    $output = new stdClass();
+                    $output -> action = 'livestockFiltered';
+                    $output -> html = $html;
+                    $sql -> execute();
+                    $output -> filter = $this -> livestockFilter($sql, $breed, $species, $year);
+                    echo json_encode($output);
                 $this -> disconnect();
             }
         // ---------------------------------------------------------------------

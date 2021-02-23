@@ -71,8 +71,51 @@
             background-color: rgba(255,0,0,0.1);
             border-color: $red;
         }
+        &.inline{
+            p{
+                display: inline-block;
+                label,
+                input{
+                    display: inline-block;
+                    width: 200px;
+                    vertical-align: middle;
+                }
+                &.form_control{
+                    input{
+                        width: 150px;
+                        margin-left: 20px;
+                    }
+                }
+            }
+        }
+
     }
     .form_hide{
         display: none;
+    }
+// -----------------------------------------------------------------------------
+
+// -- Filter -------------------------------------------------------------------
+    .filter{
+        margin-bottom: 20px;
+        select,
+        input[type=button]{
+            outline: none;
+            border: 1px solid $border-colour;
+            border-radius: $border-radius;
+            background-color: $white;
+            padding: 10px;
+            margin-right: 20px;
+            font-size: 1em;
+            cursor: pointer;
+            &:focus{
+                background-color: $form-focus;
+            }
+        }
+        input[type=button]{
+            &:hover{
+                background-color: $form-focus;
+            }
+        }
     }
 // -----------------------------------------------------------------------------

@@ -87,5 +87,8 @@
         box-shadow: 0 5px 14px -13px $black;
         border: 1px solid $border-colour;
         border-radius: $border-radius;
+        &.search_results{
+            display: none;
+        }
     }
 // --------------------------------------------------------------

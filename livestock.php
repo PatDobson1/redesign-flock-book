@@ -32,6 +32,7 @@
             $livestock -> familyTree($site_data, $_GET['id']);
             $livestock -> diaryCard($site_data, $_GET['id']);
         }else{
+            $livestock -> animalSearchCard($site_data);
             echo "<div class='card'>";
                 echo "<h2>Livestock</h2>";
                 $livestock -> liveStockCard(true);

@@ -33,6 +33,11 @@
                                     <input type='submit' value='$text' /><input type='reset' value='Reset' />
                                 </p>";
                     break;
+                case 'submit':
+                    $input = "  <p class='form_control'>
+                                    <input type='submit' value='$text' />
+                                </p>";
+                    break;
                 case 'required':
                     $input = "  <p class='required-warning'><span>*</span> - Required information</p>";
                     break;
