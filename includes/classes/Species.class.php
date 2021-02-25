@@ -89,7 +89,7 @@
                             $form_element -> input('required', '', '', false, '', '', '');
                             $form_element -> input('text', 'species_name', 'Name', true, 'required', 'Please enter a Name', '');
                             $form_element -> input('textarea', 'species_notes', 'Notes', false, '', '', '');
-                            $form_element -> input('control', '', 'Add Species', false, '', '', '');
+                            $form_element -> input('submit', '', 'Add Species', false, '', '', '');
                         echo "</div>";
                     echo "</form>";
                 echo "</div>";

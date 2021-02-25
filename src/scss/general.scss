@@ -35,6 +35,27 @@
             font-style: italic;
             margin: 0;
         }
+        &.add_holder{
+            text-align: right;
+        }
+        &.form_blank{
+            height: 15px;
+        }
+        &.js-top{
+            text-align: center;
+            button{
+                background-image: url('#{$site-root}/assets/img/left-arrow.svg');
+                background-repeat: no-repeat;
+                background-size: 20px;
+                background-position: 50%;
+                transform: rotate(90deg);
+                padding: 20px;
+                &:hover{
+                    background-image: url('#{$site-root}/assets/img/left-arrow-white.svg');
+                    background-color: $border-colour;                    
+                }
+            }
+        }
     }
     *{
         box-sizing: border-box;

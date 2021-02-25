@@ -27,6 +27,26 @@
             }
         // ---------------------------------------------------------------------
 
+        // -- Call class -------------------------------------------------------
+            public function call_class($site_data, $payload){
+                $generic = new Generic();
+                switch($payload['class_name']){
+                    case 'getBreeds':
+                        $breeds_result = $generic -> getBreedList($payload['species'], $payload['return_action']);
+                        echo json_encode($breeds_result);
+                    break;
+                    case 'getMothersList':
+                        $mothers_result = $generic -> getMothersList($payload['species'], $payload['return_action']);
+                        echo json_encode($mothers_result);
+                    break;
+                    case 'getFathersList':
+                        $fathers_result = $generic -> getFathersList($payload['species'], $payload['return_action']);
+                        echo json_encode($fathers_result);
+                    break;
+                }
+            }
+        // ---------------------------------------------------------------------
+
     }
 
 ?>

@@ -6,7 +6,7 @@
         var formValid = true;
         $('.error_message').remove();
         $('.error').removeClass('error');
-        var form = 'form[name="' + form_name + '"] input';
+        var form = 'form[name="' + form_name + '"] input, form[name="' + form_name + '"] select';
         $(form).each(function(){
             var validation = $(this).data('validation')
             var input = $(this);
@@ -14,7 +14,7 @@
                 validation = validation.split(',');
                 value = input.val();
                 validation.forEach(function(item,index){
-                    if( item === 'required' && value == '' ){
+                    if( item === 'required' && (value == '' || value == 'null') ){
                         formValid = false;
                         input.addClass('error').after('<span class="error_message">' + input.data('errormessage') + '</span>');
                     }

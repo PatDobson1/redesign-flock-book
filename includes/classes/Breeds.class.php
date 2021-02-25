@@ -93,22 +93,6 @@
             }
         // ---------------------------------------------------------------------
 
-        // -- Get species list [select options ] -------------------------------
-            public function getSpeciesList(){
-                $query = "SELECT id AS value, species AS text FROM species ORDER BY species";
-                $this -> connect();
-                    $sql = self::$conn -> prepare($query);
-                    $sql -> execute();
-                    $results = array();
-                    $output = '';
-                    while( $row = $sql -> fetch(PDO::FETCH_NAMED)){
-                        $output .= "<option value='$row[value]'>$row[text]</option>";
-                    }
-                    return $output;
-                $this -> disconnect();
-            }
-        // ---------------------------------------------------------------------
-
         // -- Count breed ------------------------------------------------------
             public function countBreed($breed, $gender){
                 $query = "  SELECT COUNT(id) AS breedCount
@@ -130,6 +114,7 @@
 
         // -- Add breed form ---------------------------------------------------
             public function form_addBreed(){
+                $generic = new Generic();
                 $form_element = new FormElements();
                 echo "<div class='form_container add_breed form_hide'>";
                     echo "<h3>Add breed</h3>";
@@ -137,9 +122,9 @@
                         echo "<div>";
                             $form_element -> input('required', '', '', false, '', '','');
                             $form_element -> input('text', 'breed_name', 'Name', true, 'required', 'Please enter a Name','');
-                            $form_element -> input('select', 'species', 'Species', false, '', '', $this -> getSpeciesList());
+                            $form_element -> input('select', 'species', 'Species', true, 'required', 'Please select a species', $generic -> getSpeciesList());
                             $form_element -> input('textarea', 'breed_notes', 'Notes', false, '', '','');
-                            $form_element -> input('control', '', 'Add Breed', false, '', '','');
+                            $form_element -> input('submit', '', 'Add Breed', false, '', '','');
                         echo "</div>";
                     echo "</form>";
                 echo "</div>";
@@ -171,13 +156,14 @@
         // -- Edit breed form --------------------------------------------------
             public function form_editBreed(){
                 $form_element = new FormElements();
+                $generic = new Generic();
                 echo "<div class='form_container edit_breed form_hide'>";
                     echo "<h3>Edit breed</h3>";
                     echo "<form name='edit_breed' class='col_3 js_form' data-action='edit_breed'>";
                         echo "<div>";
                             $form_element -> input('required', '', '', false, '', '','');
                             $form_element -> input('text', 'breed_name', 'Name', true, 'required', 'Please enter a Name','');
-                            $form_element -> input('select', 'species', 'Species', false, '', '', $this -> getSpeciesList());
+                            $form_element -> input('select', 'species', 'Species', false, '', '', $generic -> getSpeciesList());
                             $form_element -> input('textarea', 'breed_notes', 'Notes', false, '', '','');
                             $form_element -> input('hidden', 'breed_id', '', 'false', '', '', '');
                             $form_element -> input('control', '', 'Edit Breed', false, '', '','');

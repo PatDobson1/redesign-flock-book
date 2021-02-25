@@ -129,7 +129,7 @@
                         $sql -> execute();
                     $this -> disconnect();
 
-                    echo "  <table class='$sortable'>
+                    echo "  <table class='$sortable livestock_table'>
                                 <tr>
                                     <th>Tag No.</th>
                                     <th>Name</th>
@@ -468,8 +468,8 @@
                 echo "  <h2>Family tree</h2>";
                 echo "  <div class='family_tree' data-id='$id'></div>";
                 echo "<div class='treeKey'>";
-                    echo "<div><span class='key_ram'></span>Ram</div>";
-                    echo "<div><span class='key_ewe'></span>Ewe</div>";
+                    echo "<div><span class='key_ram'></span>Male</div>";
+                    echo "<div><span class='key_ewe'></span>Female</div>";
                     echo "<div><p class='key_alive'></p>Alive</div>";
                     echo "<div><p class='key_dead'></p>Dead</div>";
                     echo "<div><p class='key_unknown'></p>Unknown</div>";
@@ -527,14 +527,117 @@
                         }elseif (!$row['uk_tag_no']){
                             $string = $row['livestock_name'];
                         }else{
-                            $row['uk_tag_no'];
+                            $string = $row['uk_tag_no'];
                         }
-                        // $string = $row['livestock_name'] ? "$row[uk_tag_no] ( $row[livestock_name] )" : "$row[uk_tag_no]";
                         $output .= $string;
                     }
                     return $output;
                 $this -> disconnect();
 
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Add livestock form -----------------------------------------------
+            public function form_addLivestock(){
+
+                $generic = new Generic();
+                $form_element = new FormElements();
+                $breed_list =  $generic -> getBreedList('','');
+                $mothers_list =  $generic -> getMothersList('','');
+                $fathers_list =  $generic -> getFathersList('','');
+                echo "<div class='form_container add_livestock form_hide'>";
+                    echo "<h3>Add livestock</h3>";
+                    echo "<form name='add_livestock' class='js_form col_3' data-action='add_livestock'>";
+                            echo "<div>";
+                                $form_element -> input('required', '', '', false, '', '','');
+                                $form_element -> input('text', 'livestock_name', 'Name', true, 'required', 'Please enter a Name','');
+                                $form_element -> input('select', 'species', 'Species', true, 'required', 'Please select a species', $generic -> getSpeciesList());
+                                $form_element -> input('selectDisabled', 'breed', 'Breed', true, 'required', 'Please select a breed', $breed_list -> html);
+                                $form_element -> input('text', 'uk_tag_no', 'Tag', false, '', '','');
+                                $form_element -> input('textarea', 'origin', 'Origin', false, '', '','');
+                                $form_element -> input('submit', '', 'Add Livestock', false, '', '','');
+                            echo "</div>";
+                            echo "<div>";
+                                echo "<p class='form_blank'></p>";
+                                $form_element -> input('date', 'date_of_birth', 'Date of birth', false, '', '','');
+                                $form_element -> input('date', 'date_of_death', 'Date of death', false, '', '','');
+                                $form_element -> input('date', 'date_of_sale', 'Date of sale', false, '', '','');
+                                $form_element -> input('text', 'pedigree_no', 'Pedigree number', false, '', '','');
+                                $form_element -> input('textarea', 'livestock_notes', 'Notes', false, '', '','');
+                            echo "</div>";
+                        echo "<div>";
+                            echo "<p class='form_blank'></p>";
+                            $form_element -> input('select', 'gender', 'Gender', true, 'required', 'Please select a gender', $generic -> getGenderList());
+                            $form_element -> input('selectDisabled', 'mother', 'Mother', false, '', '', $mothers_list -> html);
+                            $form_element -> input('selectDisabled', 'father', 'Father', false, '', '', $fathers_list -> html);
+                            $form_element -> input('checkbox', 'home_bred', 'Home bred', false, '', '','');
+                            $form_element -> input('checkbox', 'for_slaughter', 'For slaughter', false, '', '','');
+                        echo "</div>";
+                    echo "</form>";
+                echo "</div>";
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Add livestock ----------------------------------------------------
+            public function sql_addLivestock($form_data){
+
+                $generic = new Generic();
+                $for_slaughter = $home_bred = 0;
+
+                foreach($form_data as $value){
+                    if( $value['name'] == 'species' ){ $species = $value['value']; }
+                    if( $value['name'] == 'livestock_name' ){ $livestock_name = $value['value']; }
+                    if( $value['name'] == 'gender' ){ $gender = $value['value']; }
+                    if( $value['name'] == 'uk_tag_no' ){ $uk_tag_no = $value['value']; }
+                    if( $value['name'] == 'for_slaughter' ){ $for_slaughter = $value['value']; }
+                    if( $value['name'] == 'pedigree_no' ){ $pedigree_no = $value['value']; }
+                    if( $value['name'] == 'date_of_birth' ){ $date_of_birth = $value['value']; }
+                    if( $value['name'] == 'date_of_sale' ){ $date_of_sale = $value['value']; }
+                    if( $value['name'] == 'date_of_death' ){ $date_of_death = $value['value']; }
+                    if( $value['name'] == 'mother' ){ $mother = $value['value']; }
+                    if( $value['name'] == 'father' ){ $father = $value['value']; }
+                    if( $value['name'] == 'home_bred' ){ $home_bred = $value['value']; }
+                    if( $value['name'] == 'origin' ){ $origin = $value['value']; }
+                    if( $value['name'] == 'breed' ){ $breed = $value['value']; }
+                    if( $value['name'] == 'livestock_notes' ){ $livestock_notes = $value['value']; }
+                };
+
+                $this -> connect();
+                    $query = "INSERT INTO livestock (species, livestock_name, gender, uk_tag_no,
+                                                     for_slaughter, pedigree_no, date_of_birth,
+                                                     date_of_sale, date_of_death, mother,
+                                                     father, home_bred, origin, breed, notes)
+                              VALUES ( :species, :livestock_name, :gender, :uk_tag_no,
+                                       :for_slaughter, :pedigree_no, :date_of_birth,
+                                       :date_of_sale, :date_of_death, :mother,
+                                       :father, :home_bred, :origin, :breed, :notes)";
+                    $sql = self::$conn -> prepare($query);
+                    $sql -> bindParam(':species', $species);
+                    $sql -> bindParam(':livestock_name', $livestock_name);
+                    $sql -> bindParam(':gender', $gender);
+                    $sql -> bindParam(':uk_tag_no', $uk_tag_no);
+                    $sql -> bindParam(':for_slaughter', $for_slaughter);
+                    $sql -> bindParam(':pedigree_no', $pedigree_no);
+                    $sql -> bindParam(':date_of_birth', $date_of_birth);
+                    $sql -> bindParam(':date_of_sale', $date_of_sale);
+                    $sql -> bindParam(':date_of_death', $date_of_death);
+                    $sql -> bindParam(':mother', $mother);
+                    $sql -> bindParam(':father', $father);
+                    $sql -> bindParam(':home_bred', $home_bred);
+                    $sql -> bindParam(':origin', $origin);
+                    $sql -> bindParam(':breed', $breed);
+                    $sql -> bindParam(':notes', $notes);
+                    $sql -> execute();
+                $this -> disconnect();
+
+                $output = new stdClass();
+                $output -> action = 'livestockAdded';
+                $output -> uk_tag_no = $uk_tag_no;
+                $output -> livestock_name = $livestock_name;
+                $output -> date_of_birth = $date_of_birth;
+                $output -> species = $generic -> getSpecies($species);
+                $output -> breed = $generic -> getBreed($breed);
+                echo json_encode($output);
             }
         // ---------------------------------------------------------------------
 

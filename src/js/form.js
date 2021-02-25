@@ -24,8 +24,12 @@
         // -- Display forms ----------------------------------------------------
             $(document).on('click','.js_showForm',function(){
                 var form = '.' + $(this).data('form');
-                $(this).fadeOut(300,function(){
-                    $(form).slideDown(500);
+                $(this).slideUp(300,function(){
+                    $(form).slideDown(500,function(){
+                        $('body').animate({
+                            scrollTop: $(form).offset().top
+                        }, 500);
+                    });
                 });
             })
         // ---------------------------------------------------------------------
@@ -155,6 +159,9 @@
                         $('.livestock_data').empty().append(returnedData.filter).append(returnedData.html);
                         applySorting();
                         break;
+                    case 'livestockAdded':
+                        log("Livestock added");
+                        break;
                 }
             }
         // ---------------------------------------------------------------------
@@ -179,6 +186,30 @@
             $(document).on('click','.js_clearFilters',function(){
                 $(this).closest('form').find('select').val('null');
                 $(this).closest('form').submit();
+            })
+        // ---------------------------------------------------------------------
+
+        // -- Add livestock ----------------------------------------------------
+            $(document).on('change', '.add_livestock select[name=species]', function(){
+                var species = $(this).val();
+                var payload = {
+                    species: $(this).val(),
+                    class_name: 'getBreeds',
+                    return_action: 'addLivestock_breedList'
+                }
+                callClass(payload);
+                var payload = {
+                    species: $(this).val(),
+                    class_name: 'getMothersList',
+                    return_action: 'addLivestock_motherList'
+                }
+                callClass(payload);
+                var payload = {
+                    species: $(this).val(),
+                    class_name: 'getFathersList',
+                    return_action: 'addLivestock_fatherList'
+                }
+                callClass(payload);
             })
         // ---------------------------------------------------------------------
     }

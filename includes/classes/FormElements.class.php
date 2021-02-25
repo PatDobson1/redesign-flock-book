@@ -13,6 +13,12 @@
                                     <input type='$type' name='$name' data-validation='$validation' data-errormessage='$error' />
                                 </p>";
                     break;
+                case 'date':
+                    $input = "  <p $class>
+                                    <label for='$name'>$text</label>
+                                    <input type='$type' name='$name' data-validation='$validation' data-errormessage='$error' class='datepicker' id='$name' />
+                                </p>";
+                    break;
                 case 'hidden':
                     $input = "  <input type='$type' name='$name'  />";
                     break;
@@ -25,7 +31,19 @@
                 case 'select':
                     $input = "  <p $class>
                                     <label for='$name'>$text</label>
-                                    <select name='$name'>$selectOptions</select>
+                                    <select name='$name' data-validation='$validation' data-errormessage='$error'>$selectOptions</select>
+                                </p>";
+                    break;
+                case 'selectDisabled':
+                    $input = "  <p $class>
+                                    <label for='$name'>$text</label>
+                                    <select name='$name' disabled='disabled' data-validation='$validation' data-errormessage='$error'>$selectOptions</select>
+                                </p>";
+                    break;
+                case 'checkbox':
+                    $input = "  <p class='checkbox'>
+                                    <input type='checkbox' value='1' name='$name' id='$name' />
+                                    <label for='$name'>$text</label>
                                 </p>";
                     break;
                 case 'control':

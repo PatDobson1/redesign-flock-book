@@ -32,6 +32,7 @@
             public function footer(){
                 $date = date('Y');
                 echo "
+                        <p class='js-top'><button></button></p>
                         </content>
                         <footer>
                             <div class='col_3'>

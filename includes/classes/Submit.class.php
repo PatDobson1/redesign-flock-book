@@ -34,6 +34,11 @@
                             $breeds = new Breeds();
                             $breeds -> sql_deleteBreed($form_data);
                             break;
+                        // -- Livestock --------------------------------------
+                        case 'add_livestock':
+                            $livestock = new Livestock();
+                            $livestock -> sql_addLivestock($form_data);
+                            break;
                         // -- Search -----------------------------------------
                         case 'search_livestock':
                             $search = new Search();

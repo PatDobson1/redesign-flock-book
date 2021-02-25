@@ -64,6 +64,11 @@
                 margin-left: 10px;
             }
         }
+        + div{
+            .form_control{
+                width: 49%;
+            }
+        }
     }
     .col_3{
         display: flex;

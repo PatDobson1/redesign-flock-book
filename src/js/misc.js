@@ -38,41 +38,66 @@
     }
 // -------------------------------------------------------------------------
 
-// -- Create the HTML list for family tree ---------------------------- //
-    function createSheepHTML(sheep,id) {
-        var s = getSheep(sheep,id), out, gender, historic;
-        if (s) {
-            gender = s.gender == 1 ? 'ram' : 'ewe';
-            deadAlive = s.date_of_death == null ? 'alive' : 'dead';
-            out = "<li>";
-                out += "<div class='" + gender + " js-view' data-id='" + s.id + "'>";
-                    out += "<span class='status " + deadAlive + "'></span>";
-                    out += "<span><p>" + s.livestock_name + "</p><p>" + s.uk_tag_no + "</p></span>";
-                    out += "<a class='icon icon_quickView js-quickView' data-id='" + s.id + "'></a>";
-                out += "</div>";
-            if (s.mother || s.father) {
-                out += "<ul>";
-                    if (s.mother) {
-                        out += createSheepHTML(sheep,s.mother);
-                    }
-                    if (s.father) {
-                        out += createSheepHTML(sheep,s.father);
-                    }
-                    out += "</ul>";
+// -- Family tree ----------------------------------------------------------
+    // -- Create the HTML list for family tree ---------------------------- //
+        function createSheepHTML(sheep,id) {
+            var s = getSheep(sheep,id), out, gender, historic;
+            if (s) {
+                gender = s.gender == 1 ? 'ram' : 'ewe';
+                deadAlive = s.date_of_death == null ? 'alive' : 'dead';
+                out = "<li>";
+                    out += "<div class='" + gender + " js-view' data-id='" + s.id + "'>";
+                        out += "<span class='status " + deadAlive + "'></span>";
+                        out += "<span><p>" + s.livestock_name + "</p><p>" + s.uk_tag_no + "</p></span>";
+                        out += "<a class='icon icon_quickView js-quickView' data-id='" + s.id + "'></a>";
+                    out += "</div>";
+                if (s.mother || s.father) {
+                    out += "<ul>";
+                        if (s.mother) {
+                            out += createSheepHTML(sheep,s.mother);
+                        }
+                        if (s.father) {
+                            out += createSheepHTML(sheep,s.father);
+                        }
+                        out += "</ul>";
+                }
+                out += "</li>";
+                return out;
             }
-            out += "</li>";
-            return out;
         }
-    }
-// -------------------------------------------------------------------- //
+    // -------------------------------------------------------------------- //
+    // -- Get a single sheep ---------------------------------------------- //
+        function getSheep(data,id){
+            for( var i=0; i<data.length; i++ ){
+                if( data[i].id == id ){
+                    sheep = data[i];
+                }
+            }
+            return sheep;
+        }
+    // -------------------------------------------------------------------- //
+// -------------------------------------------------------------------------
 
-// -- Get a single sheep ---------------------------------------------- //
-    function getSheep(data,id){
-        for( var i=0; i<data.length; i++ ){
-            if( data[i].id == id ){
-                sheep = data[i];
-            }
-        }
-        return sheep;
+// -- Call a PHP class -----------------------------------------------------
+    function callClass(payload){
+        var apiUrl = hostname + 'call_class.php';
+        $.post(apiUrl, payload, function(data){
+            processClassCall(data);
+        });
     }
-// -------------------------------------------------------------------- //
+    function processClassCall(data){
+        var returnedData = JSON.parse(data);
+        var action = returnedData.returnAction;
+        switch(returnedData.returnAction){
+            case 'addLivestock_breedList':
+                $('select[name=breed]').empty().html(returnedData.html).attr('disabled',false);
+            break;
+            case 'addLivestock_motherList':
+                $('select[name=mother]').empty().html(returnedData.html).attr('disabled',false);
+            break;
+            case 'addLivestock_fatherList':
+                $('select[name=father]').empty().html(returnedData.html).attr('disabled',false);
+            break;
+        }
+    }
+// -------------------------------------------------------------------------

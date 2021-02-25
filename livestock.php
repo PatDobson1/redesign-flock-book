@@ -15,16 +15,6 @@
 
     // -- Content ---------------------------------------------------
 
-        // echo "<div class='col_2'>";
-        //     echo "<div class='card'>";
-        //         echo "<h2>Species</h2>";
-        //         $species -> speciesCard(false);
-        //     echo "</div>";
-        //     echo "<div class='card'>";
-        //         echo "<h2>Breeds</h2>";
-        //         $breeds -> simpleBreedCard(false);
-        //     echo "</div>";
-        // echo "</div>";
         if( isset($_GET['id']) ){
             $livestock -> animalCard($site_data, $_GET['id']);
             $livestock -> siblingsCard($site_data, $_GET['id']);
@@ -32,11 +22,15 @@
             $livestock -> familyTree($site_data, $_GET['id']);
             $livestock -> diaryCard($site_data, $_GET['id']);
         }else{
+            echo "<p class='add_holder'>";
+                echo "<a class='js_showForm btn_island' data-form='add_livestock'>Add livestock</a>";
+            echo "</p>";
             $livestock -> animalSearchCard($site_data);
             echo "<div class='card'>";
                 echo "<h2>Livestock</h2>";
                 $livestock -> liveStockCard(true);
             echo "</div>";
+            $livestock -> form_addLivestock();
         }
 
     // --------------------------------------------------------------
