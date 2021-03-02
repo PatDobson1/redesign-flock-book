@@ -129,7 +129,7 @@
                     $output -> livestock_name = $row['livestock_name'];
                     $output -> species = $row['species'];
                     $output -> breed = $row['breed'];
-                    $output -> tag = $row['uk_tag_no'];
+                    $output -> uk_tag_no = $row['uk_tag_no'];
                     $output -> origin = $row['origin'];
                     $output -> date_of_birth = $row['date_of_birth'];
                     $output -> date_of_death = $row['date_of_death'];
@@ -182,7 +182,16 @@
                 $mother = $mother ? "<span class='icon icon_quickView js-quickView' data-id='$row[mother]'></span> <a href='$site_data[site_root]/livestock?id=$row[mother]' class='link'>$mother</a>" : 'n/a';
                 $father = $this -> getParent($row['father']);
                 $father = $father ? "<span class='icon icon_quickView js-quickView' data-id='$row[father]'></span> <a href='$site_data[site_root]/livestock?id=$row[father]' class='link'>$father</a>" : 'n/a';
-                $previous_tags = $row['previous_tags'] ? $row['previous_tags'] : 'n/a';
+                if($row['previous_tags']){
+                    $temp_tags = explode("[[~]]", $row['previous_tags']);
+                    $previous_tags = "<ul class='tag_list'>";
+                        foreach ($temp_tags as $value) {
+                            $previous_tags .= "<li>$value</li>";
+                        }
+                    $previous_tags .= "</ul>";
+                }else{
+                    $previous_tags = 'n/a';
+                }
 
                 $data = '';
                 $data.= "<p class='controls'>";
@@ -213,9 +222,10 @@
                 $data.= "  </div>";
                 $data.= "  <div>";
                 $data.= "      <p><label>Previous tags:</label>$previous_tags</p>";
-                $data.= "      <p><label>Origin:</label>$origin</p>";
-                $data.= "      <p><label>Notes:</label>$row[notes]</p>";
+                $data.= "      <p class='fullWidth'><label>Origin:</label>$origin</p>";
+                $data.= "      <p class='fullWidth'><label>Notes:</label>$row[notes]</p>";
                 $data.= "  </div>";
+                $data.= "   <div class='deleteRow'><a class='js-delete delete_link' data-id='$row[id]' data-deletetype='livestock'>Delete</a></div>";
                 $data.= "</div>";
 
                 if($context == 'echo'){
@@ -593,6 +603,10 @@
                     if( $value['name'] == 'livestock_notes' ){ $livestock_notes = $value['value']; }
                 };
 
+                $date_of_birth = $date_of_birth == null ? null : $date_of_birth;
+                $date_of_sale = $date_of_sale == null ? null : $date_of_sale;
+                $date_of_death = $date_of_death == null ? null : $date_of_death;
+
                 $this -> connect();
                     $query = "INSERT INTO livestock (species, livestock_name, gender, uk_tag_no,
                                                      for_slaughter, pedigree_no, date_of_birth,
@@ -632,7 +646,7 @@
             }
         // ---------------------------------------------------------------------
 
-        // -- Add livestock ----------------------------------------------------
+        // -- Edit livestock ---------------------------------------------------
             public function sql_editLivestock($form_data){
 
                 $generic = new Generic();
@@ -657,12 +671,35 @@
                     if( $value['name'] == 'livestock_notes' ){ $livestock_notes = $value['value']; }
                 };
 
+                // -- Get existing TAG details ---------------------------------
+                    $this -> connect();
+                        $query = "SELECT uk_tag_no, previous_tags FROM livestock WHERE id = :id";
+                        $sql = self::$conn -> prepare($query);
+                        $sql -> bindParam(':id', $id);
+                        $sql -> execute();
+                        $row = $sql -> fetch();
+                    $this -> disconnect();
+                    if( $row['previous_tags'] == null && $row['uk_tag_no'] == null ){
+                        $previous_tags = null;
+                    }else{
+                        $existing_tag = $row['uk_tag_no'];
+                        if($row['previous_tags'] != null){
+                            $previous_tags = explode("[[~]]", $row['previous_tags']);
+                        }else{
+                            $previous_tags = array();
+                        }
+                        array_push($previous_tags, $existing_tag);
+                        $previous_tags = implode("[[~]]", $previous_tags);
+                    }
+                // -------------------------------------------------------------
+
                 $this -> connect();
                     $query = "  UPDATE livestock
                                 SET species = :species,
                                     livestock_name = :livestock_name,
                                     gender = :gender,
                                     uk_tag_no = :uk_tag_no,
+                                    previous_tags = :previous_tags,
                                     for_slaughter = :for_slaughter,
                                     pedigree_no = :pedigree_no,
                                     date_of_birth = :date_of_birth,
@@ -681,6 +718,7 @@
                     $sql -> bindParam(':livestock_name', $livestock_name);
                     $sql -> bindParam(':gender', $gender);
                     $sql -> bindParam(':uk_tag_no', $uk_tag_no);
+                    $sql -> bindParam(':previous_tags', $previous_tags);
                     $sql -> bindParam(':for_slaughter', $for_slaughter);
                     $sql -> bindParam(':pedigree_no', $pedigree_no);
                     $sql -> bindParam(':date_of_birth', $date_of_birth);
@@ -698,6 +736,23 @@
                 $output = new stdClass();
                 $output -> action = 'livestockEdited';
                 $output -> id = $id;
+                echo json_encode($output);
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Delete livestock -------------------------------------------------
+            public function sql_deleteLivestock($form_data, $site_data){
+                $id = $form_data[0]['value'];
+                $this -> connect();
+                    $query = "DELETE FROM livestock WHERE id = :id";
+                    $sql = self::$conn -> prepare($query);
+                    $sql -> bindParam(':id', $id);
+                    $sql -> execute();
+                $this -> disconnect();
+                $output = new stdClass();
+                $output -> action = 'livestockDeleted';
+                $output -> id = $id;
+                $output -> site_root = $site_data['site_root'];
                 echo json_encode($output);
             }
         // ---------------------------------------------------------------------

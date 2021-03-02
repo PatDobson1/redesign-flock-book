@@ -31,6 +31,15 @@
             vertical-align: top;
             display: inline-block;
         }
+        &.fullWidth{
+            label{
+                display: block;
+                width: auto;
+                margin: 0 0 10px 0;
+                border-bottom: 1px solid $border-colour;
+                padding: 0 0 10px 0;
+            }
+        }
         &.none{
             font-style: italic;
             margin: 0;
@@ -55,6 +64,13 @@
                     background-color: $border-colour;
                 }
             }
+        }
+    }
+    ul{
+        &.tag_list{
+            list-style: circle;
+            line-height: 1.2em;
+            padding-left: 40px;
         }
     }
     *{
@@ -106,6 +122,7 @@
             border-radius: $border-radius;
             background-color: $white;
             padding: 0 10px;
+            cursor: pointer;
             &:hover{
                 background-color: $red;
                 color: $white;

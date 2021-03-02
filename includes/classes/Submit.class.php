@@ -3,7 +3,7 @@
     class Submit{
 
         // -- Form submit ------------------------------------------------------
-            public function submitForm($payload){
+            public function submitForm($payload, $site_data){
                 $form_action = $payload['action'];
                 $form_data = $payload['formData'];
 
@@ -42,6 +42,10 @@
                         case 'edit_livestock':
                             $livestock = new Livestock();
                             $livestock -> sql_editLivestock($form_data);
+                            break;
+                        case 'delete_livestock':
+                            $livestock = new Livestock();
+                            $livestock -> sql_deleteLivestock($form_data, $site_data);
                             break;
                         // -- Search -----------------------------------------
                         case 'search_livestock':

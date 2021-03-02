@@ -93,7 +93,7 @@
                 var payload = { id: id, table: type };
                 var apiUrl = hostname + 'data_get.php';
                 $.post(apiUrl,payload,function(data){
-                    var returnedData = JSON.parse(data);
+                    var returnedData = JSON.parse(data);;
                     // -- Populate inputs and textareas --
                         for( var key in returnedData){
                             if( key == 'home_bred' || key == 'for_slaughter'){
@@ -154,6 +154,15 @@
                         $modal_content = '<h2>Delete breed</h2>' +
                                          '<p>Are you sure you want to delete this breed?</p><p>Deleting is permanent and cannot be undone</p>' +
                                          '<form class="js_form" data-action="delete_breed">' +
+                                         '<input type="hidden" name="id" value="' + deleteid + '" />' +
+                                         '<input type="submit" value="Confirm" class="form_btn" />' +
+                                         '</form>' +
+                                         '<button class="js_closeModal btn_right" />Cancel</button>';
+                    break;
+                    case 'livestock':
+                        $modal_content = '<h2>Delete livestock</h2>' +
+                                         '<p>Are you sure you want to delete this livestock?</p><p>Deleting is permanent and cannot be undone</p>' +
+                                         '<form class="js_form" data-action="delete_livestock">' +
                                          '<input type="hidden" name="id" value="' + deleteid + '" />' +
                                          '<input type="submit" value="Confirm" class="form_btn" />' +
                                          '</form>' +
@@ -232,7 +241,8 @@
                         applySorting();
                         break;
                     case 'livestockAdded':
-                        var newRow = "<tr class='edited'><td class='left'>" + returnedData.uk_tag_no + "</td><td class='left'>" + returnedData.livestock_name + "</td><td class='cen'>" + returnedData.date_of_birth +"</td><td class='left'>" + returnedData.species + "</td><td class='left'>" + returnedData.breed + "</td><td></td></tr>";
+                        var DOB = returnedData.date_of_birth == null ? '' : returnedData.date_of_birth;
+                        var newRow = "<tr class='edited'><td class='left'>" + returnedData.uk_tag_no + "</td><td class='left'>" + returnedData.livestock_name + "</td><td class='cen'>" + DOB +"</td><td class='left'>" + returnedData.species + "</td><td class='left'>" + returnedData.breed + "</td><td></td></tr>";
                         $('.livestock_table').find('tr:first-child').after(newRow);
                         $('form')[2].reset();
                         displayMessage("Livestock edited");
@@ -253,6 +263,11 @@
                             return_action: 'livestockEdited'
                         }
                         callClass(payload,'');
+                        break;
+                    case 'livestockDeleted':
+                        // displayMessage("Livestock deleted");
+                        // console.log(returnedData);
+                        window.location.replace(returnedData.site_root + '/livestock?ld=true');
                         break;
                 }
             }
@@ -303,6 +318,12 @@
                 }
                 callClass(payload,'');
             })
+        // ---------------------------------------------------------------------
+
+        // -- Display message after livestock deletion -------------------------
+            if( getUrlParameter('ld') ){
+                displayMessage('Livestock deleted');
+            }
         // ---------------------------------------------------------------------
     }
 

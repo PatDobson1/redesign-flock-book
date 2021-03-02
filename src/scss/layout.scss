@@ -95,5 +95,10 @@
         &.search_results{
             display: none;
         }
+        &.animalCard{
+            .deleteRow{
+                text-align: right;
+            }
+        }
     }
 // --------------------------------------------------------------
