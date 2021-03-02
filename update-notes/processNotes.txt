@@ -11,7 +11,16 @@
         5. This calls class e.g. sql_deleteSpecies($form_data) (This class is in appropriate class file e.g. 'includes\classes\Species.class.php')
         6. Class returns JSON output (see note 1) to 'processSubmit' in 'src\js\form.js'
         7. 'processSubmit' performs DOM manipulation
+    ------------------------------------------------------------------------
 
+    -- Edit ----------------------------------------------------------------
+        -- Entry has a data-editid, data-form, data-table
+        -- Can be a clicked table row (species, breed, 'js_edit') or button (livestock, 'js_edit_btn')
+
+        1. On click calls '\data_get.php' (in '\src\js\form.js') which calls '\includes\classes\get_form_data.php' - 'GetData -> get_form_data'
+        2. 'get_form_data' needs case based on $payload['table']
+        3. 'get_form_data' calls applicable method (e.g. 'species' calls 'sql_getSpecies')
+        4. Data is returned to originating js function
     ------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------

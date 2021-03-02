@@ -39,15 +39,14 @@
                             $livestock = new Livestock();
                             $livestock -> sql_addLivestock($form_data);
                             break;
+                        case 'edit_livestock':
+                            $livestock = new Livestock();
+                            $livestock -> sql_editLivestock($form_data);
+                            break;
                         // -- Search -----------------------------------------
                         case 'search_livestock':
                             $search = new Search();
                             $search -> livestock_freeText($form_data);
-                            break;
-                        // -- Filter -----------------------------------------
-                        case  'filter_results':
-                            $livestock = new Livestock();
-                            $livestock -> livestock_filter($form_data);
                             break;
                 }
             }

@@ -52,7 +52,7 @@
                 padding: 20px;
                 &:hover{
                     background-image: url('#{$site-root}/assets/img/left-arrow-white.svg');
-                    background-color: $border-colour;                    
+                    background-color: $border-colour;
                 }
             }
         }
@@ -112,13 +112,14 @@
             }
         }
         &.back{
+            display: inline-block;
             background-image: url('#{$site-root}/assets/img/left-arrow.svg');
             background-repeat: no-repeat;
             background-size: 15px;
             background-position: 8px 50%;
             text-decoration: none;
             color: $font-colour;
-            padding: 5px 10px 5px 30px;
+            padding: 10px 10px 10px 30px;
             border: 1px solid $border-colour;
             border-radius: $border-radius;
             &:hover{
@@ -148,6 +149,20 @@
             min-height: 25px;
             &:hover{
                 text-decoration: underline;
+            }
+        }
+        &.right_aligned{
+            display: inline-block;
+            text-decoration: none;
+            color: $font-colour;
+            padding: 10px;
+            border: 1px solid $border-colour;
+            border-radius: $border-radius;
+            float: right;
+            cursor: pointer;
+            &:hover{
+                color: $white;
+                background-color: $border-colour;
             }
         }
     }

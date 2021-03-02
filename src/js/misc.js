@@ -79,25 +79,40 @@
 // -------------------------------------------------------------------------
 
 // -- Call a PHP class -----------------------------------------------------
-    function callClass(payload){
+    function callClass(payload, otherData){
         var apiUrl = hostname + 'call_class.php';
         $.post(apiUrl, payload, function(data){
-            processClassCall(data);
+            processClassCall(data, otherData);
         });
     }
-    function processClassCall(data){
+    function processClassCall(data, otherData){
         var returnedData = JSON.parse(data);
         var action = returnedData.returnAction;
         switch(returnedData.returnAction){
             case 'addLivestock_breedList':
                 $('select[name=breed]').empty().html(returnedData.html).attr('disabled',false);
-            break;
+                break;
             case 'addLivestock_motherList':
                 $('select[name=mother]').empty().html(returnedData.html).attr('disabled',false);
-            break;
+                break;
             case 'addLivestock_fatherList':
                 $('select[name=father]').empty().html(returnedData.html).attr('disabled',false);
-            break;
+                break;
+            case 'editLivestock_breedList':
+                $('select[name=breed]').empty().html(returnedData.html).val(otherData.breed);
+                break;
+            case 'editLivestock_motherList':
+                var mother = otherData.mother != '0' ? otherData.mother : 'null';
+                $('select[name=mother]').empty().html(returnedData.html).val(mother);
+                break;
+            case 'editLivestock_fatherList':
+                var father = otherData.father != '0' ? otherData.father : 'null';
+                $('select[name=father]').empty().html(returnedData.html).val(father);
+                break;
+            case 'livestockEdited':
+                $('.controls, .animalCard').remove();
+                $('content').prepend(returnedData.html);
+                break;
         }
     }
 // -------------------------------------------------------------------------

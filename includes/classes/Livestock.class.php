@@ -26,7 +26,6 @@
 
         // -- Animal search ----------------------------------------------------
             public function animalSearchCard($site_data){
-                // $type, $name, $text, $required, $validation, $error, $selectOptions
                 $form_element = new FormElements();
                 echo "<div class='form_container inline'>";
                     echo "<h2>Livestock search</h2>";
@@ -43,61 +42,23 @@
         // ---------------------------------------------------------------------
 
         // -- Livestock filters ------------------------------------------------
-            private function livestockFilter($sql, $breed_selected, $species_selected, $year_selected){
-                $species_name = array('');
-                $species_id = array('');
-                $breeds_name = array('');
-                $breeds_id = array('');
-                $years = array('');
-                while( $row = $sql -> fetch(PDO::FETCH_NAMED)){
-                    if( array_search($row['species'], $species_name) == 0 ){
-                        array_push($species_name, $row['species']);
-                        array_push($species_id, $row['species_id']);
-                    }
-                    if( array_search($row['breed'], $breeds_name) == 0 ){
-                        array_push($breeds_name, $row['breed']);
-                        array_push($breeds_id, $row['breed_id']);
-                    }
-                    // $date =
-                    $year = date("Y",strtotime($row['date_of_birth']));
-                    if( array_search($year, $years) == 0 ){
-                        array_push($years, $year);
-                    }
-                }
-                array_shift($years);
-                rsort($years);
-                array_shift($species_name);
-                array_shift($species_id);
-                array_shift($breeds_name);
-                array_shift($breeds_id);
+            private function livestockFilter(){
 
-                $breeds_select = "<select name='breed'>";
-                    $breeds_select .= "<option value=''>Select a breed</option>";
-                    foreach( $breeds_name as $key => $value ){
-                        $selected = ($breeds_id[$key] == $breed_selected) ? ' selected="selected"' : '';
-                        $breeds_select .= "<option value='$breeds_id[$key]' $selected>$value</option>";
-                    }
+                $breeds_select = "<select name='breed_filter'>";
+                    $breeds_select .= "<option value='null'>Select a breed</option>";
                 $breeds_select .= "</select>";
 
-                $species_select = "<select name='species'>";
-                    $species_select .= "<option value=''>Select a species</option>";
-                    foreach( $species_name as $key => $value ){
-                        $selected = ($species_id[$key] == $species_selected) ? ' selected="selected"' : '';
-                        $species_select .= "<option value='$species_id[$key]' $selected>$value</option>";
-                    }
+                $species_select = "<select name='species_filter'>";
+                    $species_select .= "<option value='null'>Select a species</option>";
                 $species_select .= "</select>";
 
-                $years_select = "<select name='year'>";
-                    $years_select .= "<option value=''>Select a birth year</option>";
-                    foreach( $years as $key => $value ){
-                        $selected = ($value == $year_selected) ? ' selected="selected"' : '';
-                        $years_select .= "<option value='$value' $selected>$value</option>";
-                    }
+                $years_select = "<select name='year_filter'>";
+                    $years_select .= "<option value='null'>Select a DOB</option>";
                 $years_select .= "</select>";
 
                 $filter = "<div class='filter js-filter'>";
                     $filter .= "<h3>Filter results</h3>";
-                    $filter .= "<form name='filter_results' class='js_form' data-action='filter_results'>";
+                    $filter .= "<form name='filter_results' class='js_filter' data-action='filter_results'>";
                         $filter .= $breeds_select;
                         $filter .= $species_select;
                         $filter .= $years_select;
@@ -125,11 +86,11 @@
 
                         $sql = self::$conn -> prepare($query);
                         $sql->execute();
-                        echo $this -> livestockFilter($sql, null, null, null);
+                        echo $this -> livestockFilter();
                         $sql -> execute();
                     $this -> disconnect();
 
-                    echo "  <table class='$sortable livestock_table'>
+                    echo "  <table class='$sortable livestock_table livestockFiltered'>
                                 <tr>
                                     <th>Tag No.</th>
                                     <th>Name</th>
@@ -139,7 +100,6 @@
                                     <th class='no_sort'></th>
                                 </tr>";
                     while( $row = $sql -> fetch() ){
-                        // $data_tag = $edit ? "data-editid = '$row[id]' data-form='edit_breed' data-table='breed' class='js_edit'" : '';
                         echo "  <tr data-id='$row[id]' class='js-view'>
                                     <td class='left'>$row[uk_tag_no]</td>
                                     <td class='left'>$row[livestock_name]</td>
@@ -155,62 +115,40 @@
             }
         // ---------------------------------------------------------------------
 
-        // -- Filter livestock -------------------------------------------------
-            public function livestock_filter($form_data){
-                $breed = ($form_data[0]['value'] == '') ? 'livestock.breed' : $form_data[0]['value'];
-                $species = ($form_data[1]['value'] == '') ? 'livestock.species' : $form_data[1]['value'];
-                $year = ($form_data[2]['value'] == '') ? 'YEAR(livestock.date_of_birth)' : $form_data[2]['value'];
-
+        // -- Get livestock data -----------------------------------------------
+            public function sql_getLivestock($id){
                 $this -> connect();
-
-                    $query = "  SELECT livestock.livestock_name, livestock.uk_tag_no, livestock.date_of_birth,
-                                       breed.breed_name AS breed, species.species AS species, species.id AS species_id,
-                                       breed.id AS breed_id, livestock.id
-                                FROM livestock
-                                INNER JOIN species ON species.id = livestock.species
-                                INNER JOIN breed ON breed.id = livestock.breed
-                                WHERE livestock.breed = :breed AND livestock.species = :species AND YEAR(livestock.date_of_birth) = :year
-                                ORDER BY species, livestock_name";
+                    $query = "  SELECT * FROM livestock WHERE id = :id";
                     $sql = self::$conn -> prepare($query);
-                    $sql -> bindParam(':species', $species);
-                    $sql -> bindParam(':year', $year);
-                    $sql -> bindParam(':breed', $breed);
-
-                    $sql -> execute();
-
-                    $html = "  <table class='sortable'>
-                                <tr>
-                                    <th>Tag No.</th>
-                                    <th>Name</th>
-                                    <th>DOB</th>
-                                    <th>Species</th>
-                                    <th>Breed</th>
-                                    <th class='no_sort'></th>
-                                </tr>";
-                    while( $row = $sql -> fetch() ){
-                        $html .= "  <tr data-id='$row[id]' class='js-view'>
-                                    <td class='left'>$row[uk_tag_no]</td>
-                                    <td class='left'>$row[livestock_name]</td>
-                                    <td class='cen'>$row[date_of_birth]</td>
-                                    <td class='left'>$row[species]</td>
-                                    <td class='left'>$row[breed]</td>
-                                    <td><span class='icon icon_quickView js-quickView' data-id='$row[id]'></span></td>
-                                </tr>";
-                    }
-                    $html .= "</table>";
-
-                    $output = new stdClass();
-                    $output -> action = 'livestockFiltered';
-                    $output -> html = $html;
-                    $sql -> execute();
-                    $output -> filter = $this -> livestockFilter($sql, $breed, $species, $year);
-                    echo json_encode($output);
+                    $sql -> bindParam(':id', $id);
+                    $sql->execute();
                 $this -> disconnect();
+                $output = new stdClass();
+                if($row = $sql -> fetch(PDO::FETCH_NAMED)){
+                    $output -> id = $row['id'];
+                    $output -> livestock_name = $row['livestock_name'];
+                    $output -> species = $row['species'];
+                    $output -> breed = $row['breed'];
+                    $output -> tag = $row['uk_tag_no'];
+                    $output -> origin = $row['origin'];
+                    $output -> date_of_birth = $row['date_of_birth'];
+                    $output -> date_of_death = $row['date_of_death'];
+                    $output -> date_of_sale = $row['date_of_sale'];
+                    $output -> pedigree_no = $row['pedigree_no'];
+                    $output -> notes = $row['notes'];
+                    $output -> gender = $row['gender'];
+                    $output -> mother = $row['mother'];
+                    $output -> father = $row['father'];
+                    $output -> home_bred = $row['home_bred'];
+                    $output -> for_slaughter = $row['for_slaughter'];
+                    $output -> context = 'editLivestock';
+                    echo json_encode($output);
+                }
             }
         // ---------------------------------------------------------------------
 
         // -- Animal -----------------------------------------------------------
-            public function animalCard($site_data, $id){
+            public function animalCard($site_data, $id, $context){
                 $this -> connect();
                     $query = "  SELECT livestock.livestock_name, livestock.uk_tag_no, livestock.date_of_birth, livestock.id,
                                        livestock.date_of_death, livestock.date_of_sale, livestock.mother, livestock.father,
@@ -246,35 +184,45 @@
                 $father = $father ? "<span class='icon icon_quickView js-quickView' data-id='$row[father]'></span> <a href='$site_data[site_root]/livestock?id=$row[father]' class='link'>$father</a>" : 'n/a';
                 $previous_tags = $row['previous_tags'] ? $row['previous_tags'] : 'n/a';
 
-                echo "<p><a href='$site_data[site_root]/livestock' class='back'>Back to livestock</a></p>";
+                $data = '';
+                $data.= "<p class='controls'>";
+                    $data.= "<a href='$site_data[site_root]/livestock' class='back'>Back to livestock</a>";
+                    $data.= "<a class='right_aligned js_edit_btn' data-editid='$row[id]' data-edittype='livestock' data-form='edit_livestock'>Edit livestock</a>";
+                $data.= "</p>";
 
-                echo "<div class='card'>";
-                echo "  <h2>Stock details</h2>";
-                echo "  <div class='col_2'>";
-                echo "      <div>";
-                echo "          <p><label>Name:</label>$name</p>";
-                echo "          <p><label>Species:</label>$row[species]</p>";
-                echo "          <p><label>Breed:</label>$row[breed]</p>";
-                echo "          <p><label>Tag:</label>$row[uk_tag_no]</p>";
-                echo "          <p><label>Pedigree number:</label>$pedigree_number</p>";
-                echo "          <p><label>Home bred:</label>$home_bred</p>";
-                echo "          <p><label>For slaughter:</label>$for_slaughter</p>";
-                echo "      </div>";
-                echo "      <div>";
-                echo "          <p><label>Mother:</label>$mother</p>";
-                echo "          <p><label>Father:</label>$father</p>";
-                echo "          <p><label>Gender:</label>$row[gender]</p>";
-                echo "          <p><label>Date of birth:</label>$row[date_of_birth]</p>";
-                echo "          <p><label>Date of death:</label>$date_of_death</p>";
-                echo "          <p><label>Date of sale:</label>$date_of_sale</p>";
-                echo "      </div>";
-                echo "  </div>";
-                echo "  <div>";
-                echo "      <p><label>Previous tags:</label>$previous_tags</p>";
-                echo "      <p><label>Origin:</label>$origin</p>";
-                echo "      <p><label>Notes:</label>$row[notes]</p>";
-                echo "  </div>";
-                echo "</div>";
+                $data.= "<div class='card animalCard'>";
+                $data.= "  <h2>Stock details</h2>";
+                $data.= "  <div class='col_2'>";
+                $data.= "      <div>";
+                $data.= "          <p><label>Name:</label>$name</p>";
+                $data.= "          <p><label>Species:</label>$row[species]</p>";
+                $data.= "          <p><label>Breed:</label>$row[breed]</p>";
+                $data.= "          <p><label>Tag:</label>$row[uk_tag_no]</p>";
+                $data.= "          <p><label>Pedigree number:</label>$pedigree_number</p>";
+                $data.= "          <p><label>Home bred:</label>$home_bred</p>";
+                $data.= "          <p><label>For slaughter:</label>$for_slaughter</p>";
+                $data.= "      </div>";
+                $data.= "      <div>";
+                $data.= "          <p><label>Mother:</label>$mother</p>";
+                $data.= "          <p><label>Father:</label>$father</p>";
+                $data.= "          <p><label>Gender:</label>$row[gender]</p>";
+                $data.= "          <p><label>Date of birth:</label>$row[date_of_birth]</p>";
+                $data.= "          <p><label>Date of death:</label>$date_of_death</p>";
+                $data.= "          <p><label>Date of sale:</label>$date_of_sale</p>";
+                $data.= "      </div>";
+                $data.= "  </div>";
+                $data.= "  <div>";
+                $data.= "      <p><label>Previous tags:</label>$previous_tags</p>";
+                $data.= "      <p><label>Origin:</label>$origin</p>";
+                $data.= "      <p><label>Notes:</label>$row[notes]</p>";
+                $data.= "  </div>";
+                $data.= "</div>";
+
+                if($context == 'echo'){
+                    echo $data;
+                }else{
+                    return $data;
+                }
 
             }
         // ---------------------------------------------------------------------
@@ -543,6 +491,8 @@
                 $generic = new Generic();
                 $form_element = new FormElements();
                 $breed_list =  $generic -> getBreedList('','');
+                $species_list = $generic -> getSpeciesList();
+                $gender_list = $generic -> getGenderList();
                 $mothers_list =  $generic -> getMothersList('','');
                 $fathers_list =  $generic -> getFathersList('','');
                 echo "<div class='form_container add_livestock form_hide'>";
@@ -551,7 +501,7 @@
                             echo "<div>";
                                 $form_element -> input('required', '', '', false, '', '','');
                                 $form_element -> input('text', 'livestock_name', 'Name', true, 'required', 'Please enter a Name','');
-                                $form_element -> input('select', 'species', 'Species', true, 'required', 'Please select a species', $generic -> getSpeciesList());
+                                $form_element -> input('select', 'species', 'Species', true, 'required', 'Please select a species', $species_list);
                                 $form_element -> input('selectDisabled', 'breed', 'Breed', true, 'required', 'Please select a breed', $breed_list -> html);
                                 $form_element -> input('text', 'uk_tag_no', 'Tag', false, '', '','');
                                 $form_element -> input('textarea', 'origin', 'Origin', false, '', '','');
@@ -567,9 +517,50 @@
                             echo "</div>";
                         echo "<div>";
                             echo "<p class='form_blank'></p>";
-                            $form_element -> input('select', 'gender', 'Gender', true, 'required', 'Please select a gender', $generic -> getGenderList());
+                            $form_element -> input('select', 'gender', 'Gender', true, 'required', 'Please select a gender', $gender_list);
                             $form_element -> input('selectDisabled', 'mother', 'Mother', false, '', '', $mothers_list -> html);
                             $form_element -> input('selectDisabled', 'father', 'Father', false, '', '', $fathers_list -> html);
+                            $form_element -> input('checkbox', 'home_bred', 'Home bred', false, '', '','');
+                            $form_element -> input('checkbox', 'for_slaughter', 'For slaughter', false, '', '','');
+                        echo "</div>";
+                    echo "</form>";
+                echo "</div>";
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Edit livestock form ----------------------------------------------
+            public function form_editLivestock(){
+                $form_element = new FormElements();
+                $generic = new Generic();
+                $breed_list =  $generic -> getBreedList('','');
+                $mothers_list =  $generic -> getMothersList('','');
+                $fathers_list =  $generic -> getFathersList('','');
+                echo "<div class='form_container edit_livestock form_hide'>";
+                    echo "<h3>Edit livestock</h3>";
+                    echo "<form name='edit_livestock' class='col_3 js_form' data-action='edit_livestock'>";
+                            echo "<div>";
+                                $form_element -> input('hidden', 'id', 'id', false, '', '','');
+                                $form_element -> input('required', '', '', false, '', '','');
+                                $form_element -> input('text', 'livestock_name', 'Name', true, 'required', 'Please enter a Name','');
+                                $form_element -> input('select', 'species', 'Species', true, 'required', 'Please select a species', $generic -> getSpeciesList());
+                                $form_element -> input('select', 'breed', 'Breed', true, 'required', 'Please select a breed', $breed_list -> html);
+                                $form_element -> input('text', 'uk_tag_no', 'Tag', false, '', '','');
+                                $form_element -> input('textarea', 'origin', 'Origin', false, '', '','');
+                                $form_element -> input('submit', '', 'Edit Livestock', false, '', '','');
+                            echo "</div>";
+                            echo "<div>";
+                                echo "<p class='form_blank'></p>";
+                                $form_element -> input('date', 'date_of_birth', 'Date of birth', false, '', '','');
+                                $form_element -> input('date', 'date_of_death', 'Date of death', false, '', '','');
+                                $form_element -> input('date', 'date_of_sale', 'Date of sale', false, '', '','');
+                                $form_element -> input('text', 'pedigree_no', 'Pedigree number', false, '', '','');
+                                $form_element -> input('textarea', 'livestock_notes', 'Notes', false, '', '','');
+                            echo "</div>";
+                        echo "<div>";
+                            echo "<p class='form_blank'></p>";
+                            $form_element -> input('select', 'gender', 'Gender', true, 'required', 'Please select a gender', $generic -> getGenderList());
+                            $form_element -> input('select', 'mother', 'Mother', false, '', '', $mothers_list -> html);
+                            $form_element -> input('select', 'father', 'Father', false, '', '', $fathers_list -> html);
                             $form_element -> input('checkbox', 'home_bred', 'Home bred', false, '', '','');
                             $form_element -> input('checkbox', 'for_slaughter', 'For slaughter', false, '', '','');
                         echo "</div>";
@@ -626,7 +617,7 @@
                     $sql -> bindParam(':home_bred', $home_bred);
                     $sql -> bindParam(':origin', $origin);
                     $sql -> bindParam(':breed', $breed);
-                    $sql -> bindParam(':notes', $notes);
+                    $sql -> bindParam(':notes', $livestock_notes);
                     $sql -> execute();
                 $this -> disconnect();
 
@@ -641,35 +632,74 @@
             }
         // ---------------------------------------------------------------------
 
-        // -- Count all livestock ----------------------------------------------
-            // -- NOT USED -- //
-            // public function countLivestock($varient){
-            //     switch($varient){
-            //         case 'all':
-            //             $query = "SELECT COUNT(id) AS livestockCount FROM livestock WHERE deleted != 1";
-            //         break;
-            //         case 'alive':
-            //             $query = "SELECT COUNT(id) AS livestockCount FROM livestock WHERE deleted != 1 AND date_of_death IS null";
-            //         break;
-            //         case 'dead':
-            //             $query = "SELECT COUNT(id) AS livestockCount FROM livestock WHERE deleted != 1 AND date_of_death IS NOT null";
-            //         break;
-            //         case 'female':
-            //             $query = "SELECT COUNT(id) AS livestockCount FROM livestock WHERE deleted != 1 AND date_of_death IS null AND gender = 2";
-            //         break;
-            //         case 'male':
-            //             $query = "SELECT COUNT(id) AS livestockCount FROM livestock WHERE deleted != 1 AND date_of_death IS null AND gender = 1";
-            //         break;
-            //     }
-            //     $this -> connect();
-            //
-            //         $sql = self::$conn -> prepare($query);
-            //         $sql -> execute();
-            //         $row = $sql -> fetch();
-            //         return $row['livestockCount'];
-            //
-            //     $this -> disconnect();
-            // }
+        // -- Add livestock ----------------------------------------------------
+            public function sql_editLivestock($form_data){
+
+                $generic = new Generic();
+                $for_slaughter = $home_bred = 0;
+
+                foreach($form_data as $value){
+                    if( $value['name'] == 'id' ){ $id = $value['value']; }
+                    if( $value['name'] == 'species' ){ $species = $value['value']; }
+                    if( $value['name'] == 'livestock_name' ){ $livestock_name = $value['value']; }
+                    if( $value['name'] == 'gender' ){ $gender = $value['value']; }
+                    if( $value['name'] == 'uk_tag_no' ){ $uk_tag_no = $value['value']; }
+                    if( $value['name'] == 'for_slaughter' ){ $for_slaughter = $value['value']; }
+                    if( $value['name'] == 'pedigree_no' ){ $pedigree_no = $value['value']; }
+                    if( $value['name'] == 'date_of_birth' ){ $date_of_birth = $value['value']; }
+                    if( $value['name'] == 'date_of_sale' ){ $date_of_sale = $value['value']; }
+                    if( $value['name'] == 'date_of_death' ){ $date_of_death = $value['value']; }
+                    if( $value['name'] == 'mother' ){ $mother = $value['value']; }
+                    if( $value['name'] == 'father' ){ $father = $value['value']; }
+                    if( $value['name'] == 'home_bred' ){ $home_bred = $value['value']; }
+                    if( $value['name'] == 'origin' ){ $origin = $value['value']; }
+                    if( $value['name'] == 'breed' ){ $breed = $value['value']; }
+                    if( $value['name'] == 'livestock_notes' ){ $livestock_notes = $value['value']; }
+                };
+
+                $this -> connect();
+                    $query = "  UPDATE livestock
+                                SET species = :species,
+                                    livestock_name = :livestock_name,
+                                    gender = :gender,
+                                    uk_tag_no = :uk_tag_no,
+                                    for_slaughter = :for_slaughter,
+                                    pedigree_no = :pedigree_no,
+                                    date_of_birth = :date_of_birth,
+                                    date_of_sale = :date_of_sale,
+                                    date_of_death = :date_of_death,
+                                    mother = :mother,
+                                    father = :father,
+                                    home_bred = :home_bred,
+                                    origin = :origin,
+                                    breed = :breed,
+                                    notes = :notes
+                                WHERE id = :id";
+                    $sql = self::$conn -> prepare($query);
+                    $sql -> bindParam(':id', $id);
+                    $sql -> bindParam(':species', $species);
+                    $sql -> bindParam(':livestock_name', $livestock_name);
+                    $sql -> bindParam(':gender', $gender);
+                    $sql -> bindParam(':uk_tag_no', $uk_tag_no);
+                    $sql -> bindParam(':for_slaughter', $for_slaughter);
+                    $sql -> bindParam(':pedigree_no', $pedigree_no);
+                    $sql -> bindParam(':date_of_birth', $date_of_birth);
+                    $sql -> bindParam(':date_of_sale', $date_of_sale);
+                    $sql -> bindParam(':date_of_death', $date_of_death);
+                    $sql -> bindParam(':mother', $mother);
+                    $sql -> bindParam(':father', $father);
+                    $sql -> bindParam(':home_bred', $home_bred);
+                    $sql -> bindParam(':origin', $origin);
+                    $sql -> bindParam(':breed', $breed);
+                    $sql -> bindParam(':notes', $livestock_notes);
+                    $sql -> execute();
+                $this -> disconnect();
+
+                $output = new stdClass();
+                $output -> action = 'livestockEdited';
+                $output -> id = $id;
+                echo json_encode($output);
+            }
         // ---------------------------------------------------------------------
 
     }

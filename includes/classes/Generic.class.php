@@ -31,15 +31,14 @@
 
         // -- Get species list [select options] --------------------------------
             public function getSpeciesList(){
-                $query = "SELECT id AS value, species AS text FROM species ORDER BY species";
+                $query = "SELECT id, species FROM species ORDER BY species";
                 $this -> connect();
                     $sql = self::$conn -> prepare($query);
                     $sql -> execute();
-                    $results = array();
                     $output = '';
                     $output .= "<option value='null'>Please select a species</option>";
                     while( $row = $sql -> fetch(PDO::FETCH_NAMED)){
-                        $output .= "<option value='$row[value]'>$row[text]</option>";
+                        $output .= "<option value='$row[id]'>$row[species]</option>";
                     }
                     return $output;
                 $this -> disconnect();

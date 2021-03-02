@@ -21,6 +21,29 @@
             });
         // ---------------------------------------------------------------------
 
+        // -- Filter livestock -------------------------------------------------
+            $(document).on('submit', '.js_filter', function(e){
+                e.preventDefault();
+                var breed = $('select[name=breed_filter]').val();
+                var species = $('select[name=species_filter]').val();
+                var year = $('select[name=year_filter]').val();
+                $('.livestock_table').find('tr').each(function(i){
+                    $(this).show();
+                    var displayed_year = $(this).find('td:nth-child(3)').text();
+                    displayed_year = displayed_year.slice(0,4);
+                    if( breed != 'null' && $(this).find('td:nth-child(5)').text() != breed && i > 0){
+                        $(this).hide();
+                    }
+                    if( species != 'null' && $(this).find('td:nth-child(4)').text() != species && i > 0 ){
+                        $(this).hide();
+                    }
+                    if( year != 'null' && displayed_year != year && i > 0 ){
+                        $(this).hide();
+                    }
+                })
+            })
+        // ---------------------------------------------------------------------
+
         // -- Display forms ----------------------------------------------------
             $(document).on('click','.js_showForm',function(){
                 var form = '.' + $(this).data('form');
@@ -42,7 +65,6 @@
                 var table = $(this).data('table');
                 var payload = { id: id, table: table };
                 var apiUrl = hostname + 'data_get.php';
-
                 $.post(apiUrl,payload,function(data){
                     var returnedData = JSON.parse(data);
                     // -- Populate inputs and textareas --
@@ -61,6 +83,56 @@
                     });
                 });
             });
+        // ---------------------------------------------------------------------
+
+        // -- Display form on click 'edit' button ------------------------------
+            $(document).on('click','.js_edit_btn',function(){
+                var id = $(this).data('editid');
+                var type = $(this).data('edittype');
+                var form = '.' + $(this).data('form');
+                var payload = { id: id, table: type };
+                var apiUrl = hostname + 'data_get.php';
+                $.post(apiUrl,payload,function(data){
+                    var returnedData = JSON.parse(data);
+                    // -- Populate inputs and textareas --
+                        for( var key in returnedData){
+                            if( key == 'home_bred' || key == 'for_slaughter'){
+                                var input = form + ' [name=' + key + ']';
+                                if(returnedData[key] == 1){
+                                    $(input).prop('checked',true);
+                                }
+                            }else{
+                                var input = form + ' [name=' + key + ']';
+                                $(input).val(returnedData[key]);
+                            }
+                        }
+                        var payload = {
+                            species: returnedData.species,
+                            class_name: 'getBreeds',
+                            return_action: 'editLivestock_breedList'
+                        }
+                        callClass(payload,returnedData);
+                        var payload = {
+                            species: returnedData.species,
+                            class_name: 'getMothersList',
+                            return_action: 'editLivestock_motherList'
+                        }
+                        callClass(payload,returnedData);
+                        var payload = {
+                            species: returnedData.species,
+                            class_name: 'getFathersList',
+                            return_action: 'editLivestock_fatherList'
+                        }
+                        callClass(payload,returnedData);
+                    $('.js_edit_btn').fadeOut(300,function(){
+                        $(form).slideDown(500);
+                        $('body').animate({
+                            scrollTop: $(form).offset().top
+                        }, 500);
+                    });
+                });
+
+            })
         // ---------------------------------------------------------------------
 
         // -- Delete -----------------------------------------------------------
@@ -160,17 +232,27 @@
                         applySorting();
                         break;
                     case 'livestockAdded':
-                        // console.log("Livestock added");
-                        // console.log(returnedData);
-                        var newRow ="<tr><td class='left'>" + returnedData.uk_tag_no + "</td><td class='left'>"  + returnedData.livestock_name + "</td><td class='cen'>" + returnedData.date_of_birth + "</td><td class='left'>" + returnedData.species + "</td><td class='left'>" + returnedData.breed + "</td><td></td></tr>";
+                        var newRow = "<tr class='edited'><td class='left'>" + returnedData.uk_tag_no + "</td><td class='left'>" + returnedData.livestock_name + "</td><td class='cen'>" + returnedData.date_of_birth +"</td><td class='left'>" + returnedData.species + "</td><td class='left'>" + returnedData.breed + "</td><td></td></tr>";
                         $('.livestock_table').find('tr:first-child').after(newRow);
-                        $('.add_livestock').slideUp(500,function(){
-                            displayMessage("The new livestock has been added");
-                            $('form')[2].reset();
-                            $('.js_showForm').show();$('body').animate({
-                                scrollTop: $('body').offset().top
-                            }, 500);
-                        });
+                        $('form')[2].reset();
+                        displayMessage("Livestock edited");
+                        $('.add_livestock').slideUp();
+                        $('.js_showForm').show();
+                        setTimeout(function(){
+                            $('.edited').removeClass('edited');
+                        },7000);
+                        break;
+                    case 'livestockEdited':
+                        $('.edit_livestock').slideUp();
+                        $('.js_edit_btn').show();
+                        $('form')[0].reset();
+                        displayMessage("Livestock edited");
+                        var payload = {
+                            id: returnedData.id,
+                            class_name: 'livestockEdited',
+                            return_action: 'livestockEdited'
+                        }
+                        callClass(payload,'');
                         break;
                 }
             }
@@ -200,26 +282,26 @@
         // ---------------------------------------------------------------------
 
         // -- Add livestock ----------------------------------------------------
-            $(document).on('change', '.add_livestock select[name=species]', function(){
+            $(document).on('change', '.add_livestock select[name=species], .edit_livestock select[name=species]', function(){
                 var species = $(this).val();
                 var payload = {
                     species: $(this).val(),
                     class_name: 'getBreeds',
                     return_action: 'addLivestock_breedList'
                 }
-                callClass(payload);
+                callClass(payload,'');
                 var payload = {
                     species: $(this).val(),
                     class_name: 'getMothersList',
                     return_action: 'addLivestock_motherList'
                 }
-                callClass(payload);
+                callClass(payload,'');
                 var payload = {
                     species: $(this).val(),
                     class_name: 'getFathersList',
                     return_action: 'addLivestock_fatherList'
                 }
-                callClass(payload);
+                callClass(payload,'');
             })
         // ---------------------------------------------------------------------
     }
@@ -284,6 +366,53 @@ var general = function(){
 				var list = createSheepHTML(data, id);
 				$('.family_tree').html( '<ul>' + list + '</ul>' );
             })
+        }
+    // -------------------------------------------------------------------------
+
+    // -- Create livestock filters ---------------------------------------------
+        if($('.livestockFiltered').length != 0){
+            var table = $('.livestockFiltered');
+
+            var species_list = [];
+            var breed_list = [];
+            var dob_list = [];
+            var species_options = '';
+            var breed_options = '';
+            var dob_options = '';
+
+
+            table.find('tr').each(function(i){
+                if( i > 0 ){
+                    var species = $(this).find('td:nth-child(4)').text();
+                    var breed = $(this).find('td:nth-child(5)').text();
+                    var dobTemp = $(this).find('td:nth-child(3)').text();
+                    var dob = dobTemp.slice(0,4);
+                    if( species_list.indexOf(species) == -1 ){
+                        species_list.push( species );
+                    }
+                    if( breed_list.indexOf(breed) == -1 ){
+                        breed_list.push( breed );
+                    }
+                    if( dob_list.indexOf(dob) == -1 ){
+                        dob_list.push( dob );
+                    }
+                }
+            })
+
+            $.each(species_list, function(index, item){
+                species_options += '<option value="' + item + '">' + item + '</option>'
+            });
+            $.each(breed_list, function(index, item){
+                breed_options += '<option value="' + item + '">' + item + '</option>'
+            });
+            dob_list.sort().reverse();
+            $.each(dob_list, function(index, item){
+                dob_options += '<option value="' + item + '">' + item + '</option>'
+            });
+
+            $('select[name=species_filter]').append(species_options);
+            $('select[name=breed_filter]').append(breed_options);
+            $('select[name=year_filter]').append(dob_options);
         }
     // -------------------------------------------------------------------------
 
@@ -370,25 +499,40 @@ var general = function(){
 // -------------------------------------------------------------------------
 
 // -- Call a PHP class -----------------------------------------------------
-    function callClass(payload){
+    function callClass(payload, otherData){
         var apiUrl = hostname + 'call_class.php';
         $.post(apiUrl, payload, function(data){
-            processClassCall(data);
+            processClassCall(data, otherData);
         });
     }
-    function processClassCall(data){
+    function processClassCall(data, otherData){
         var returnedData = JSON.parse(data);
         var action = returnedData.returnAction;
         switch(returnedData.returnAction){
             case 'addLivestock_breedList':
                 $('select[name=breed]').empty().html(returnedData.html).attr('disabled',false);
-            break;
+                break;
             case 'addLivestock_motherList':
                 $('select[name=mother]').empty().html(returnedData.html).attr('disabled',false);
-            break;
+                break;
             case 'addLivestock_fatherList':
                 $('select[name=father]').empty().html(returnedData.html).attr('disabled',false);
-            break;
+                break;
+            case 'editLivestock_breedList':
+                $('select[name=breed]').empty().html(returnedData.html).val(otherData.breed);
+                break;
+            case 'editLivestock_motherList':
+                var mother = otherData.mother != '0' ? otherData.mother : 'null';
+                $('select[name=mother]').empty().html(returnedData.html).val(mother);
+                break;
+            case 'editLivestock_fatherList':
+                var father = otherData.father != '0' ? otherData.father : 'null';
+                $('select[name=father]').empty().html(returnedData.html).val(father);
+                break;
+            case 'livestockEdited':
+                $('.controls, .animalCard').remove();
+                $('content').prepend(returnedData.html);
+                break;
         }
     }
 // -------------------------------------------------------------------------

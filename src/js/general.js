@@ -13,7 +13,7 @@ var general = function(){
             }, 500);
         })
     // -------------------------------------------------------------------------
-    
+
     // -- View -----------------------------------------------------------------
         $(document).on('click','.js-view',function(){
             var id = $(this).data('id');
@@ -46,6 +46,53 @@ var general = function(){
 				var list = createSheepHTML(data, id);
 				$('.family_tree').html( '<ul>' + list + '</ul>' );
             })
+        }
+    // -------------------------------------------------------------------------
+
+    // -- Create livestock filters ---------------------------------------------
+        if($('.livestockFiltered').length != 0){
+            var table = $('.livestockFiltered');
+
+            var species_list = [];
+            var breed_list = [];
+            var dob_list = [];
+            var species_options = '';
+            var breed_options = '';
+            var dob_options = '';
+
+
+            table.find('tr').each(function(i){
+                if( i > 0 ){
+                    var species = $(this).find('td:nth-child(4)').text();
+                    var breed = $(this).find('td:nth-child(5)').text();
+                    var dobTemp = $(this).find('td:nth-child(3)').text();
+                    var dob = dobTemp.slice(0,4);
+                    if( species_list.indexOf(species) == -1 ){
+                        species_list.push( species );
+                    }
+                    if( breed_list.indexOf(breed) == -1 ){
+                        breed_list.push( breed );
+                    }
+                    if( dob_list.indexOf(dob) == -1 ){
+                        dob_list.push( dob );
+                    }
+                }
+            })
+
+            $.each(species_list, function(index, item){
+                species_options += '<option value="' + item + '">' + item + '</option>'
+            });
+            $.each(breed_list, function(index, item){
+                breed_options += '<option value="' + item + '">' + item + '</option>'
+            });
+            dob_list.sort().reverse();
+            $.each(dob_list, function(index, item){
+                dob_options += '<option value="' + item + '">' + item + '</option>'
+            });
+
+            $('select[name=species_filter]').append(species_options);
+            $('select[name=breed_filter]').append(breed_options);
+            $('select[name=year_filter]').append(dob_options);
         }
     // -------------------------------------------------------------------------
 
