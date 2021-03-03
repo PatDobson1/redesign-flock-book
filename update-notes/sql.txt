@@ -25,3 +25,8 @@ Sheep table
 breed Table
 
 - Column 'species' added - [int] [link to species table]
+
+diary table
+
+ - Table renamed 'sheep_diary' -> 'livestock_diary'
+ - Column 'sheep' renamed -> 'livestock'

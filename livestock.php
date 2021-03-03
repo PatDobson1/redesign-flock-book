@@ -9,6 +9,7 @@
 
     // -- Classes ---------------------------------------------------
         $livestock = new Livestock();
+        $diary = new Diary();
         $species = new Species();
         $breeds = new Breeds();
     // --------------------------------------------------------------
@@ -21,7 +22,7 @@
             $livestock -> siblingsCard($site_data, $_GET['id']);
             $livestock -> childrenCard($site_data, $_GET['id']);
             $livestock -> familyTree($site_data, $_GET['id']);
-            $livestock -> diaryCard($site_data, $_GET['id']);
+            $diary -> diaryCard($site_data, $_GET['id']);
         }else{
             echo "<p class='add_holder'>";
                 echo "<a class='js_showForm btn_island' data-form='add_livestock'>Add livestock</a>";

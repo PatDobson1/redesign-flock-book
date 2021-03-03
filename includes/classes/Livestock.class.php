@@ -116,34 +116,54 @@
         // ---------------------------------------------------------------------
 
         // -- Get livestock data -----------------------------------------------
-            public function sql_getLivestock($id){
+            public function sql_getLivestock($id, $returnType){
+
                 $this -> connect();
                     $query = "  SELECT * FROM livestock WHERE id = :id";
                     $sql = self::$conn -> prepare($query);
                     $sql -> bindParam(':id', $id);
                     $sql->execute();
-                $this -> disconnect();
-                $output = new stdClass();
-                if($row = $sql -> fetch(PDO::FETCH_NAMED)){
-                    $output -> id = $row['id'];
-                    $output -> livestock_name = $row['livestock_name'];
-                    $output -> species = $row['species'];
-                    $output -> breed = $row['breed'];
-                    $output -> uk_tag_no = $row['uk_tag_no'];
-                    $output -> origin = $row['origin'];
-                    $output -> date_of_birth = $row['date_of_birth'];
-                    $output -> date_of_death = $row['date_of_death'];
-                    $output -> date_of_sale = $row['date_of_sale'];
-                    $output -> pedigree_no = $row['pedigree_no'];
-                    $output -> notes = $row['notes'];
-                    $output -> gender = $row['gender'];
-                    $output -> mother = $row['mother'];
-                    $output -> father = $row['father'];
-                    $output -> home_bred = $row['home_bred'];
-                    $output -> for_slaughter = $row['for_slaughter'];
-                    $output -> context = 'editLivestock';
+                    $output = new stdClass();
+                    if($row = $sql -> fetch(PDO::FETCH_NAMED)){
+                        $output -> id = $row['id'];
+                        $output -> livestock_name = $row['livestock_name'];
+                        $output -> species = $row['species'];
+                        $output -> breed = $row['breed'];
+                        $output -> uk_tag_no = $row['uk_tag_no'];
+                        $output -> origin = $row['origin'];
+                        $output -> date_of_birth = $row['date_of_birth'];
+                        $output -> date_of_death = $row['date_of_death'];
+                        $output -> date_of_sale = $row['date_of_sale'];
+                        $output -> pedigree_no = $row['pedigree_no'];
+                        $output -> notes = $row['notes'];
+                        $output -> gender = $row['gender'];
+                        $output -> mother = $row['mother'];
+                        $output -> father = $row['father'];
+                        $output -> home_bred = $row['home_bred'];
+                        $output -> for_slaughter = $row['for_slaughter'];
+                        $output -> context = 'editLivestock';
+                    }
                     echo json_encode($output);
-                }
+                $this -> disconnect();
+
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Get livestock data -----------------------------------------------
+            public function sql_getLivestockRange($ids){
+
+                $this -> connect();
+                    $query = "  SELECT * FROM livestock WHERE id IN($ids)";
+                    $sql = self::$conn -> prepare($query);
+                    // $sql -> bindParam(':ids', $ids, PDO::PARAM_STR);
+                    $sql -> execute();
+                    $html = '';
+                    while($row = $sql -> fetch()){
+                        $html .= "<span>$row[livestock_name] ($row[uk_tag_no])</span>";
+                    }
+                $this -> disconnect();
+                return $html;
+
             }
         // ---------------------------------------------------------------------
 
@@ -460,14 +480,6 @@
 
                 echo json_encode($return);
 
-            }
-        // ---------------------------------------------------------------------
-
-        // -- Diary card -------------------------------------------------------
-            public function diaryCard($id){
-                echo "<div class='card'>";
-                echo "  <h2>Diary</h2>";
-                echo "</div>";
             }
         // ---------------------------------------------------------------------
 
