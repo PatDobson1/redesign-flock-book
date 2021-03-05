@@ -13,22 +13,9 @@
                             <li><a href='$site_data[site_root]/breeds'>View breeds</a></li>
                         </ul>
                     </li>
-                    <li class='dropdown'><a href='#'>Menu 2</a>
+                    <li class='dropdown'><a href='#'>Data</a>
                         <ul>
-                            <li><a href='#'>subMenu 1</a></li>
-                            <li><a href='#'>subMenu 2</a></li>
-                            <li><a href='#'>subMenu 3</a></li>
-                            <li><a href='#'>subMenu 4</a></li>
-                        </ul>
-                    </li>
-                    <li><a href='#'>Menu 3</a></li>
-                    <li><a href='#'>Menu 4</a></li>
-                    <li><a href='#'>Menu 5</a></li>
-                    <li class='dropdown'><a href='#'>Menu 6</a>
-                        <ul>
-                            <li><a href='#'>subMenu 1</a></li>
-                            <li><a href='#'>subMenu 2</a></li>
-                            <li><a href='#'>subMenu 3</a></li>
+                            <li><a href='$site_data[site_root]/feed'>Feed</a></li>
                         </ul>
                     </li>
                 </ul>
