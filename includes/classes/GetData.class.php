@@ -27,6 +27,9 @@
                         $livestock = new Livestock();
                         $livestock -> buildFamilyTree();
                         break;
+                    case 'supplier':
+                        $supplier = new Supplier();
+                        $supplier -> sql_getSupplier($id);
                 }
             }
         // ---------------------------------------------------------------------
@@ -35,6 +38,7 @@
             public function call_class($site_data, $payload){
                 $generic = new Generic();
                 $livestock = new Livestock();
+                $supplier = new Supplier();
                 switch($payload['class_name']){
                     case 'getBreeds':
                         $breeds_result = $generic -> getBreedList($payload['species'], $payload['return_action']);
@@ -53,7 +57,11 @@
                         $data = array('html' => $stockDetails, 'returnAction' => 'livestockEdited');
                         echo json_encode($data);
                         break;
-
+                    case 'supplierEdited':
+                        $supplierDetails = $supplier -> supplierCard($site_data, $payload['id'], 'return');
+                        $data = array('html' => $supplierDetails, 'returnAction' => 'supplierEdited');
+                        echo json_encode($data);
+                        break;
                 }
             }
         // ---------------------------------------------------------------------

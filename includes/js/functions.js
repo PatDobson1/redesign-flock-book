@@ -93,7 +93,7 @@
                 var payload = { id: id, table: type };
                 var apiUrl = hostname + 'data_get.php';
                 $.post(apiUrl,payload,function(data){
-                    var returnedData = JSON.parse(data);;
+                    var returnedData = JSON.parse(data);
                     // -- Populate inputs and textareas --
                         for( var key in returnedData){
                             if( key == 'home_bred' || key == 'for_slaughter'){
@@ -106,24 +106,26 @@
                                 $(input).val(returnedData[key]);
                             }
                         }
-                        var payload = {
-                            species: returnedData.species,
-                            class_name: 'getBreeds',
-                            return_action: 'editLivestock_breedList'
+                        if( type === 'livestock' ){
+                            var payload = {
+                                species: returnedData.species,
+                                class_name: 'getBreeds',
+                                return_action: 'editLivestock_breedList'
+                            }
+                            callClass(payload,returnedData);
+                            var payload = {
+                                species: returnedData.species,
+                                class_name: 'getMothersList',
+                                return_action: 'editLivestock_motherList'
+                            }
+                            callClass(payload,returnedData);
+                            var payload = {
+                                species: returnedData.species,
+                                class_name: 'getFathersList',
+                                return_action: 'editLivestock_fatherList'
+                            }
+                            callClass(payload,returnedData);
                         }
-                        callClass(payload,returnedData);
-                        var payload = {
-                            species: returnedData.species,
-                            class_name: 'getMothersList',
-                            return_action: 'editLivestock_motherList'
-                        }
-                        callClass(payload,returnedData);
-                        var payload = {
-                            species: returnedData.species,
-                            class_name: 'getFathersList',
-                            return_action: 'editLivestock_fatherList'
-                        }
-                        callClass(payload,returnedData);
                     $('.js_edit_btn').fadeOut(300,function(){
                         $(form).slideDown(500);
                         $('body').animate({
@@ -265,9 +267,27 @@
                         callClass(payload,'');
                         break;
                     case 'livestockDeleted':
-                        // displayMessage("Livestock deleted");
-                        // console.log(returnedData);
                         window.location.replace(returnedData.site_root + '/livestock?ld=true');
+                        break;
+                    case 'supplierAdded':
+                        $('.add_supplier').slideUp();
+                        $('.js_showForm').show();
+                        $('form')[0].reset();
+                        var newRow = '<tr data-id="4" class="js-view"><td class="left">' + returnedData.supplier_name + '</td><td class="left">' + returnedData.supplies + '</td><td class="left">' + returnedData.telephone + '</td><td class="cen">' + returnedData.email + '</td><td class="cen">' + returnedData.website + '</td><td></td></tr>';
+                        $('.suppliers_table').find('tr:first-child').after(newRow);
+                        displayMessage("Supplier added");
+                        break;
+                    case 'supplierEdited':
+                        $('.edit_supplier').slideUp();
+                        $('.js_edit_btn').show();
+                        $('form')[0].reset();
+                        displayMessage("Supplier edited");
+                        var payload = {
+                            id: returnedData.id,
+                            class_name: 'supplierEdited',
+                            return_action: 'supplierEdited'
+                        }
+                        callClass(payload,'');
                         break;
                 }
             }
@@ -372,6 +392,12 @@ var general = function(){
                 openModal('<h2>Quick view</h2>' + data);
             })
         })
+    // -------------------------------------------------------------------------
+
+    // -- Table links ----------------------------------------------------------
+        $(document).on('click','.tableLink',function(e){
+            e.stopPropagation();
+        });
     // -------------------------------------------------------------------------
 
     // -- Family tree ----------------------------------------------------------
@@ -552,6 +578,10 @@ var general = function(){
                 break;
             case 'livestockEdited':
                 $('.controls, .animalCard').remove();
+                $('content').prepend(returnedData.html);
+                break;
+            case 'supplierEdited':
+                $('.controls, .supplierCard').remove();
                 $('content').prepend(returnedData.html);
                 break;
         }

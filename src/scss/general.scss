@@ -200,6 +200,14 @@
                 text-decoration: underline;
             }
         }
+        &.tableLink{
+            display: inline-block;
+            text-decoration: none;
+            color: $font-colour;
+            padding: 2px 10px;
+            border: 1px solid $border-colour;
+            border-radius: $border-radius;
+        }
         &.right_aligned{
             display: inline-block;
             text-decoration: none;

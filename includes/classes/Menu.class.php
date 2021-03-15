@@ -15,6 +15,7 @@
                     </li>
                     <li class='dropdown'><a href='#'>Data</a>
                         <ul>
+                            <li><a href='$site_data[site_root]/suppliers'>Suppliers</a></li>
                             <li><a href='$site_data[site_root]/feed'>Feed</a></li>
                         </ul>
                     </li>

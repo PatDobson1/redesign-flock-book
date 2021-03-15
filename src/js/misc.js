@@ -113,6 +113,10 @@
                 $('.controls, .animalCard').remove();
                 $('content').prepend(returnedData.html);
                 break;
+            case 'supplierEdited':
+                $('.controls, .supplierCard').remove();
+                $('content').prepend(returnedData.html);
+                break;
         }
     }
 // -------------------------------------------------------------------------

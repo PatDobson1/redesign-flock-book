@@ -129,7 +129,7 @@
                 $data  = '';
                 $data .= "<p class='controls'>";
                     $data .= "<a href='$site_data[site_root]/feed' class='back'>Back to feed</a>";
-                    $data .= "<a class='right_aligned js_edit_btn' data-editid='$id' data-edittype='livestock' data-form='edit_livestock'>Edit livestock</a>";
+                    $data .= "<a class='right_aligned js_edit_btn' data-editid='$id' data-edittype='feed' data-form='edit_feed'>Edit feed</a>";
                 $data .= "</p>";
                 $data .= "<div class='card animalCard'>";
                 $data .= "  <h2>Feed details</h2>";
@@ -144,7 +144,7 @@
                 $data .= "      <div>";
                 $data .= "          <p><label>Batch number</label>$batch_number</p>";
                 $data .= "          <p><label>Cost per item</label>$cost_per_item</p>";
-                $data .= "          <p><label>Quanity</label>$quantity</p>";
+                $data .= "          <p><label>Quantity</label>$quantity</p>";
                 $data .= "          <p><label>Feed type</label>$feed_type</p>";
                 $data .= "          <p><label>Feed target</label>$feed_target</p>";
                 $data .= "      </div>";
@@ -156,6 +156,35 @@
 
                 echo $data;
 
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Add feed ---------------------------------------------------------
+            public function form_addFeed(){
+                $generic = new Generic();
+                $form_element = new FormElements();
+                echo "<div class='form_container add_feed form_hide'>";
+                    echo "<h3>Add feed</h3>";
+                    echo "<form name='add_feed' class='col_2 js_form' data-action='add_feed'>";
+                        // echo "<div class='col_2'>";
+                            echo "<div>";
+                                $form_element -> input('required', '', '', false, '', '','');
+                                $form_element -> input('text', 'product_name', 'Product name', true, 'required', 'Please enter a product name','');
+                                $form_element -> input('text', 'supplier', 'Supplier', true, 'required', 'Please enter a supplier','');
+                                $form_element -> input('date', 'purchase_date', 'Purchase date', false, '', '','');
+                                $form_element -> input('date', 'expiration_date', 'Expiration date', false, '', '','');
+                                $form_element -> input('date', 'finished_date', 'Finished date', false, '', '','');
+                            echo "</div>";
+                            echo "<div>";
+                                echo "<p class='form_blank'></p>";
+                                $form_element -> input('text', 'batch_number', 'Batch number', false, '', '','');
+                                $form_element -> input('text', 'cost_per_item', 'Cost per item', false, '', '','');
+                                $form_element -> input('text', 'quantity', 'Quantity', false, '', '','');
+                                $form_element -> input('text', 'feed_type', 'Feed type', false, '', '','');
+                                $form_element -> input('text', 'feed_target', 'Feed target', false, '', '','');
+                            echo "</div>";
+                        // echo "</div>";
+                echo "</div>";
             }
         // ---------------------------------------------------------------------
 

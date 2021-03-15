@@ -11,16 +11,18 @@
             display: block;
             padding: 0 0 5px 0;
             font-weight: 600;
+            font-size: 0.8em;
         }
         input,
         textarea,
         select{
             outline: none;
+            font-family: $body-font;
             border: 1px solid $border-colour;
             border-radius: $border-radius;
             padding: 10px;
             width: 90%;
-            font-size: 1em;
+            font-size: 0.8em;
             &:focus{
                 background-color: $form-focus;
             }

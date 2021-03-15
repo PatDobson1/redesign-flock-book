@@ -52,6 +52,15 @@
                             $search = new Search();
                             $search -> livestock_freeText($form_data);
                             break;
+                        // -- Suppliers --------------------------------------
+                        case 'add_supplier':
+                            $suppier = new Supplier();
+                            $suppier -> sql_addSupplier($form_data);
+                            break;
+                        case 'edit_supplier':
+                            $suppier = new Supplier();
+                            $suppier -> sql_editSupplier($form_data);
+                            break;
                 }
             }
         // ---------------------------------------------------------------------

@@ -18,7 +18,7 @@
                             <div class='overall'>
                                 <header>
                                     <inner>
-                                        <h1>$site_data[site_name] flockbook</h1>";
+                                        <h1>$site_data[site_name] StockBook</h1>";
                                         $menu -> mainMenu($site_data);
                                         $menu -> rightMenu($site_data);
                 echo "              </inner>
@@ -37,12 +37,12 @@
                         <footer>
                             <div class='col_3'>
                                 <div>
-                                    <p>All content &copy;$date Flock-book</p>
+                                    <p>All content &copy;$date Stock-Book</p>
                                 </div>
                                 <div>
                                     <p><a href='/terms'>Terms and conditions</a></p>
                                 </div>
-                                <div>For technical support contact <a href='mailto:admin@flock-book.uk'>admin@flock-book.uk</a></div>
+                                <div>Support contact <a href='mailto:admin@farmstockbook.co.uk'>admin@farmstockbook.co.uk</a></div>
                             </div>
                         </footer>
                     </div>

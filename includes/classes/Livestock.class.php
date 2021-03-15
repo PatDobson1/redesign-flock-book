@@ -116,7 +116,7 @@
         // ---------------------------------------------------------------------
 
         // -- Get livestock data -----------------------------------------------
-            public function sql_getLivestock($id, $returnType){
+            public function sql_getLivestock($id){
 
                 $this -> connect();
                     $query = "  SELECT * FROM livestock WHERE id = :id";
