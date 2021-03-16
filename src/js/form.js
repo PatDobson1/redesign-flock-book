@@ -170,6 +170,15 @@
                                          '</form>' +
                                          '<button class="js_closeModal btn_right" />Cancel</button>';
                     break;
+                    case 'supplier':
+                        $modal_content = '<h2>Delete supplier</h2>' +
+                                         '<p>Are you sure you want to delete this supplier?</p><p>Deleting is permanent and cannot be undone</p>' +
+                                         '<form class="js_form" data-action="delete_supplier">' +
+                                         '<input type="hidden" name="id" value="' + deleteid + '" />' +
+                                         '<input type="submit" value="Confirm" class="form_btn" />' +
+                                         '</form>' +
+                                         '<button class="js_closeModal btn_right" />Cancel</button>';
+                    break;
                 }
                 openModal($modal_content);
             })
@@ -288,6 +297,11 @@
                             return_action: 'supplierEdited'
                         }
                         callClass(payload,'');
+                        break;
+                    case 'supplierDeleted':
+                        var target = $('[data-id="' + returnedData.id + '"]');
+                        target.remove();
+                        displayMessage("Supplier deleted");
                         break;
                 }
             }

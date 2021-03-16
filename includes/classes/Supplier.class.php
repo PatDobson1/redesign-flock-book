@@ -34,13 +34,18 @@
                             $row['email'] = filter_var($row['email'], FILTER_VALIDATE_EMAIL) ? $row['email'] : null;
                             $email = $row['email'] ? "<a class='tableLink' href='mailto:$row[email]'>Email</a>" : "";
                         // -----------------------------------------------------
+                        // -- Create delete ------------------------------------
+                            $supplierCount = $this -> supplierCount($row['id']);
+                            $delete_cell = "<a class='js-delete delete_link' data-id='$row[id]' data-deletetype='supplier'>Delete</a>";
+                            $deleteRow = $supplierCount ? '' : $delete_cell;
+                        // -----------------------------------------------------
                         echo "<tr data-id='$row[id]' class='js-view'>
                                 <td class='left'>$row[supplier_name]</th>
                                 <td class='left'>$row[supplies]</td>
                                 <td class='left'>$row[telephone]</td>
                                 <td class='cen'>$email</td>
                                 <td class='cen'>$url</td>
-                                <td></td>
+                                <td>$deleteRow</td>
                             </tr>";
                     }
                     echo "</table>";
@@ -147,7 +152,7 @@
                         $data .= "<p class='fullWidth'><label>Notes:</label>$row[notes]</p>";
                     $data .= "</div>";
                 $data .= "</div>";
-                
+
                 if($context == 'echo'){
                     echo $data;
                 }else{
@@ -253,6 +258,54 @@
                 $output -> telephone = $telephone;
                 $output -> website = $website;
                 echo json_encode($output);
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Count suppliers --------------------------------------------------
+            public function supplierCount($supplier){
+
+                $this -> connect();
+                    // -- Count feed --
+                        $query = "  SELECT COUNT(supplier) AS supplierCount
+                                    FROM feed
+                                    WHERE supplier = :supplier";
+                        $sql = self::$conn -> prepare($query);
+                        $sql -> bindParam(":supplier", $supplier);
+                        $sql -> execute();
+                        $row = $sql -> fetch();
+                        $feedCount = $row['supplierCount'];
+                    // -- Count medicine --
+                        $query = "  SELECT COUNT(supplier) AS supplierCount
+                                    FROM medicine
+                                    WHERE supplier = :supplier";
+                        $sql = self::$conn -> prepare($query);
+                        $sql -> bindParam(":supplier", $supplier);
+                        $sql -> execute();
+                        $row = $sql -> fetch();
+                        $medicineCount = $row['supplierCount'];
+                $this -> disconnect();
+
+                $allCount = $feedCount + $medicineCount;
+                return $allCount;
+
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Delete supplier --------------------------------------------------
+            public function sql_deleteSupplier($form_data){
+
+                $id = $form_data[0]['value'];
+                $this -> connect();
+                    $query = "DELETE FROM supplier WHERE id = :id";
+                    $sql = self::$conn -> prepare($query);
+                    $sql -> bindParam(':id', $id);
+                    $sql -> execute();
+                    $output = new stdClass();
+                    $output -> action = 'supplierDeleted';
+                    $output -> id = $id;
+                    echo json_encode($output);
+                $this -> disconnect();
+
             }
         // ---------------------------------------------------------------------
 

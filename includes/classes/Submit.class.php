@@ -47,6 +47,10 @@
                             $livestock = new Livestock();
                             $livestock -> sql_deleteLivestock($form_data, $site_data);
                             break;
+                        case 'delete_supplier':
+                            $supplier = new Supplier();
+                            $supplier -> sql_deleteSupplier($form_data);
+                            break;
                         // -- Search -----------------------------------------
                         case 'search_livestock':
                             $search = new Search();
