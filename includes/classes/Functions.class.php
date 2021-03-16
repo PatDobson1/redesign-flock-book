@@ -5,8 +5,12 @@
         // -- Date format ------------------------------------------------------
             public function dateFormat($date){
 
-                $formatted_date = date_create($date);
-                return date_format( $formatted_date,"j F Y" );
+                if($date){
+                    $formatted_date = date_create($date);
+                    return date_format( $formatted_date,"j F Y" );
+                }else{
+                    return 'n/a';
+                }
 
             }
         // ---------------------------------------------------------------------

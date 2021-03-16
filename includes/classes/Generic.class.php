@@ -29,6 +29,19 @@
             }
         // ---------------------------------------------------------------------
 
+        // -- Get supplier based on id -----------------------------------------
+            public function getSupplier($id){
+                $query = "SELECT supplier_name FROM supplier WHERE :id = id";
+                $this -> connect();
+                    $sql = self::$conn -> prepare($query);
+                    $sql -> bindParam(':id', $id);
+                    $sql -> execute();
+                    $row = $sql -> fetch();
+                    return $row['supplier_name'];
+                $this -> disconnect();
+            }
+        // ---------------------------------------------------------------------
+
         // -- Get species list [select options] --------------------------------
             public function getSpeciesList(){
                 $query = "SELECT id, species FROM species ORDER BY species";
@@ -147,6 +160,22 @@
                     $output .= "<option value='null'>Please select a gender</option>";
                     while( $row = $sql -> fetch(PDO::FETCH_NAMED)){
                         $output .= "<option value='$row[value]'>$row[text]</option>";
+                    }
+                    return $output;
+                $this -> disconnect();
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Get suppliers list [select options] ------------------------------
+            public function getSuppliersList(){
+                $query = "SELECT id, supplier_name FROM supplier ORDER BY supplier_name";
+                $this -> connect();
+                    $sql = self::$conn -> prepare($query);
+                    $sql -> execute();
+                    $output = '';
+                    $output .= "<option value='null'>Please select a supplier</option>";
+                    while( $row = $sql -> fetch(PDO::FETCH_NAMED)){
+                        $output .= "<option value='$row[id]'>$row[supplier_name]</option>";
                     }
                     return $output;
                 $this -> disconnect();

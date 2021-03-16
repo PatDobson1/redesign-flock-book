@@ -184,125 +184,177 @@
             })
         // ---------------------------------------------------------------------
 
+        // -- Finished feed link -----------------------------------------------
+            $('.js-finish').on('click',function(e){
+                e.preventDefault();
+                var id = $(this).data('id');
+                $modal_content = '<h2>Mark feed as finished</h2>' +
+                                 '<p>Are you sure you want to mark this feed as finished?</p>' +
+                                 '<p>Finished date will be todays date.</p>' +
+                                 '<p>To set another date, please edit the feed.</p>' +
+                                 '<form class="js_form" data-action="finish_feed">' +
+                                 '<input type="hidden" name="id" value="' + id + '" />' +
+                                 '<input type="submit" value="Confirm" class="form_btn" />' +
+                                 '</form>' +
+                                 '<button class="js_closeModal btn_right" />Cancel</button>';
+                 openModal($modal_content);
+
+            })
+        // ---------------------------------------------------------------------
+
         // -- Process form submit ----------------------------------------------
             var processSubmit = function(data){
                 var returnedData = JSON.parse(data);
                 switch(returnedData.action){
-                    case 'speciesAdded':
-                        var newRow = "<tr><td class='left'>" + returnedData.name + "</td><td>0</td><td>0</td><td>0</td><td></td></tr>";
-                        $('.species_table').append(newRow);
-                        $('.add_species').slideUp(500,function(){
-                            displayMessage("The new species has been added");
-                            $('form')[0].reset();
-                            $('.js_showForm').show();
-                        });
-                        break;
-                    case 'speciesEdited':
-                        var target = $('[data-editid="' + returnedData.id + '"]');
-                        $('.edit_species').slideUp(500,function(){
-                            target.find('td:first-child').html(returnedData.species);
-                            target.addClass('edited');
-                            displayMessage("Species edited");
-                            $('form')[0].reset();
+
+                    // -- Species ----------------------------------------------
+                        case 'speciesAdded':
+                            var newRow = "<tr><td class='left'>" + returnedData.name + "</td><td>0</td><td>0</td><td>0</td><td></td></tr>";
+                            $('.species_table').append(newRow);
+                            $('.add_species').slideUp(500,function(){
+                                displayMessage("The new species has been added");
+                                $('form')[0].reset();
+                                $('.js_showForm').show();
+                            });
+                            break;
+                        case 'speciesEdited':
+                            var target = $('[data-editid="' + returnedData.id + '"]');
+                            $('.edit_species').slideUp(500,function(){
+                                target.find('td:first-child').html(returnedData.species);
+                                target.addClass('edited');
+                                displayMessage("Species edited");
+                                $('form')[0].reset();
+                                $('.js_showForm').show();
+                                setTimeout(function(){
+                                    target.removeClass('edited');
+                                },7000);
+                            });
+                            break;
+                        case 'speciesDeleted':
+                            var target = $('[data-editid="' + returnedData.id + '"]');
+                            target.remove();
+                            displayMessage("Species deleted");
+                            break;
+                    // ---------------------------------------------------------
+
+                    // -- Breed ------------------------------------------------
+                        case 'breedAdded':
+                            var newRow ="<tr><td class='left'>" + returnedData.name + "</td><td class='left'>"  + returnedData.species + "</td><td>0</td><td>0</td><td>0</td><td></td></tr>";
+                            $('.simple_breed_table').append(newRow);
+                            $('.add_breed').slideUp(500,function(){
+                                displayMessage("The new breed has been added");
+                                $('form')[0].reset();
+                                $('.js_showForm').show();
+                            });
+                            break;
+                        case 'breedEdited':
+                            var target = $('[data-editid="' + returnedData.id + '"]');
+                            $('.edit_breed').slideUp(500,function(){
+                                target.find('td:first-child').html(returnedData.name);
+                                target.find('td:last-child').html(returnedData.species);
+                                target.addClass('edited');
+                                displayMessage("Breed edited");
+                                $('form')[0].reset();
+                                $('.js_showForm').show();
+                                setTimeout(function(){
+                                    target.removeClass('edited');
+                                },7000);
+                            });
+                            break;
+                        case 'breedDeleted':
+                            var target = $('[data-editid="' + returnedData.id + '"]');
+                            target.remove();
+                            displayMessage("Breed deleted");
+                            break;
+                    // ---------------------------------------------------------
+
+                    // -- Search -----------------------------------------------
+                        case 'livestockFreeTextSearch':
+                            $('.search_results').html(returnedData.html).slideDown();
+                            applySorting();
+                            break;
+                    // ---------------------------------------------------------
+
+                    // -- Livestock --------------------------------------------
+                        case 'livestockFiltered':
+                            $('.livestock_data').empty().append(returnedData.filter).append(returnedData.html);
+                            applySorting();
+                            break;
+                        case 'livestockAdded':
+                            var DOB = returnedData.date_of_birth == null ? '' : returnedData.date_of_birth;
+                            var newRow = "<tr class='edited'><td class='left'>" + returnedData.uk_tag_no + "</td><td class='left'>" + returnedData.livestock_name + "</td><td class='cen'>" + DOB +"</td><td class='left'>" + returnedData.species + "</td><td class='left'>" + returnedData.breed + "</td><td></td></tr>";
+                            $('.livestock_table').find('tr:first-child').after(newRow);
+                            $('form')[2].reset();
+                            displayMessage("Livestock edited");
+                            $('.add_livestock').slideUp();
                             $('.js_showForm').show();
                             setTimeout(function(){
-                                target.removeClass('edited');
+                                $('.edited').removeClass('edited');
                             },7000);
-                        });
-                        break;
-                    case 'speciesDeleted':
-                        var target = $('[data-editid="' + returnedData.id + '"]');
-                        target.remove();
-                        displayMessage("Species deleted");
-                        break;
-                    case 'breedAdded':
-                        var newRow ="<tr><td class='left'>" + returnedData.name + "</td><td class='left'>"  + returnedData.species + "</td><td>0</td><td>0</td><td>0</td><td></td></tr>";
-                        $('.simple_breed_table').append(newRow);
-                        $('.add_breed').slideUp(500,function(){
-                            displayMessage("The new breed has been added");
+                            break;
+                        case 'livestockEdited':
+                            $('.edit_livestock').slideUp();
+                            $('.js_edit_btn').show();
                             $('form')[0].reset();
+                            displayMessage("Livestock edited");
+                            var payload = {
+                                id: returnedData.id,
+                                class_name: 'livestockEdited',
+                                return_action: 'livestockEdited'
+                            }
+                            callClass(payload,'');
+                            break;
+                        case 'livestockDeleted':
+                            window.location.replace(returnedData.site_root + '/livestock?ld=true');
+                            break;
+                    // ---------------------------------------------------------
+
+                    // -- Supplier ---------------------------------------------
+                        case 'supplierAdded':
+                            $('.add_supplier').slideUp();
                             $('.js_showForm').show();
-                        });
-                        break;
-                    case 'breedEdited':
-                        var target = $('[data-editid="' + returnedData.id + '"]');
-                        $('.edit_breed').slideUp(500,function(){
-                            target.find('td:first-child').html(returnedData.name);
-                            target.find('td:last-child').html(returnedData.species);
-                            target.addClass('edited');
-                            displayMessage("Breed edited");
                             $('form')[0].reset();
+                            var newRow = '<tr><td class="left">' + returnedData.supplier_name + '</td><td class="left">' + returnedData.supplies + '</td><td class="left">' + returnedData.telephone + '</td><td class="cen">' + returnedData.email + '</td><td class="cen">' + returnedData.website + '</td><td></td></tr>';
+                            $('.suppliers_table').find('tr:first-child').after(newRow);
+                            displayMessage("Supplier added");
+                            break;
+                        case 'supplierEdited':
+                            $('.edit_supplier').slideUp();
+                            $('.js_edit_btn').show();
+                            $('form')[0].reset();
+                            displayMessage("Supplier edited");
+                            var payload = {
+                                id: returnedData.id,
+                                class_name: 'supplierEdited',
+                                return_action: 'supplierEdited'
+                            }
+                            callClass(payload,'');
+                            break;
+                        case 'supplierDeleted':
+                            var target = $('[data-id="' + returnedData.id + '"]');
+                            target.remove();
+                            displayMessage("Supplier deleted");
+                            break;
+                    // ---------------------------------------------------------
+
+                    // -- Feed -------------------------------------------------
+                        case 'feedAdded':
+                            $('.add_feed').slideUp();
                             $('.js_showForm').show();
-                            setTimeout(function(){
-                                target.removeClass('edited');
-                            },7000);
-                        });
-                        break;
-                    case 'breedDeleted':
-                        var target = $('[data-editid="' + returnedData.id + '"]');
-                        target.remove();
-                        displayMessage("Breed deleted");
-                        break;
-                    case 'livestockFreeTextSearch':
-                        $('.search_results').html(returnedData.html).slideDown();
-                        applySorting();
-                        break;
-                    case 'livestockFiltered':
-                        $('.livestock_data').empty().append(returnedData.filter).append(returnedData.html);
-                        applySorting();
-                        break;
-                    case 'livestockAdded':
-                        var DOB = returnedData.date_of_birth == null ? '' : returnedData.date_of_birth;
-                        var newRow = "<tr class='edited'><td class='left'>" + returnedData.uk_tag_no + "</td><td class='left'>" + returnedData.livestock_name + "</td><td class='cen'>" + DOB +"</td><td class='left'>" + returnedData.species + "</td><td class='left'>" + returnedData.breed + "</td><td></td></tr>";
-                        $('.livestock_table').find('tr:first-child').after(newRow);
-                        $('form')[2].reset();
-                        displayMessage("Livestock edited");
-                        $('.add_livestock').slideUp();
-                        $('.js_showForm').show();
-                        setTimeout(function(){
-                            $('.edited').removeClass('edited');
-                        },7000);
-                        break;
-                    case 'livestockEdited':
-                        $('.edit_livestock').slideUp();
-                        $('.js_edit_btn').show();
-                        $('form')[0].reset();
-                        displayMessage("Livestock edited");
-                        var payload = {
-                            id: returnedData.id,
-                            class_name: 'livestockEdited',
-                            return_action: 'livestockEdited'
-                        }
-                        callClass(payload,'');
-                        break;
-                    case 'livestockDeleted':
-                        window.location.replace(returnedData.site_root + '/livestock?ld=true');
-                        break;
-                    case 'supplierAdded':
-                        $('.add_supplier').slideUp();
-                        $('.js_showForm').show();
-                        $('form')[0].reset();
-                        var newRow = '<tr data-id="4" class="js-view"><td class="left">' + returnedData.supplier_name + '</td><td class="left">' + returnedData.supplies + '</td><td class="left">' + returnedData.telephone + '</td><td class="cen">' + returnedData.email + '</td><td class="cen">' + returnedData.website + '</td><td></td></tr>';
-                        $('.suppliers_table').find('tr:first-child').after(newRow);
-                        displayMessage("Supplier added");
-                        break;
-                    case 'supplierEdited':
-                        $('.edit_supplier').slideUp();
-                        $('.js_edit_btn').show();
-                        $('form')[0].reset();
-                        displayMessage("Supplier edited");
-                        var payload = {
-                            id: returnedData.id,
-                            class_name: 'supplierEdited',
-                            return_action: 'supplierEdited'
-                        }
-                        callClass(payload,'');
-                        break;
-                    case 'supplierDeleted':
-                        var target = $('[data-id="' + returnedData.id + '"]');
-                        target.remove();
-                        displayMessage("Supplier deleted");
-                        break;
+                            $('form')[0].reset();
+                            displayMessage("Feed added");
+                            var purchase_date = returnedData.purchase_date != null ? returnedData.purchase_date : '';
+                            var expiration_date = returnedData.expiration_date != null ? returnedData.expiration_date : '';
+                            var newRow = '<tr><td>' + returnedData.product_name + '</td><td>' + purchase_date + '</td><td>' + expiration_date + '</td><td>' + returnedData.batch_number +'</td><td></td></tr>';
+                            $('.feed_table').find('tr:first-child').after(newRow);
+                            break;
+                        case 'feedFinished':
+                            var target = $('[data-id="' + returnedData.id + '"]');
+                            target.remove();
+                            displayMessage("Feed marked as finished");
+                            break;
+                    // ---------------------------------------------------------
+
                 }
             }
         // ---------------------------------------------------------------------
