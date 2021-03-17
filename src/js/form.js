@@ -353,6 +353,17 @@
                             target.remove();
                             displayMessage("Feed marked as finished");
                             break;
+                        case 'feedEdited':
+                            $('.edit_feed').slideUp();
+                            $('.js_edit_btn').slideDown();
+                            displayMessage("Feed edited");
+                            var payload = {
+                                id: returnedData.id,
+                                class_name: 'feedEdited',
+                                return_action: 'feedEdited'
+                            }
+                            callClass(payload,'');
+                            break;
                     // ---------------------------------------------------------
 
                 }

@@ -250,13 +250,13 @@
                 $this -> disconnect();
 
                 $output = new stdClass();
-                $output -> action = 'supplierEdited';
-                $output -> id = $id;
-                $output -> supplier_name = $supplier_name;
-                $output -> supplies = $supplies;
-                $output -> email = $email;
-                $output -> telephone = $telephone;
-                $output -> website = $website;
+                    $output -> action = 'supplierEdited';
+                    $output -> id = $id;
+                    $output -> supplier_name = $supplier_name;
+                    $output -> supplies = $supplies;
+                    $output -> email = $email;
+                    $output -> telephone = $telephone;
+                    $output -> website = $website;
                 echo json_encode($output);
             }
         // ---------------------------------------------------------------------

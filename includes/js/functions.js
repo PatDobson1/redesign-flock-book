@@ -353,6 +353,17 @@
                             target.remove();
                             displayMessage("Feed marked as finished");
                             break;
+                        case 'feedEdited':
+                            $('.edit_feed').slideUp();
+                            $('.js_edit_btn').slideDown();
+                            displayMessage("Feed edited");
+                            var payload = {
+                                id: returnedData.id,
+                                class_name: 'feedEdited',
+                                return_action: 'feedEdited'
+                            }
+                            callClass(payload,'');
+                            break;
                     // ---------------------------------------------------------
 
                 }
@@ -650,26 +661,30 @@ var general = function(){
                 $('.controls, .supplierCard').remove();
                 $('content').prepend(returnedData.html);
                 break;
+            case 'feedEdited':
+                $('.controls, .feedCard').remove();
+                $('content').prepend(returnedData.html);
+                break;
         }
     }
 // -------------------------------------------------------------------------
 
 // -- Get URL parameters ---------------------------------------------------
-var getUrlParameter = function getUrlParameter(sParam) {
-    var sPageURL = window.location.search.substring(1),
-        sURLVariables = sPageURL.split('&'),
-        sParameterName,
-        i;
+    var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
 
-    for (i = 0; i < sURLVariables.length; i++) {
-        sParameterName = sURLVariables[i].split('=');
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
 
-        if (sParameterName[0] === sParam) {
-            return typeof sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            if (sParameterName[0] === sParam) {
+                return typeof sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
         }
-    }
-    return false;
-};
+        return false;
+    };
 // -------------------------------------------------------------------------
 
 /*!

@@ -85,6 +85,10 @@
                             $feed = new Feed();
                             $feed -> sql_markFeedFinshed($form_data);
                         break;
+                        case 'edit_feed':
+                            $feed = new Feed();
+                            $feed -> sql_editFeed($form_data);
+                        break;
                     // ---------------------------------------------------------
 
                 }

@@ -14,7 +14,8 @@
     // -- Content ---------------------------------------------------
 
         if( isset($_GET['id']) ){
-            $feed -> feedCard($site_data, $_GET['id']);
+            $feed -> feedCard($site_data, $_GET['id'], 'echo');
+            $feed -> form_editFeed();
         }else{
             echo "<p class='add_holder'>";
                 echo "<a class='js_showForm btn_island' data-form='add_feed'>Add feed</a>";

@@ -96,7 +96,7 @@
         // ---------------------------------------------------------------------
 
         // -- Feed card --------------------------------------------------------
-            public function feedCard($site_data, $id){
+            public function feedCard($site_data, $id, $returnType){
 
                 $functions = new Functions();
 
@@ -130,7 +130,7 @@
                     $data .= "<a href='$site_data[site_root]/feed' class='back'>Back to feed</a>";
                     $data .= "<a class='right_aligned js_edit_btn' data-editid='$id' data-edittype='feed' data-form='edit_feed'>Edit feed</a>";
                 $data .= "</p>";
-                $data .= "<div class='card animalCard'>";
+                $data .= "<div class='card feedCard'>";
                 $data .= "  <h2>Feed details</h2>";
                 $data .= "  <div class='col_2'>";
                 $data .= "      <div>";
@@ -153,7 +153,11 @@
                 $data.= "   </div>";
                 $data .= "</div>";
 
-                echo $data;
+                if( $returnType == 'echo' ){
+                    echo $data;
+                }else{
+                    return $data;
+                }
 
             }
         // ---------------------------------------------------------------------
@@ -248,6 +252,125 @@
                 $output = new stdClass();
                     $output -> action = 'feedFinished';
                     $output -> id = $id;
+                echo json_encode($output);
+
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Edit feed form ----------------------------------------------------
+            public function form_editFeed(){
+                $generic = new Generic();
+                $form_element = new FormElements();
+                $supplier_list =  $generic -> getSuppliersList('','');
+                echo "<div class='form_container edit_feed form_hide'>";
+                    echo "<h3>Add feed</h3>";
+                    echo "<form name='edit_feed' class='col_2 js_form' data-action='edit_feed'>";
+                        echo "<div>";
+                            $form_element -> input('required', '', '', false, '', '','');
+                            $form_element -> input('text', 'product_name', 'Product name', true, 'required', 'Please enter a product name','');
+                            $form_element -> input('select', 'supplier', 'Supplier', true, 'required', 'Please select a supplier', $supplier_list);
+                            $form_element -> input('date', 'purchase_date', 'Purchase date', false, '', '','');
+                            $form_element -> input('date', 'expiration_date', 'Expiration date', false, '', '','');
+                            $form_element -> input('date', 'finished_date', 'Finished date', false, '', '','');
+                            $form_element -> input('submit', '', 'Edit feed', false, '', '','');
+                        echo "</div>";
+                        echo "<div>";
+                            echo "<p class='form_blank'></p>";
+                            $form_element -> input('text', 'batch_number', 'Batch number', false, '', '','');
+                            $form_element -> input('text', 'cost_per_item', 'Cost per item', false, '', '','');
+                            $form_element -> input('text', 'quantity', 'Quantity', false, '', '','');
+                            $form_element -> input('text', 'feed_type', 'Feed type', false, '', '','');
+                            $form_element -> input('text', 'feed_target', 'Feed target', false, '', '','');
+                            $form_element -> input('hidden', 'id', 'id', false, '', '','');
+                        echo "</div>";
+                echo "</div>";
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Get feed ---------------------------------------------------------
+            public function sql_getFeed($id){
+
+                $this -> connect();
+
+                    $query = "SELECT * FROM feed WHERE id = :id";
+                    $sql = self::$conn -> prepare($query);
+                    $sql -> bindParam(':id', $id);
+                    $sql -> execute();
+                    $output = new stdClass();
+                    if($row = $sql -> fetch(PDO::FETCH_NAMED)){
+                        $output -> id = $id;
+                        $output -> product_name = $row['product_name'];
+                        $output -> supplier = $row['supplier'];
+                        $output -> purchase_date = $row['purchase_date'];
+                        $output -> expiration_date = $row['expiration_date'];
+                        $output -> finished_date = $row['finished_date'];
+                        $output -> batch_number = $row['batch_number'];
+                        $output -> cost_per_item = $row['cost_per_item'];
+                        $output -> quantity = $row['quantity'];
+                        $output -> feed_type = $row['feed_type'];
+                        $output -> feed_target = $row['feed_target'];
+                        $output -> context = 'editFeed';
+                    }
+                    echo json_encode($output);
+
+                $this -> disconnect();
+
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Edit feed --------------------------------------------------------
+            public function sql_editFeed($form_data){
+
+                $product_name = $form_data[0]['value'];
+                $supplier = $form_data[1]['value'];
+                $purchase_date = $form_data[2]['value'] ? $form_data[2]['value'] : null;
+                $expiration_date = $form_data[3]['value'] ? $form_data[3]['value'] : null;
+                $finished_date = $form_data[4]['value'] ? $form_data[4]['value'] : null;
+                $batch_number = $form_data[5]['value'];
+                $cost_per_item = $form_data[6]['value'];
+                $quantity = $form_data[7]['value'];
+                $feed_type = $form_data[8]['value'];
+                $feed_target = $form_data[9]['value'];
+                $id = $form_data[10]['value'];
+
+                $this -> connect();
+
+                    $query = "  UPDATE feed
+                                SET product_name = :product_name,
+                                    supplier = :supplier,
+                                    purchase_date = :purchase_date,
+                                    expiration_date = :expiration_date,
+                                    finished_date = :finished_date,
+                                    batch_number = :batch_number,
+                                    cost_per_item = :cost_per_item,
+                                    quantity = :quantity,
+                                    feed_type = :feed_type,
+                                    feed_target = :feed_target
+                                WHERE id = :id";
+
+                    $sql = self::$conn -> prepare($query);
+                    $sql -> bindParam(':id', $id);
+                    $sql -> bindParam(':product_name', $product_name);
+                    $sql -> bindParam(':supplier', $supplier);
+                    $sql -> bindParam(':purchase_date', $purchase_date);
+                    $sql -> bindParam(':expiration_date', $expiration_date);
+                    $sql -> bindParam(':finished_date', $finished_date);
+                    $sql -> bindParam(':batch_number', $batch_number);
+                    $sql -> bindParam(':cost_per_item', $cost_per_item);
+                    $sql -> bindParam(':quantity', $quantity);
+                    $sql -> bindParam(':feed_type', $feed_type);
+                    $sql -> bindParam(':feed_target', $feed_target);
+                    $sql -> execute();
+
+                $this -> disconnect();
+
+                $output = new stdClass();
+                    $output -> action = 'feedEdited';
+                    $output -> id = $id;
+                    $output -> product_name = $product_name;
+                    $output -> purchase_date = $purchase_date;
+                    $output -> expiration_date = $expiration_date;
+                    $output -> batch_number = $batch_number;
                 echo json_encode($output);
 
             }
