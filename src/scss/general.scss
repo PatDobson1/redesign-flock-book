@@ -327,6 +327,28 @@
         &_quickView{
             background-image: url('#{$site-root}/assets/img/quickView.svg');
         }
+        &_print{
+            cursor: pointer;
+            background-image: url('#{$site-root}/assets/img/printer.svg');
+            background-size: 25px;
+            background-repeat: no-repeat;
+            background-position: 10px 50%;
+            padding: 10px 10px 10px 45px;
+            &:hover{
+                background-image: url('#{$site-root}/assets/img/printer_white.svg');
+            }
+        }
+        &_logOut{
+            cursor: pointer;
+            background-image: url('#{$site-root}/assets/img/log_out.svg');
+            background-size: 20px;
+            background-repeat: no-repeat;
+            background-position: 10px 50%;
+            padding: 10px 10px 10px 45px;
+            &:hover{
+                background-image: url('#{$site-root}/assets/img/log_out_white.svg');
+            }
+        }
     }
 // --------------------------------------------------------------
 

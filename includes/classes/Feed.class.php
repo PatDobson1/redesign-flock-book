@@ -23,7 +23,7 @@
                                 <th class='delete_col no_sort'></th>
                             </tr>";
                     while( $row = $sql -> fetch() ){
-                        $finished_cell = "<a class='js-finish tableLink' data-id='$row[id]'>Finished</a>";
+                        $finished_cell = "<a class='js-finish tableLink' data-id='$row[id]' data-type='feed'>Finished</a>";
                         echo "<tr data-id='$row[id]' class='js-view'>
                                 <td>$row[product_name]</th>
                                 <td>$row[purchase_date]</td>
@@ -187,6 +187,7 @@
                             $form_element -> input('text', 'feed_type', 'Feed type', false, '', '','');
                             $form_element -> input('text', 'feed_target', 'Feed target', false, '', '','');
                         echo "</div>";
+                    echo "</form>";
                 echo "</div>";
             }
         // ---------------------------------------------------------------------
@@ -238,7 +239,7 @@
         // ---------------------------------------------------------------------
 
         // -- Mark feed finished -----------------------------------------------
-            public function sql_markFeedFinshed($form_data){
+            public function sql_markFeedFinished($form_data){
 
                 $id = $form_data[0]['value'];
 

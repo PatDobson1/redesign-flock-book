@@ -37,6 +37,9 @@
                         $feed = new Feed();
                         $feed -> sql_getFeed($id);
                         break;
+                    case 'medicine':
+                        $medicine = new Medicine();
+                        $medicine -> sql_getMedicine($id);
                 }
             }
         // ---------------------------------------------------------------------
@@ -47,6 +50,7 @@
                 $livestock = new Livestock();
                 $supplier = new Supplier();
                 $feed = new Feed();
+                $medicine = new Medicine();
                 switch($payload['class_name']){
                     case 'getBreeds':
                         $breeds_result = $generic -> getBreedList($payload['species'], $payload['return_action']);
@@ -73,6 +77,11 @@
                     case 'feedEdited':
                         $feedDetails = $feed -> feedCard($site_data, $payload['id'], 'return');
                         $data = array('html' => $feedDetails, 'returnAction' => 'feedEdited');
+                        echo json_encode($data);
+                    break;
+                    case 'medicineEdited':
+                        $medicineDetails = $medicine -> medicineCard($site_data, $payload['id'], 'return');
+                        $data = array('html' => $medicineDetails, 'returnAction' => 'medicineEdited');
                         echo json_encode($data);
                     break;
                 }

@@ -188,15 +188,28 @@
             $('.js-finish').on('click',function(e){
                 e.preventDefault();
                 var id = $(this).data('id');
-                $modal_content = '<h2>Mark feed as finished</h2>' +
-                                 '<p>Are you sure you want to mark this feed as finished?</p>' +
-                                 '<p>Finished date will be todays date.</p>' +
-                                 '<p>To set another date, please edit the feed.</p>' +
-                                 '<form class="js_form" data-action="finish_feed">' +
-                                 '<input type="hidden" name="id" value="' + id + '" />' +
-                                 '<input type="submit" value="Confirm" class="form_btn" />' +
-                                 '</form>' +
-                                 '<button class="js_closeModal btn_right" />Cancel</button>';
+                var type = $(this).data('type');
+                if( type == 'feed' ){
+                    $modal_content = '<h2>Mark feed as finished</h2>' +
+                                     '<p>Are you sure you want to mark this feed as finished?</p>' +
+                                     '<p>Finished date will be todays date.</p>' +
+                                     '<p>To set another date, please edit the feed.</p>' +
+                                     '<form class="js_form" data-action="finish_feed">' +
+                                     '<input type="hidden" name="id" value="' + id + '" />' +
+                                     '<input type="submit" value="Confirm" class="form_btn" />' +
+                                     '</form>' +
+                                     '<button class="js_closeModal btn_right" />Cancel</button>';
+                 }else if( type == 'medicine' ){
+                     $modal_content = '<h2>Mark medicine as finished</h2>' +
+                                      '<p>Are you sure you want to mark this medicine as finished?</p>' +
+                                      '<p>Finished date will be todays date.</p>' +
+                                      '<p>To set another date, please edit the medicine.</p>' +
+                                      '<form class="js_form" data-action="finish_medicine">' +
+                                      '<input type="hidden" name="id" value="' + id + '" />' +
+                                      '<input type="submit" value="Confirm" class="form_btn" />' +
+                                      '</form>' +
+                                      '<button class="js_closeModal btn_right" />Cancel</button>';
+                 }
                  openModal($modal_content);
 
             })
@@ -216,7 +229,7 @@
                                 $('form')[0].reset();
                                 $('.js_showForm').show();
                             });
-                            break;
+                        break;
                         case 'speciesEdited':
                             var target = $('[data-editid="' + returnedData.id + '"]');
                             $('.edit_species').slideUp(500,function(){
@@ -229,12 +242,12 @@
                                     target.removeClass('edited');
                                 },7000);
                             });
-                            break;
+                        break;
                         case 'speciesDeleted':
                             var target = $('[data-editid="' + returnedData.id + '"]');
                             target.remove();
                             displayMessage("Species deleted");
-                            break;
+                        break;
                     // ---------------------------------------------------------
 
                     // -- Breed ------------------------------------------------
@@ -246,7 +259,7 @@
                                 $('form')[0].reset();
                                 $('.js_showForm').show();
                             });
-                            break;
+                        break;
                         case 'breedEdited':
                             var target = $('[data-editid="' + returnedData.id + '"]');
                             $('.edit_breed').slideUp(500,function(){
@@ -260,26 +273,26 @@
                                     target.removeClass('edited');
                                 },7000);
                             });
-                            break;
+                        break;
                         case 'breedDeleted':
                             var target = $('[data-editid="' + returnedData.id + '"]');
                             target.remove();
                             displayMessage("Breed deleted");
-                            break;
+                        break;
                     // ---------------------------------------------------------
 
                     // -- Search -----------------------------------------------
                         case 'livestockFreeTextSearch':
                             $('.search_results').html(returnedData.html).slideDown();
                             applySorting();
-                            break;
+                        break;
                     // ---------------------------------------------------------
 
                     // -- Livestock --------------------------------------------
                         case 'livestockFiltered':
                             $('.livestock_data').empty().append(returnedData.filter).append(returnedData.html);
                             applySorting();
-                            break;
+                        break;
                         case 'livestockAdded':
                             var DOB = returnedData.date_of_birth == null ? '' : returnedData.date_of_birth;
                             var newRow = "<tr class='edited'><td class='left'>" + returnedData.uk_tag_no + "</td><td class='left'>" + returnedData.livestock_name + "</td><td class='cen'>" + DOB +"</td><td class='left'>" + returnedData.species + "</td><td class='left'>" + returnedData.breed + "</td><td></td></tr>";
@@ -291,7 +304,7 @@
                             setTimeout(function(){
                                 $('.edited').removeClass('edited');
                             },7000);
-                            break;
+                        break;
                         case 'livestockEdited':
                             $('.edit_livestock').slideUp();
                             $('.js_edit_btn').show();
@@ -303,10 +316,11 @@
                                 return_action: 'livestockEdited'
                             }
                             callClass(payload,'');
-                            break;
+                            var newRow = '<tr><td class="left">' + returnedData.supplier_name + '</td><td class="left">' + returnedData.supplies + '</td><td class="left">' + returnedData.telephone + '</td><td class="cen">' + returnedData.email + '</td><td class="cen">' + returnedData.website + '</td><td></td></tr>';
+                        break;
                         case 'livestockDeleted':
                             window.location.replace(returnedData.site_root + '/livestock?ld=true');
-                            break;
+                        break;
                     // ---------------------------------------------------------
 
                     // -- Supplier ---------------------------------------------
@@ -314,10 +328,9 @@
                             $('.add_supplier').slideUp();
                             $('.js_showForm').show();
                             $('form')[0].reset();
-                            var newRow = '<tr><td class="left">' + returnedData.supplier_name + '</td><td class="left">' + returnedData.supplies + '</td><td class="left">' + returnedData.telephone + '</td><td class="cen">' + returnedData.email + '</td><td class="cen">' + returnedData.website + '</td><td></td></tr>';
                             $('.suppliers_table').find('tr:first-child').after(newRow);
                             displayMessage("Supplier added");
-                            break;
+                        break;
                         case 'supplierEdited':
                             $('.edit_supplier').slideUp();
                             $('.js_edit_btn').show();
@@ -329,12 +342,12 @@
                                 return_action: 'supplierEdited'
                             }
                             callClass(payload,'');
-                            break;
+                        break;
                         case 'supplierDeleted':
                             var target = $('[data-id="' + returnedData.id + '"]');
                             target.remove();
                             displayMessage("Supplier deleted");
-                            break;
+                        break;
                     // ---------------------------------------------------------
 
                     // -- Feed -------------------------------------------------
@@ -347,12 +360,12 @@
                             var expiration_date = returnedData.expiration_date != null ? returnedData.expiration_date : '';
                             var newRow = '<tr><td>' + returnedData.product_name + '</td><td>' + purchase_date + '</td><td>' + expiration_date + '</td><td>' + returnedData.batch_number +'</td><td></td></tr>';
                             $('.feed_table').find('tr:first-child').after(newRow);
-                            break;
+                        break;
                         case 'feedFinished':
                             var target = $('[data-id="' + returnedData.id + '"]');
                             target.remove();
                             displayMessage("Feed marked as finished");
-                            break;
+                        break;
                         case 'feedEdited':
                             $('.edit_feed').slideUp();
                             $('.js_edit_btn').slideDown();
@@ -363,7 +376,37 @@
                                 return_action: 'feedEdited'
                             }
                             callClass(payload,'');
-                            break;
+                        break;
+                    // ---------------------------------------------------------
+
+                    // -- Medicine ---------------------------------------------
+                        case 'medicineAdded':
+                            $('.add_medicine').slideUp();
+                            $('.js_showForm').show();
+                            $('form')[0].reset();
+                            displayMessage("Medicine added");
+                            var purchase_date = returnedData.purchase_date != null ? returnedData.purchase_date : '';
+                            var expiry_date = returnedData.expiry_date != null ? returnedData.expiry_date : '';
+                            var newRow = '<tr><td>' + returnedData.medicine_name + '</td><td>' + purchase_date + '</td><td>' + expiry_date + '</td><td>' + returnedData.batch_number + '</td><td>' + returnedData.description + '</td><td></td></tr>';
+                            $('.medicine_table').find('tr:first-child').after(newRow);
+                        break;
+                        case 'medicineFinished':
+                            var target = $('[data-id="' + returnedData.id + '"]');
+                            target.remove();
+                            displayMessage("Medicine marked as finished");
+                        break;
+                        case 'medicineEdited':
+                            $('.edit_medicine').slideUp();
+                            $('.js_edit_btn').slideDown();
+                            displayMessage("Medicine edited");
+                            var payload = {
+                                id: returnedData.id,
+                                class_name: 'medicineEdited',
+                                return_action: 'medicineEdited'
+                            }
+                            callClass(payload,'');
+
+                        break;
                     // ---------------------------------------------------------
 
                 }
@@ -437,6 +480,12 @@ $(document).ready(function(){
 })
 
 var general = function(){
+
+    // -- Print ----------------------------------------------------------------
+        $('.js_print').on('click',function(e){
+            e.preventDefault();
+            window.print();
+        })
 
     // -- Modal close ----------------------------------------------------------
         $('.modalFade, .modal::before, .js_closeModal').on('click', function(){
@@ -635,36 +684,40 @@ var general = function(){
         switch(returnedData.returnAction){
             case 'addLivestock_breedList':
                 $('select[name=breed]').empty().html(returnedData.html).attr('disabled',false);
-                break;
+            break;
             case 'addLivestock_motherList':
                 $('select[name=mother]').empty().html(returnedData.html).attr('disabled',false);
-                break;
+            break;
             case 'addLivestock_fatherList':
                 $('select[name=father]').empty().html(returnedData.html).attr('disabled',false);
-                break;
+            break;
             case 'editLivestock_breedList':
                 $('select[name=breed]').empty().html(returnedData.html).val(otherData.breed);
-                break;
+            break;
             case 'editLivestock_motherList':
                 var mother = otherData.mother != '0' ? otherData.mother : 'null';
                 $('select[name=mother]').empty().html(returnedData.html).val(mother);
-                break;
+            break;
             case 'editLivestock_fatherList':
                 var father = otherData.father != '0' ? otherData.father : 'null';
                 $('select[name=father]').empty().html(returnedData.html).val(father);
-                break;
+            break;
             case 'livestockEdited':
                 $('.controls, .animalCard').remove();
                 $('content').prepend(returnedData.html);
-                break;
+            break;
             case 'supplierEdited':
                 $('.controls, .supplierCard').remove();
                 $('content').prepend(returnedData.html);
-                break;
+            break;
             case 'feedEdited':
                 $('.controls, .feedCard').remove();
                 $('content').prepend(returnedData.html);
-                break;
+            break;
+            case 'medicineEdited':
+                $('.controls, .medicineCard').remove();
+                $('content').prepend(returnedData.html);
+            break;
         }
     }
 // -------------------------------------------------------------------------

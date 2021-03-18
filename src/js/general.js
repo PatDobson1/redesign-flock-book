@@ -1,5 +1,11 @@
 var general = function(){
 
+    // -- Print ----------------------------------------------------------------
+        $('.js_print').on('click',function(e){
+            e.preventDefault();
+            window.print();
+        })
+
     // -- Modal close ----------------------------------------------------------
         $('.modalFade, .modal::before, .js_closeModal').on('click', function(){
             closeModal();
