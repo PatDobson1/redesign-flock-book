@@ -5,5 +5,6 @@ $(document).ready(function(){
     form_functions();
     pikaday();
     general();
+    tables();
 
 })

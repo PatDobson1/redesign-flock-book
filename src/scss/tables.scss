@@ -53,4 +53,42 @@ table{
             }
         }
     }
+    @media( max-width: 800px ){
+        display: none;
+    }
+}
+
+.mobile_table{
+    display: none;
+    tbody{
+        display: block;
+        border: 1px solid $border-colour;
+        margin: 10px 0;
+        &:nth-child(even) tr{
+            background-color: $table-stripe;
+        }
+    }
+    tr{
+        background-color: $white;
+        display: block;
+        &:nth-child(even){
+            background-color: $white;
+        }
+        td{
+            border: none;
+            text-align: left;
+            display: block;
+            span{
+                display: inline-block;
+                vertical-align: top;
+                font-weight: 700;
+                width: 120px;
+                padding-right: 20px;
+                text-align: right;
+            }
+        }
+    }
+    @media( max-width: 800px ){
+        display: table;
+    }
 }

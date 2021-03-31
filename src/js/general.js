@@ -4,7 +4,28 @@ var general = function(){
         $('.js_print').on('click',function(e){
             e.preventDefault();
             window.print();
+        });
+    // -------------------------------------------------------------------------
+
+    // -- Mobile menu ----------------------------------------------------------
+        $(document).on('click',function(){
+            if( $('.mobileMenu').hasClass('open') ){
+                $('.mobileMenu').animate({left: '-100%'}).removeClass('open');
+                $('.modalFade').hide();
+            }
         })
+        $(document).on('click','.menuTrigger',function(e){
+            e.stopPropagation();
+            if( $('.mobileMenu').hasClass('open') ){
+                $('.mobileMenu').animate({left: '-100%'}).removeClass('open');
+                $('.modalFade').hide();
+            }else{
+                $('.modalFade').show();
+                $('.mobileMenu').animate({left: 0}).addClass('open');
+            }
+
+        })
+    // -------------------------------------------------------------------------
 
     // -- Modal close ----------------------------------------------------------
         $('.modalFade, .modal::before, .js_closeModal').on('click', function(){

@@ -19,7 +19,8 @@
         .add_holder,
         .form_container,
         .js-filter,
-        .js-quickView{
+        .js-quickView,
+        .js-finish{
             display: none;
         }
         .card{
@@ -48,10 +49,13 @@
         display: none;
     }
 
-    .livestock_table{
+    .livestock_table,
+    .feed_table{
         tr{
-            td:last-child{
-                border: none;
+            td, th{
+                &:last-child{
+                    display: none;
+                }
             }
         }
     }

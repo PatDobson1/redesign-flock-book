@@ -27,13 +27,6 @@
         public function rightMenu($site_data){
             echo "<rightMenu>
                 <ul>
-                    <li class='dropdown'><a href='#'>Menu 1</a>
-                        <ul>
-                            <li><a href='#'>subMenu 1</a></li>
-                            <li><a href='#'>subMenu a bit long 2</a></li>
-                            <li><a href='#'>subMenu 3</a></li>
-                        </ul>
-                    </li>
                     <li><a href='#'>Menu 2</a></li>
                     <li class='dropdown'><a href='#'>Control</a>
                         <ul>
@@ -43,6 +36,26 @@
                     </li>
                 </ul>
             </rightMenu>";
+        }
+
+        public function mobileMenu($site_data){
+            echo "<a class='menuTrigger icon_menuTrigger'></a>
+                <div class='mobileMenu'>
+                    <ul>
+                        <li class='topLevel'><a href='$site_data[site_root]'>Dashboard</a></li>
+                        <li class='title'>Livestock</li>
+                        <li><a href='$site_data[site_root]/livestock'>View livestock</a></li>
+                        <li><a href='$site_data[site_root]/species'>View species</a></li>
+                        <li><a href='$site_data[site_root]/breeds'>View breeds</a></li>
+                        <li class='title'>Data</li>
+                        <li><a href='$site_data[site_root]/suppliers'>Suppliers</a></li>
+                        <li><a href='$site_data[site_root]/feed'>Feed</a></li>
+                        <li><a href='$site_data[site_root]/medicine'>Medicine</a></li>
+                        <li class='title'>Control</li>
+                        <li><a class='js_print icon_print'>Print</a></li>
+                        <li><a class='icon_logOut'>Log out</a></li>
+                    </ul>
+                </div>";
         }
 
     }

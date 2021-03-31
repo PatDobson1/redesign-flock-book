@@ -100,7 +100,7 @@
             padding: 10px 0 20px 50px;
             line-height: 1.2em;
         }
-        span{
+        > span{
             border: 1px solid $border-colour;
             border-radius: $border-radius;
             display: inline-block;
@@ -115,6 +115,7 @@
         font-family: $header-font;
         font-weight: 600;
         margin-bottom: 20px;
+        max-width: 90%;
     }
     h1{
         font-size: 2em;
@@ -268,6 +269,10 @@
             border-radius: $border-radius;
             left: calc(50% - 20%);
             top: 200px;
+            @media( max-width: 768px ){
+                width: 80%;
+                left: calc(50% - 40% );
+            }
             &:before{
                 content: '';
                 background: url('#{$site-root}/assets/img/cancel.svg');
@@ -286,7 +291,7 @@
                 border-bottom: 1px solid $border-colour
             }
             p{
-                padding: 0 0 0 15px;
+                padding: 0 15px;
                 font-size: 1.1em;
             }
             div{
@@ -348,6 +353,12 @@
             &:hover{
                 background-image: url('#{$site-root}/assets/img/log_out_white.svg');
             }
+        }
+        &_menuTrigger{
+            background-image: url('#{$site-root}/assets/img/menu.svg');
+            background-size: 30px;
+            background-repeat: no-repeat;
+            background-position: 50%;
         }
     }
 // --------------------------------------------------------------

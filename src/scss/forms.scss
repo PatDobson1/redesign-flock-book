@@ -150,14 +150,22 @@
             border-radius: $border-radius;
             background-color: $white;
             padding: 10px;
-            margin-right: 20px;
+            margin: 0 20px 10px 0;
             font-size: 1em;
             cursor: pointer;
             &:focus{
                 background-color: $form-focus;
             }
+            @media(max-width: 800px){
+                display: block;
+                width: 100%;
+            }
         }
         input[type=button]{
+            @media(max-width: 800px){
+                display: block;
+                width: auto;
+            }
             &:hover{
                 background-color: $form-focus;
             }

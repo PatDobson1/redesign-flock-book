@@ -21,6 +21,7 @@
                                         <h1>$site_data[site_name] StockBook</h1>";
                                         $menu -> mainMenu($site_data);
                                         $menu -> rightMenu($site_data);
+                                        $menu -> mobileMenu($site_data);
                 echo "              </inner>
                                 </header>
                                 <content>";

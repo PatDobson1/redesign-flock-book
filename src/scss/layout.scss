@@ -55,8 +55,9 @@
 // -- Flex ------------------------------------------------------
     .col_2{
         display: flex;
+        flex-wrap: wrap;
         div{
-            flex-basis: 50%;
+            flex-basis: 49%;
             &:first-child{
                 margin-right: 10px;
             }
@@ -69,9 +70,15 @@
                 width: 49%;
             }
         }
+        @media(max-width:1000px){
+            div{
+                flex-basis: 100%;
+            }
+        }
     }
     .col_3{
         display: flex;
+        flex-wrap: wrap;
         div{
             flex-basis: 33%;
             max-width: 33%;

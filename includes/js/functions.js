@@ -185,7 +185,7 @@
         // ---------------------------------------------------------------------
 
         // -- Finished feed link -----------------------------------------------
-            $('.js-finish').on('click',function(e){
+            $(document).on('click', '.js-finish', function(e){
                 e.preventDefault();
                 var id = $(this).data('id');
                 var type = $(this).data('type');
@@ -476,6 +476,7 @@ $(document).ready(function(){
     form_functions();
     pikaday();
     general();
+    tables();
 
 })
 
@@ -485,7 +486,28 @@ var general = function(){
         $('.js_print').on('click',function(e){
             e.preventDefault();
             window.print();
+        });
+    // -------------------------------------------------------------------------
+
+    // -- Mobile menu ----------------------------------------------------------
+        $(document).on('click',function(){
+            if( $('.mobileMenu').hasClass('open') ){
+                $('.mobileMenu').animate({left: '-100%'}).removeClass('open');
+                $('.modalFade').hide();
+            }
         })
+        $(document).on('click','.menuTrigger',function(e){
+            e.stopPropagation();
+            if( $('.mobileMenu').hasClass('open') ){
+                $('.mobileMenu').animate({left: '-100%'}).removeClass('open');
+                $('.modalFade').hide();
+            }else{
+                $('.modalFade').show();
+                $('.mobileMenu').animate({left: 0}).addClass('open');
+            }
+
+        })
+    // -------------------------------------------------------------------------
 
     // -- Modal close ----------------------------------------------------------
         $('.modalFade, .modal::before, .js_closeModal').on('click', function(){
@@ -2047,6 +2069,33 @@ var pikaday = function(){
 
         return Pikaday;
     }));
+
+}
+
+var tables = function(){
+
+    $(document).find('table').each(function(){
+
+        var newTable = '<table class="mobile_table">';
+        var cols = [];
+        var newRows = '';
+        $(this).find('tr').each(function(i){
+            if( i == 0 ){
+                $(this).find('th').each(function(){
+                    cols.push( $(this).text() );
+                })
+            }else{
+                var id = $(this).data('id');
+                newRows += '<tbody>';
+                    $(this).find('td').each(function(i){
+                        newRows += '<tr class="js-view" data-id="' + id  + '"><td>' + '<span>' + cols[i] + '</span>' + $(this).html()  + '</td></tr>';
+                    })
+                newRows += '</tbody>';
+            }
+        })
+        newTable += newRows + '</table>';
+        $(this).after(newTable);
+    });
 
 }
 

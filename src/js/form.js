@@ -185,7 +185,7 @@
         // ---------------------------------------------------------------------
 
         // -- Finished feed link -----------------------------------------------
-            $('.js-finish').on('click',function(e){
+            $(document).on('click', '.js-finish', function(e){
                 e.preventDefault();
                 var id = $(this).data('id');
                 var type = $(this).data('type');
