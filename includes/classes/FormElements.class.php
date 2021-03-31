@@ -48,7 +48,7 @@
                     break;
                 case 'control':
                     $input = "  <p class='form_control'>
-                                    <input type='submit' value='$text' /><input type='reset' value='Reset' />
+                                    <input type='submit' value='$text' />
                                 </p>";
                     break;
                 case 'submit':

@@ -177,7 +177,6 @@
                             $form_element -> input('date', 'purchase_date', 'Purchase date', false, '', '','');
                             $form_element -> input('date', 'expiration_date', 'Expiration date', false, '', '','');
                             $form_element -> input('date', 'finished_date', 'Finished date', false, '', '','');
-                            $form_element -> input('submit', '', 'Add feed', false, '', '','');
                         echo "</div>";
                         echo "<div>";
                             echo "<p class='form_blank'></p>";
@@ -186,6 +185,9 @@
                             $form_element -> input('text', 'quantity', 'Quantity', false, '', '','');
                             $form_element -> input('text', 'feed_type', 'Feed type', false, '', '','');
                             $form_element -> input('text', 'feed_target', 'Feed target', false, '', '','');
+                        echo "</div>";
+                        echo "<div class='fullWidth'>";
+                            $form_element -> input('submit', '', 'Add feed', false, '', '','');
                         echo "</div>";
                     echo "</form>";
                 echo "</div>";
@@ -273,7 +275,6 @@
                             $form_element -> input('date', 'purchase_date', 'Purchase date', false, '', '','');
                             $form_element -> input('date', 'expiration_date', 'Expiration date', false, '', '','');
                             $form_element -> input('date', 'finished_date', 'Finished date', false, '', '','');
-                            $form_element -> input('submit', '', 'Edit feed', false, '', '','');
                         echo "</div>";
                         echo "<div>";
                             echo "<p class='form_blank'></p>";
@@ -284,6 +285,10 @@
                             $form_element -> input('text', 'feed_target', 'Feed target', false, '', '','');
                             $form_element -> input('hidden', 'id', 'id', false, '', '','');
                         echo "</div>";
+                        echo "<div class='fullWidth'>";
+                            $form_element -> input('submit', '', 'Edit feed', false, '', '','');
+                        echo "</div>";
+                    echo "</form>";
                 echo "</div>";
             }
         // ---------------------------------------------------------------------

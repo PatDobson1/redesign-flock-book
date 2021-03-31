@@ -58,19 +58,13 @@
         flex-wrap: wrap;
         div{
             flex-basis: 49%;
-            &:first-child{
-                margin-right: 10px;
-            }
-            &:last-child{
-                margin-left: 10px;
-            }
         }
         + div{
             .form_control{
                 width: 49%;
             }
         }
-        @media(max-width:1000px){
+        @media(max-width:800px){
             div{
                 flex-basis: 100%;
             }
@@ -82,11 +76,17 @@
         div{
             flex-basis: 33%;
             max-width: 33%;
-            &:first-child{
-                margin-right: 10px;
-            }
-            &:last-child{
-                margin-left: 10px;
+            @media(max-width:800px){
+                flex-basis: 100%;
+                max-width: 100%;
+                input,
+                select{
+                    width: 100%;
+                }
+                textarea{
+                    max-width: 100%;
+                    min-width: 100%;
+                }
             }
         }
     }

@@ -130,7 +130,6 @@
                             $form_element -> input('date', 'purchase_date', 'Purchase date', true, 'required', 'Please enter a purchase date','');
                             $form_element -> input('date', 'expiry_date', 'Expiration date', false, '', '','');
                             $form_element -> input('date', 'finished_date', 'Finished date', false, '', '','');
-                            $form_element -> input('submit', '', 'Add medicine', false, '', '','');
                         echo "</div>";
                         echo "<div>";
                             echo "<p class='form_blank'></p>";
@@ -138,6 +137,9 @@
                             $form_element -> input('text', 'price', 'Price', false, '', '','');
                             $form_element -> input('text', 'quantity', 'Quantity', false, '', '','');
                             $form_element -> input('textarea', 'description', 'Description', false, '', '', '');
+                        echo "</div>";
+                        echo "<div class='fullWidth'>";
+                            $form_element -> input('submit', '', 'Add medicine', false, '', '','');
                         echo "</div>";
                     echo "</form>";
                 echo "</div>";
@@ -265,7 +267,6 @@
                             $form_element -> input('date', 'purchase_date', 'Purchase date', true, 'required', 'Please enter a purchase date','');
                             $form_element -> input('date', 'expiry_date', 'Expiration date', false, '', '','');
                             $form_element -> input('date', 'finished_date', 'Finished date', false, '', '','');
-                            $form_element -> input('submit', '', 'Edit medicine', false, '', '','');
                         echo "</div>";
                         echo "<div>";
                             echo "<p class='form_blank'></p>";
@@ -274,6 +275,9 @@
                             $form_element -> input('text', 'quantity', 'Quantity', false, '', '','');
                             $form_element -> input('textarea', 'description', 'Description', false, '', '', '');
                             $form_element -> input('hidden', 'id', 'id', false, '', '','');
+                        echo "</div>";
+                        echo "<div class='fullWidth'>";
+                            $form_element -> input('submit', '', 'Edit medicine', false, '', '','');
                         echo "</div>";
                     echo "</form>";
                 echo "</div>";

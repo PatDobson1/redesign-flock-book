@@ -527,7 +527,6 @@
                                 $form_element -> input('selectDisabled', 'breed', 'Breed', true, 'required', 'Please select a breed', $breed_list -> html);
                                 $form_element -> input('text', 'uk_tag_no', 'Tag', false, '', '','');
                                 $form_element -> input('textarea', 'origin', 'Origin', false, '', '','');
-                                $form_element -> input('submit', '', 'Add Livestock', false, '', '','');
                             echo "</div>";
                             echo "<div>";
                                 echo "<p class='form_blank'></p>";
@@ -544,6 +543,9 @@
                             $form_element -> input('selectDisabled', 'father', 'Father', false, '', '', $fathers_list -> html);
                             $form_element -> input('checkbox', 'home_bred', 'Home bred', false, '', '','');
                             $form_element -> input('checkbox', 'for_slaughter', 'For slaughter', false, '', '','');
+                        echo "</div>";
+                        echo "<div class='fullWidth'>";
+                            $form_element -> input('submit', '', 'Add Livestock', false, '', '','');
                         echo "</div>";
                     echo "</form>";
                 echo "</div>";
@@ -568,7 +570,6 @@
                                 $form_element -> input('select', 'breed', 'Breed', true, 'required', 'Please select a breed', $breed_list -> html);
                                 $form_element -> input('text', 'uk_tag_no', 'Tag', false, '', '','');
                                 $form_element -> input('textarea', 'origin', 'Origin', false, '', '','');
-                                $form_element -> input('submit', '', 'Edit Livestock', false, '', '','');
                             echo "</div>";
                             echo "<div>";
                                 echo "<p class='form_blank'></p>";
@@ -585,6 +586,9 @@
                             $form_element -> input('select', 'father', 'Father', false, '', '', $fathers_list -> html);
                             $form_element -> input('checkbox', 'home_bred', 'Home bred', false, '', '','');
                             $form_element -> input('checkbox', 'for_slaughter', 'For slaughter', false, '', '','');
+                        echo "</div>";
+                        echo "<div class='fullWidth'>";
+                            $form_element -> input('submit', '', 'Edit Livestock', false, '', '','');
                         echo "</div>";
                     echo "</form>";
                 echo "</div>";

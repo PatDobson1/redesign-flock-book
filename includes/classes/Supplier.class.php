@@ -67,13 +67,15 @@
                             $form_element -> input('text', 'supplies', 'Supplies', false, '', '','');
                             $form_element -> input('textarea', 'address', 'Address', false, '', '','');
                             $form_element -> input('text', 'telephone', 'Telephone', false, '', '','');
-                            $form_element -> input('submit', '', 'Add Supplier', false, '', '','');
                         echo "</div>";
                         echo "<div>";
                             echo "<p class='form_blank'></p>";
                             $form_element -> input('text', 'email', 'Email', false, '', '','');
                             $form_element -> input('text', 'website', 'Website', false, '', '','');
                             $form_element -> input('textarea', 'notes', 'Notes', false, '', '','');
+                        echo "</div>";
+                        echo "<div class='fullWidth'>";
+                            $form_element -> input('submit', '', 'Add Supplier', false, '', '','');
                         echo "</div>";
                     echo "</form>";
                 echo "</div>";
@@ -175,7 +177,6 @@
                             $form_element -> input('text', 'supplies', 'Supplies', false, '', '','');
                             $form_element -> input('textarea', 'address', 'Address', false, '', '','');
                             $form_element -> input('text', 'telephone', 'Telephone', false, '', '','');
-                            $form_element -> input('submit', '', 'Edit Supplier', false, '', '','');
                         echo "</div>";
                         echo "<div>";
                             echo "<p class='form_blank'></p>";
@@ -183,6 +184,9 @@
                             $form_element -> input('text', 'website', 'Website', false, '', '','');
                             $form_element -> input('textarea', 'notes', 'Notes', false, '', '','');
                             $form_element -> input('hidden', 'id', 'id', false, '', '','');
+                        echo "</div>";
+                        echo "<div class='fullWidth'>";
+                            $form_element -> input('submit', '', 'Edit Supplier', false, '', '','');
                         echo "</div>";
                     echo "</form>";
                 echo "</div>";

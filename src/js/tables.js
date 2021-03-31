@@ -11,10 +11,12 @@ var tables = function(){
                     cols.push( $(this).text() );
                 })
             }else{
-                var id = $(this).data('id');
+                var id_link = $(this).data('id') ? ' data-id="' + $(this).data('id') + '" ' : ' data-editid="' + $(this).data('editid') + '" ';
+                var species_or_breed = $(this).data('form') == 'edit_breed' ? 'breed' : 'species';
+                var edit_link = $(this).hasClass('js-view') ? ' class="js-view" ' : ' data-form="edit_' + species_or_breed + '" data-table="' + species_or_breed + '" class="js_edit" ';
                 newRows += '<tbody>';
                     $(this).find('td').each(function(i){
-                        newRows += '<tr class="js-view" data-id="' + id  + '"><td>' + '<span>' + cols[i] + '</span>' + $(this).html()  + '</td></tr>';
+                        newRows += '<tr' + edit_link + id_link + '><td>' + '<span>' + cols[i] + '</span>' + $(this).html()  + '</td></tr>';
                     })
                 newRows += '</tbody>';
             }
