@@ -140,13 +140,17 @@
         z-index: 101;
         width: 500px;
         text-align: center;
-        left: calc( 50% - 150px );
+        left: calc( 50% - 250px );
         top: -200px;
         box-shadow: 0 0 60px -15px $font-colour;
         font-size: 1.2em;
         color: white;
         font-weight: 600;
         line-height: 1.5em;
+        @media(max-width: 800px){
+            width: 250px;
+            left: calc( 50% - 125px );            
+        }
     }
 // --------------------------------------------------------------
 

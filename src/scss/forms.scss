@@ -55,10 +55,13 @@
                 cursor: pointer;
                 &[type=reset],
                 &[type=submit]{
-                    width: 40%;
+                    width: 50%;
                     background-color: $white;
                     &:hover{
                         background-color: $form-focus;
+                    }
+                    @media(max-width: 450px){
+                        width: 100%;
                     }
                 }
                 &:first-child{
