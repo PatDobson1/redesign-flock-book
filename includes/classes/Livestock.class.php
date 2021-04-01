@@ -150,16 +150,15 @@
         // ---------------------------------------------------------------------
 
         // -- Get livestock data -----------------------------------------------
-            public function sql_getLivestockRange($ids){
+            public function sql_getLivestockRange($ids, $site_data){
 
                 $this -> connect();
                     $query = "  SELECT * FROM livestock WHERE id IN($ids)";
                     $sql = self::$conn -> prepare($query);
-                    // $sql -> bindParam(':ids', $ids, PDO::PARAM_STR);
                     $sql -> execute();
                     $html = '';
                     while($row = $sql -> fetch()){
-                        $html .= "<span>$row[livestock_name] ($row[uk_tag_no])</span>";
+                        $html .= "<span><a href='$site_data[site_root]/livestock?id=$row[id]'>$row[livestock_name] ($row[uk_tag_no])</a><a class='icon icon_quickView js-quickView' data-id='$row[id]'></a></span>";
                     }
                 $this -> disconnect();
                 return $html;

@@ -1,0 +1,59 @@
+
+.diaryCard,
+.diaryCardSingle{
+    div{
+        padding: 20px;
+        margin-bottom: 20px;
+        border: 1px solid $light-border-colour;
+        border-radius: $border-radius;
+        position: relative;
+        display: flex;
+        cursor: pointer;
+        &:hover{
+            background-color: lighten($page-background-colour, 16%);
+        }
+        span{
+            flex-basis: calc( 97% - 90px );
+            line-height: 1.2em;
+            &:first-child{
+                flex-basis: 90px;
+                font-weight: 700;
+            }
+        }
+        .icon{
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+    }
+    .date{
+        width: 70px;
+        border: 1px solid $page-background-colour;
+        margin: 0;
+        padding: 0;
+        span{
+            display: block;
+            text-align: center;
+            padding: 2px;
+            color: $page-background-colour;
+            background-color: $white;
+            &:nth-child(2){
+                background-color: $page-background-colour;
+                color: $white;
+            }
+        }
+    }
+}
+.diaryCardSingle{
+    .date{
+        float: left;
+        margin: 0 20px 20px 0;
+    }
+    p.diaryNotes{
+        padding-left: 90px;
+    }
+    p:not(.diaryNotes){
+        clear: left;
+        outline: 1px dashed orange;
+    }
+}

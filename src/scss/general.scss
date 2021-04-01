@@ -109,6 +109,26 @@
             display: inline-block;
             padding: 5px;
             margin: 0 10px 10px 0;
+            min-width: 300px;
+            a{
+                text-decoration: none;
+                color: $font-colour;
+            }
+            .icon{
+                float: right;
+                margin: -2px 0 -2px 0;
+            }
+            &:hover{
+                color: $white;
+                background-color: $border-colour;
+            }
+            @media(max-width: 550px){
+                min-width: 100%;
+                .icon{
+                    float: none;
+                    margin-left: 10px;
+                }
+            }
         }
     }
 // --------------------------------------------------------------
@@ -149,7 +169,7 @@
         line-height: 1.5em;
         @media(max-width: 800px){
             width: 250px;
-            left: calc( 50% - 125px );            
+            left: calc( 50% - 125px );
         }
     }
 // --------------------------------------------------------------
