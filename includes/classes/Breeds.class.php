@@ -38,6 +38,46 @@
             }
         // ---------------------------------------------------------------------
 
+        // -- Single breed card ----------------------------------------------
+            public function singleBreedCard($site_data, $id, $context){
+
+                $this -> connect();
+                    $query = "SELECT * FROM breed WHERE id = :id";
+                    $sql = self::$conn -> prepare($query);
+                    $sql -> bindParam(':id', $id);
+                    $sql -> execute();
+                $this -> disconnect();
+
+                $row = $sql -> fetch();
+
+                $data = '';
+                $data .= "<p class='controls'>";
+                    $data .= "<a href='$site_data[site_root]/breeds' class='back'>Back to breeds</a>";
+                    $data .= "<a class='right_aligned js_edit_btn' data-editid='$id' data-edittype='breed' data-form='edit_breed'>Edit breed</a>";
+                $data .= "</p>";
+
+                $data .= "<div class='card breedCard'>";
+                    $data .= "<h2>Breed details</h2>";
+                    $data .= "<div class='col_2'>";
+                        $data .= "<div>";
+                            $data .= "<p><label>Breed name:</label>$row[breed_name]</p>";
+                            $data .= "<p><label>Species:</label>" . $this -> getSpecies($row['species']) . "</p>";
+                        $data.= "</div>";
+                    $data .= "</div>";
+                    $data .= "<div>";
+                        $data .= "<p class='fullWidth'><label>Notes:</label>$row[notes]</p>";
+                    $data .= "</div>";
+                $data .= "</div>";
+
+                if($context == 'echo'){
+                    echo $data;
+                }else{
+                    return $data;
+                }
+
+            }
+        // ---------------------------------------------------------------------
+
         // -- Simple breeds card ------------------------------------------------------
             public function breedCard($edit){
                 $query = "  SELECT *
@@ -56,7 +96,7 @@
                                     <th class='delete_col no_sort'></th>
                                 </tr>";
                     while( $row = $sql -> fetch() ){
-                        $data_tag = $edit ? "data-editid = '$row[id]' data-form='edit_breed' data-table='breed' class='js_edit'" : '';
+                        $data_tag = $edit ? "data-id = '$row[id]' class='js-view'" : '';
                         $species = $this -> getSpecies($row['species']);
                         $breedCount_female = $this -> countBreed($row['id'],2);
                         $breedCount_male = $this -> countBreed($row['id'],1);

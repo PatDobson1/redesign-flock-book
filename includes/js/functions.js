@@ -244,7 +244,7 @@
 
                     // -- Species ----------------------------------------------
                         case 'speciesAdded':
-                            var newRow = "<tr><td class='left'>" + returnedData.name + "</td><td>0</td><td>0</td><td>0</td><td></td></tr>";
+                            var newRow = "<tr><td class='left'>" + returnedData.name + "</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr>";
                             $('.species_table').append(newRow);
                             $('.add_species').slideUp(500,function(){
                                 displayMessage("The new species has been added");
@@ -253,20 +253,19 @@
                             });
                         break;
                         case 'speciesEdited':
-                            var target = $('[data-editid="' + returnedData.id + '"]');
-                            $('.edit_species').slideUp(500,function(){
-                                target.find('td:first-child').html(returnedData.species);
-                                target.addClass('edited');
-                                displayMessage("Species edited");
-                                $('form')[0].reset();
-                                $('.js_showForm').show();
-                                setTimeout(function(){
-                                    target.removeClass('edited');
-                                },7000);
-                            });
+                            $('.edit_species').slideUp();
+                            $('.js_edit_btn').show();
+                            $('form')[0].reset();
+                            displayMessage("Species edited");
+                            var payload = {
+                                id: returnedData.id,
+                                class_name: 'speciesEdited',
+                                return_action: 'speciesEdited'
+                            }
+                            callClass(payload,'');
                         break;
                         case 'speciesDeleted':
-                            var target = $('[data-editid="' + returnedData.id + '"]');
+                            var target = $('[data-id="' + returnedData.id + '"]');
                             target.remove();
                             displayMessage("Species deleted");
                         break;
@@ -283,18 +282,16 @@
                             });
                         break;
                         case 'breedEdited':
-                            var target = $('[data-editid="' + returnedData.id + '"]');
-                            $('.edit_breed').slideUp(500,function(){
-                                target.find('td:first-child').html(returnedData.name);
-                                target.find('td:last-child').html(returnedData.species);
-                                target.addClass('edited');
-                                displayMessage("Breed edited");
-                                $('form')[0].reset();
-                                $('.js_showForm').show();
-                                setTimeout(function(){
-                                    target.removeClass('edited');
-                                },7000);
-                            });
+                            $('.edit_breed').slideUp();
+                            $('.js_edit_btn').show();
+                            $('form')[0].reset();
+                            displayMessage("Breed edited");
+                            var payload = {
+                                id: returnedData.id,
+                                class_name: 'breedEdited',
+                                return_action: 'breedEdited'
+                            }
+                            callClass(payload,'');
                         break;
                         case 'breedDeleted':
                             var target = $('[data-editid="' + returnedData.id + '"]');
@@ -745,6 +742,14 @@ var general = function(){
             case 'editLivestock_fatherList':
                 var father = otherData.father != '0' ? otherData.father : 'null';
                 $('select[name=father]').empty().html(returnedData.html).val(father);
+            break;
+            case 'speciesEdited':
+                $('.controls, .speciesCard').remove();
+                $('content').prepend(returnedData.html);
+            break;
+            case 'breedEdited':
+                $('.controls, .breedCard').remove();
+                $('content').prepend(returnedData.html);
             break;
             case 'livestockEdited':
                 $('.controls, .animalCard').remove();
@@ -2096,30 +2101,32 @@ var pikaday = function(){
 
 var tables = function(){
 
-    $(document).find('table').each(function(){
+    // -- Create a mobile version of each table on the page --------------------
+        $(document).find('table').each(function(){
 
-        var newTable = '<table class="mobile_table">';
-        var cols = [];
-        var newRows = '';
-        $(this).find('tr').each(function(i){
-            if( i == 0 ){
-                $(this).find('th').each(function(){
-                    cols.push( $(this).text() );
-                })
-            }else{
-                var id_link = $(this).data('id') ? ' data-id="' + $(this).data('id') + '" ' : ' data-editid="' + $(this).data('editid') + '" ';
-                var species_or_breed = $(this).data('form') == 'edit_breed' ? 'breed' : 'species';
-                var edit_link = $(this).hasClass('js-view') ? ' class="js-view" ' : ' data-form="edit_' + species_or_breed + '" data-table="' + species_or_breed + '" class="js_edit" ';
-                newRows += '<tbody>';
-                    $(this).find('td').each(function(i){
-                        newRows += '<tr' + edit_link + id_link + '><td>' + '<span>' + cols[i] + '</span>' + $(this).html()  + '</td></tr>';
+            var newTable = '<table class="mobile_table">';
+            var cols = [];
+            var newRows = '';
+            $(this).find('tr').each(function(i){
+                if( i == 0 ){
+                    $(this).find('th').each(function(){
+                        cols.push( $(this).text() );
                     })
-                newRows += '</tbody>';
-            }
-        })
-        newTable += newRows + '</table>';
-        $(this).after(newTable);
-    });
+                }else{
+                    var id_link = $(this).data('id') ? ' data-id="' + $(this).data('id') + '" ' : ' data-editid="' + $(this).data('editid') + '" ';
+                    var species_or_breed = $(this).data('form') == 'edit_breed' ? 'breed' : 'species';
+                    var edit_link = $(this).hasClass('js-view') ? ' class="js-view" ' : ' data-form="edit_' + species_or_breed + '" data-table="' + species_or_breed + '" class="js_edit" ';
+                    newRows += '<tbody>';
+                        $(this).find('td').each(function(i){
+                            newRows += '<tr' + edit_link + id_link + '><td>' + '<span>' + cols[i] + '</span>' + $(this).html()  + '</td></tr>';
+                        })
+                    newRows += '</tbody>';
+                }
+            })
+            newTable += newRows + '</table>';
+            $(this).after(newTable);
+        });
+    // -------------------------------------------------------------------------
 
 }
 

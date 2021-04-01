@@ -13,15 +13,19 @@
 
     // -- Content ---------------------------------------------------
 
-        echo "<p class='add_holder'>";
-            echo "<a class='js_showForm btn_island' data-form='add_breed'>Add breed</a>";
-        echo "</p>";
-        echo "<div class='card'>";
-            echo "<h2>Breeds</h2>";
-            $breeds-> breedCard(true);
-        echo "</div>";
-        $breeds -> form_addBreed();
-        $breeds -> form_editBreed();
+        if( isset($_GET['id']) ){
+            $breeds -> singleBreedCard($site_data, $_GET['id'], 'echo');
+            $breeds -> form_editBreed();
+        }else{
+            echo "<p class='add_holder'>";
+                echo "<a class='js_showForm btn_island' data-form='add_breed'>Add breed</a>";
+            echo "</p>";
+            echo "<div class='card'>";
+                echo "<h2>Breeds</h2>";
+                $breeds-> breedCard(true);
+            echo "</div>";
+            $breeds -> form_addBreed();
+        }
 
     // --------------------------------------------------------------
 

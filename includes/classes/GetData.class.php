@@ -49,6 +49,8 @@
                 $generic = new Generic();
                 $livestock = new Livestock();
                 $supplier = new Supplier();
+                $species = new Species();
+                $breeds = new Breeds();
                 $feed = new Feed();
                 $medicine = new Medicine();
                 switch($payload['class_name']){
@@ -67,6 +69,16 @@
                     case 'livestockEdited';
                         $stockDetails = $livestock -> animalCard($site_data, $payload['id'], 'return');
                         $data = array('html' => $stockDetails, 'returnAction' => 'livestockEdited');
+                        echo json_encode($data);
+                    break;
+                    case 'speciesEdited':
+                        $speciesDetails = $species -> singleSpeciesCard($site_data, $payload['id'], 'return');
+                        $data = array('html' => $speciesDetails, 'returnAction' => 'speciesEdited');
+                        echo json_encode($data);
+                    break;
+                    case 'breedEdited':
+                        $breedDetails = $breeds -> singleBreedCard($site_data, $payload['id'], 'return');
+                        $data = array('html' => $breedDetails, 'returnAction' => 'breedEdited');
                         echo json_encode($data);
                     break;
                     case 'supplierEdited':

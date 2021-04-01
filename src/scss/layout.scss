@@ -58,6 +58,18 @@
         flex-wrap: wrap;
         div{
             flex-basis: 49%;
+            &:first-child{
+                margin-right: 10px;
+            }
+            &:last-child{
+                margin-left: 10px;
+            }
+            @media(max-width: 800px){
+                &:first-child,
+                &:last-child{
+                    margin: 0;
+                }
+            }
         }
         + div{
             .form_control{
@@ -76,7 +88,17 @@
         div{
             flex-basis: 33%;
             max-width: 33%;
+            &:first-child{
+                margin-right: 10px;
+            }
+            &:last-child{
+                margin-left: 10px;
+            }
             @media(max-width:800px){
+                &:first-child,
+                &:last-child{
+                    margin: 0;
+                }
                 flex-basis: 100%;
                 max-width: 100%;
                 input,

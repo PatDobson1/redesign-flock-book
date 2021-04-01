@@ -19,7 +19,7 @@
                                     $edit_col
                                 </tr>";
                                     while( $row = $sql -> fetch() ){
-                                        $data_tag = $edit ? "data-editid = '$row[id]' data-form='edit_species' data-table='species' class='js_edit'" : '';
+                                        $data_tag = $edit ? "data-id = '$row[id]' class='js-view'" : '';
                                         $livestockCount_male = $this -> countSpecies($row['id'],1);
                                         $livestockCount_female = $this -> countSpecies($row['id'],2);
                                         $livestockCount = $livestockCount_female + $livestockCount_male;
@@ -43,6 +43,45 @@
                                     }
                     echo "  </table>";
                 $this -> disconnect();
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Single species card ----------------------------------------------
+            public function singleSpeciesCard($site_data, $id, $context){
+
+                $this -> connect();
+                    $query = "SELECT * FROM species WHERE id = :id";
+                    $sql = self::$conn -> prepare($query);
+                    $sql -> bindParam(':id', $id);
+                    $sql -> execute();
+                $this -> disconnect();
+
+                $row = $sql -> fetch();
+
+                $data = '';
+                $data .= "<p class='controls'>";
+                    $data .= "<a href='$site_data[site_root]/species' class='back'>Back to species</a>";
+                    $data .= "<a class='right_aligned js_edit_btn' data-editid='$id' data-edittype='species' data-form='edit_species'>Edit species</a>";
+                $data .= "</p>";
+
+                $data .= "<div class='card speciesCard'>";
+                    $data .= "<h2>Species details</h2>";
+                    $data .= "<div class='col_2'>";
+                        $data .= "<div>";
+                            $data .= "<p><label>Species name:</label>$row[species]</p>";
+                        $data.= "</div>";
+                    $data .= "</div>";
+                    $data .= "<div>";
+                        $data .= "<p class='fullWidth'><label>Notes:</label>$row[notes]</p>";
+                    $data .= "</div>";
+                $data .= "</div>";
+
+                if($context == 'echo'){
+                    echo $data;
+                }else{
+                    return $data;
+                }
+
             }
         // ---------------------------------------------------------------------
 

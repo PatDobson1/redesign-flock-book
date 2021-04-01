@@ -13,15 +13,19 @@
 
     // -- Content ---------------------------------------------------
 
-        echo "<p class='add_holder'>";
-            echo "<a class='js_showForm btn_island' data-form='add_species'>Add species</a>";
-        echo "</p>";
-        echo "<div class='card'>";
-            echo "<h2>Species</h2>";
-            $species-> speciesCard(true);
-        echo "</div>";
-        $species -> form_addSpecies();
-        $species -> form_editSpecies();
+        if( isset($_GET['id']) ){
+            $species -> singleSpeciesCard($site_data, $_GET['id'], 'echo');
+            $species -> form_editSpecies();
+        }else{
+            echo "<p class='add_holder'>";
+                echo "<a class='js_showForm btn_island' data-form='add_species'>Add species</a>";
+            echo "</p>";
+            echo "<div class='card'>";
+                echo "<h2>Species</h2>";
+                $species-> speciesCard(true);
+            echo "</div>";
+            $species -> form_addSpecies();
+        }
 
     // --------------------------------------------------------------
 

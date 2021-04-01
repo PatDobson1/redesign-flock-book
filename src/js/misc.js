@@ -109,6 +109,14 @@
                 var father = otherData.father != '0' ? otherData.father : 'null';
                 $('select[name=father]').empty().html(returnedData.html).val(father);
             break;
+            case 'speciesEdited':
+                $('.controls, .speciesCard').remove();
+                $('content').prepend(returnedData.html);
+            break;
+            case 'breedEdited':
+                $('.controls, .breedCard').remove();
+                $('content').prepend(returnedData.html);
+            break;
             case 'livestockEdited':
                 $('.controls, .animalCard').remove();
                 $('content').prepend(returnedData.html);
