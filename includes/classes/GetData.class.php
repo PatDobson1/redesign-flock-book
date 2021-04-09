@@ -25,6 +25,10 @@
                         $livestock = new Livestock();
                         $livestock -> animalQuickView($site_data, $id);
                         break;
+                    case 'diaryQuickView':
+                        $diary = new Diary();
+                        $diary -> diaryQuickView($site_data, $id);
+                        break;
                     case 'familyTree':
                         $livestock = new Livestock();
                         $livestock -> buildFamilyTree();
@@ -40,6 +44,7 @@
                     case 'medicine':
                         $medicine = new Medicine();
                         $medicine -> sql_getMedicine($id);
+                        break;
                 }
             }
         // ---------------------------------------------------------------------

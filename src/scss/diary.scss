@@ -34,11 +34,11 @@
         span{
             display: block;
             text-align: center;
-            padding: 2px;
+            padding: 4px 2px;
             color: $page-background-colour;
             background-color: $white;
             &:nth-child(2){
-                background-color: $page-background-colour;
+                background-color: darken($page-background-colour, 10%);
                 color: $white;
             }
         }
@@ -49,11 +49,46 @@
         float: left;
         margin: 0 20px 20px 0;
     }
+    a{
+        text-decoration: none;
+        color: $font-colour;
+        &:hover{
+            text-decoration: underline;
+        }
+    }
     p.diaryNotes{
         padding-left: 90px;
     }
-    p:not(.diaryNotes){
+    section{
         clear: left;
-        outline: 1px dashed orange;
+        margin-bottom: 20px;
+        ul{
+            list-style-type: disc;
+            margin-left: 30px;
+            line-height: 1.5em;
+        }
+        &.livestock_details{
+            span{
+                display: inline-block;
+                position: relative;
+                border: 1px solid $border-colour;
+                border-radius: $border-radius;
+                padding: 5px 40px 5px 10px;
+                margin: 0 0 10px 10px;
+                a{
+                    text-decoration: none;
+                    color: $font-colour;
+                    &:hover{
+                        text-decoration: underline;
+                    }
+                }
+                a.icon{
+                    position: absolute;
+                    cursor: pointer;
+                    top: 3px;
+                    right: 5px;
+                }
+            }
+        }
     }
 }

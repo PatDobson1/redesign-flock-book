@@ -150,7 +150,7 @@
         // ---------------------------------------------------------------------
 
         // -- Get livestock data -----------------------------------------------
-            public function sql_getLivestockRange($ids, $site_data){
+            public function sql_getLivestockRange($ids, $site_data, $complexity){
 
                 $this -> connect();
                     $query = "  SELECT * FROM livestock WHERE id IN($ids)";
@@ -158,7 +158,13 @@
                     $sql -> execute();
                     $html = '';
                     while($row = $sql -> fetch()){
-                        $html .= "<span><a href='$site_data[site_root]/livestock?id=$row[id]'>$row[livestock_name] ($row[uk_tag_no])</a><a class='icon icon_quickView js-quickView' data-id='$row[id]'></a></span>";
+                        $description = $row['livestock_name'] ? $row['livestock_name'] . ' (' . $row['uk_tag_no'] .')' : $row['uk_tag_no'];
+                        if( $complexity == 'complex' ){
+                            $html .= "<span><a href='$site_data[site_root]/livestock?id=$row[id]'>$description</a><a class='icon icon_quickView js-quickView' data-id='$row[id]'></a></span>";
+                        }else{
+                            $html .= "<li>$description</li>";
+                        }
+
                     }
                 $this -> disconnect();
                 return $html;

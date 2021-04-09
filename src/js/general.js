@@ -58,6 +58,18 @@ var general = function(){
                 openModal('<h2>Quick view</h2>' + data);
             })
         })
+        $(document).on('click','.js-diaryQuickView',function(e){
+            e.stopPropagation();
+            var id = $(this).data('id');
+            var payload = { id: id, table: 'diaryQuickView' };
+            var apiUrl = hostname + 'data_get.php';
+            console.log(payload);
+            console.log(apiUrl);
+            $.post(apiUrl,payload,function(data){
+                console.log(data);
+                openModal('<h2>Quick view</h2>' + data);
+            })
+        })
     // -------------------------------------------------------------------------
 
     // -- Table links ----------------------------------------------------------
