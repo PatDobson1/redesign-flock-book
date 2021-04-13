@@ -484,6 +484,88 @@
                 displayMessage('Livestock deleted');
             }
         // ---------------------------------------------------------------------
+
+        // -- Livestock multiselect --------------------------------------------
+            jQuery(document).on('click','#livestockSource',function(){
+                var selected = jQuery(this).find('option:selected');
+                var option = selected.clone();
+                selected.remove();
+                jQuery('#livestockSelected').append(option);
+                sort();
+            })
+            jQuery(document).on('click','#livestockSelected',function(){
+                var selected = jQuery(this).find('option:selected');
+                var option = selected.clone();
+                jQuery('#livestockSource').append(option).prop('selected',true);
+                selected.remove();
+                sort();
+            })
+            jQuery(document).on('click','.addAll',function(){
+                var options = jQuery('#livestockSource option').sort().clone();
+                jQuery('#livestockSelected').append(options);
+                jQuery('#livestockSource option').remove();
+                sort();
+            })
+            jQuery(document).on('click','.removeAll',function(){
+                var options = jQuery('#livestockSelected option').sort().clone();
+                jQuery('#livestockSource').append(options);
+                jQuery('#livestockSelected option').remove();
+                sort();
+            })
+            // -- On submit, make sure #livestockSelected options are marked 'selected' --
+            jQuery(document).on('mousedown','form[name=add_diary] input[type=submit], form[name=edit_diary] input[type=submit]',function(){
+                var options = jQuery('#livestockSelected option');
+                for( var i=0; i<options.length; i++ ){
+                  options[i].selected = true;
+                }
+            })
+            // -- Sort multiselect on initial load --
+            if( $('#livestockSource').length != 0 ){
+                sort();
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Sort elements in a select box ------------------------------------
+            function sort(){
+                doSort('livestockSource');
+                doSort('livestockSelected');
+            }
+            function doSort(target){
+
+                var lb = document.getElementById(target);
+                arrTexts = [], arrValues = [], arrOldTexts = [];
+
+                for(i=0; i<lb.length; i++)
+                {
+                    arrTexts[i] = lb.options[i].text;
+                    arrValues[i] = lb.options[i].value;
+                    arrOldTexts[i] = lb.options[i].text;
+                }
+
+                arrTexts.sort(
+                  function (a, b) {
+                    var _a = a[0].toLowerCase();
+                    var _b = b[0].toLowerCase();
+                    if (_a < _b) return -1;
+                    if (_a > _b) return 1;
+                    return 0;
+                });
+
+                for(i=0; i<lb.length; i++)
+                {
+                    lb.options[i].text = arrTexts[i];
+                    for(j=0; j<lb.length; j++)
+                    {
+                        if (arrTexts[i] == arrOldTexts[j])
+                        {
+                            lb.options[i].value = arrValues[j];
+                            j = lb.length;
+                        }
+                    }
+                }
+            }
+        // ---------------------------------------------------------------------
+
     }
 
 // -----------------------------------------------------------------------------

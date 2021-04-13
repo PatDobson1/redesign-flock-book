@@ -296,6 +296,8 @@
             border-radius: $border-radius;
             left: calc(50% - 20%);
             top: 200px;
+            max-height: calc(100% - 400px);
+            overflow-y: auto;
             @media( max-width: 768px ){
                 width: 80%;
                 left: calc(50% - 40% );

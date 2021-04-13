@@ -31,7 +31,7 @@
                     echo "</details>";
                 }
             echo "</div>";
-            // $breeds -> form_addBreed();
+            $diary -> addDiaryEntry();
         }
 
     // --------------------------------------------------------------

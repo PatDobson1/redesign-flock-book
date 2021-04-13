@@ -2,7 +2,7 @@
 
     class Livestock extends Db{
 
-        // -- Get all livestock ------------------------------------------------
+        // -- Get all livestock (for multiselect) ------------------------------
             public function getAllLivestock(){
                 $limit = 10;
                 $this -> connect();
@@ -10,15 +10,16 @@
                                        breed.breed_name AS breed, species.species AS species
                                 FROM livestock
                                 INNER JOIN species ON species.id = livestock.species
-                                INNER JOIN breed ON breed.id = livestock.breed
-                                ORDER BY species, livestock_name";
+                                INNER JOIN breed ON breed.id = livestock.breed";
 
                     $sql = self::$conn -> prepare($query);
                     $sql->execute();
+                    $data = '';
                     while( $row = $sql -> fetch() ){
-                        echo "<p>[$row[species]] [$row[breed]] - <strong>$row[livestock_name]</strong> $row[uk_tag_no] [$row[date_of_sale]]</p>";
+                        $description = $row['livestock_name'] ? $row['livestock_name'] . ' (' . $row['uk_tag_no'] .')' : $row['uk_tag_no'];
+                        $data .= "<option>$description ($row[species] - $row[breed])</option>";
                     }
-                    echo "<p><em>Limited to $limit results</em></p>";
+                    return $data;
 
                 $this -> disconnect();
             }

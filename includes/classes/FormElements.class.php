@@ -65,6 +65,30 @@
 
         }
 
+        public function multiselect(){
+
+            $livestock = new Livestock();
+            $input = '';
+
+            $input .= "<div class='multiSelect'>";
+                $input .= "<p>";
+                    $input .= "<span>Livestock available</span>";
+                    $input .= "<select name='livestockSource[]' id='livestockSource' multiple size='10'>";
+                        $input .= $livestock -> getAllLivestock();
+                    $input .= "</select>";
+                    $input .= "<span class='addAll rightArrow'>Add all</span>";
+                $input .= "</p>";
+                $input .= "<p>";
+                    $input .= "<span>Livestock selected<span> *</span></span>";
+                    $input .= "<select name='livestockSelected[]' id='livestockSelected' multiple size='10' class='validate' data-validation='required' data-errormessage='Please select at least one animal'>";
+                    $input .= "</select>";
+                    $input .= "<span class='removeAll leftArrow'>Remove all</span>";
+                $input .= "</p>";
+            $input .= "</div>";
+
+            echo $input;
+        }
+
     }
 
 ?>

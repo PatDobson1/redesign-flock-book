@@ -147,7 +147,52 @@
                 }
             }
         }
-
+        .multiselect{
+            display: flex;
+            flex-direction: row;
+            p{
+                flex-basis: 47.4%;
+                span{
+                    font-weight: bold;
+                    font-size: 0.8em;
+                    margin: 0 0 10px 0;
+                    display: block;
+                    span{
+                        display: inline;
+                        vertical-align: top;
+                        font-weight: bold;
+                        color: $red;
+                        font-size: 1em;
+                    }
+                    &.error_message{
+                        font-weight: 400;
+                        padding: 5px 0;
+                        font-size: 0.9em;
+                    }
+                    &.addAll,
+                    &.removeAll{
+                        display: inline-block;
+                        margin: 10px 0 0 0;
+                        background-image: url('#{$site-root}/assets/img/right-chevron.svg');
+                        background-repeat: no-repeat;
+                        background-position: 100% 50%;
+                        background-size: 20px;
+                        padding: 0 25px 0 0;
+                        cursor: pointer;
+                        &:hover{
+                            text-decoration: underline;
+                        }
+                    }
+                    &.removeAll{
+                        background-image: url('#{$site-root}/assets/img/left-chevron.svg');
+                        background-position: 0 50%;
+                        padding: 0 0 0 25px;
+                        float: right;
+                        margin-right: 27px;
+                    }
+                }
+            }
+        }
     }
     .form_hide{
         display: none;

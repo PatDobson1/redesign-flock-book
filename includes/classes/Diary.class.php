@@ -110,73 +110,75 @@
             }
         // ---------------------------------------------------------------------
 
-        public function diaryQuickView($site_data, $id){
+        // -- Quick diary view -------------------------------------------------
+            public function diaryQuickView($site_data, $id){
 
-            $functions = new Functions();
+                $functions = new Functions();
 
-            $medicine_class = new Medicine();
-            $manual_treatment_class = new ManualTreatment();
-            $livestock_class = new Livestock();
+                $medicine_class = new Medicine();
+                $manual_treatment_class = new ManualTreatment();
+                $livestock_class = new Livestock();
 
-            $query = "SELECT * FROM livestock_diary WHERE id = :id";
-            $this -> connect();
-                $sql = self::$conn -> prepare($query);
-                $sql -> bindParam(':id', $id);
-                $sql -> execute();
-            $this -> disconnect();
+                $query = "SELECT * FROM livestock_diary WHERE id = :id";
+                $this -> connect();
+                    $sql = self::$conn -> prepare($query);
+                    $sql -> bindParam(':id', $id);
+                    $sql -> execute();
+                $this -> disconnect();
 
-            $row = $sql -> fetch();
+                $row = $sql -> fetch();
 
-            $entry_date = $functions -> cardDateFormat($row['entry_date']);
-            $livestock_details = $livestock_class -> sql_getLivestockRange($row['livestock'], $site_data, 'simple');
-            $medicine = explode(',', $row['medicine']);
-            $medicine_length = $row['medicine'] ? count($medicine) : 0;
-            $manual_treatment = explode(',',$row['manual_treatment']);
-            $manual_treatment_length = $row['manual_treatment'] ? count($manual_treatment) : 0;
+                $entry_date = $functions -> cardDateFormat($row['entry_date']);
+                $livestock_details = $livestock_class -> sql_getLivestockRange($row['livestock'], $site_data, 'simple');
+                $medicine = explode(',', $row['medicine']);
+                $medicine_length = $row['medicine'] ? count($medicine) : 0;
+                $manual_treatment = explode(',',$row['manual_treatment']);
+                $manual_treatment_length = $row['manual_treatment'] ? count($manual_treatment) : 0;
 
-            $data = '';
-            $data .= "<span>$entry_date</span>";
-            $data .= "<p class='diaryNotes'>$row[notes]</p>";
-            // -- Medicine ---------------------------------------------
-                if($medicine_length){
-                    $data .= "<section>";
-                        $data .= "<h3>Medicine</h3>";
-                        $data .=  "<ul>";
-                            foreach($medicine as $item){
-                                $medicine_detail = $medicine_class -> getMedicine($item);
-                                $medicine_description = $medicine_detail['description'] ? ($medicine_detail['description']) : '';
-                                $data .= "<li>$medicine_detail[medicine_name] $medicine_description</li>";
-                            };
-                        $data .= "</ul>";
-                    $data .= "</section>";
-                }
-            // ---------------------------------------------------------
-            // -- Manual treatment -------------------------------------
-                if($manual_treatment_length){
-                    $data .= "<section>";
-                        $data .= "<h3>Manual treatment</h3>";
+                $data = '';
+                $data .= "<span>$entry_date</span>";
+                $data .= "<p class='diaryNotes'>$row[notes]</p>";
+                // -- Medicine ---------------------------------------------
+                    if($medicine_length){
+                        $data .= "<section>";
+                            $data .= "<h3>Medicine</h3>";
+                            $data .=  "<ul>";
+                                foreach($medicine as $item){
+                                    $medicine_detail = $medicine_class -> getMedicine($item);
+                                    $medicine_description = $medicine_detail['description'] ? ($medicine_detail['description']) : '';
+                                    $data .= "<li>$medicine_detail[medicine_name] $medicine_description</li>";
+                                };
+                            $data .= "</ul>";
+                        $data .= "</section>";
+                    }
+                // ---------------------------------------------------------
+                // -- Manual treatment -------------------------------------
+                    if($manual_treatment_length){
+                        $data .= "<section>";
+                            $data .= "<h3>Manual treatment</h3>";
+                            $data .= "<ul>";
+                                foreach($manual_treatment as $item){
+                                    $manual_treatment_detail = $manual_treatment_class -> getManualTreatment($item);
+                                    $data .= "<li>$manual_treatment_detail[treatment_name]</li>";
+                                }
+                            $data .= "</ul>";
+                        $data .= "</section>";
+                    }
+                // ---------------------------------------------------------
+                // -- Livestock --------------------------------------------
+                    $data .= "<section class='livestock_details'>";
+                        $data .= "<h3>Livestock</h3>";
                         $data .= "<ul>";
-                            foreach($manual_treatment as $item){
-                                $manual_treatment_detail = $manual_treatment_class -> getManualTreatment($item);
-                                $data .= "<li>$manual_treatment_detail[treatment_name]</li>";
-                            }
+                            $data .=  $livestock_details;
                         $data .= "</ul>";
                     $data .= "</section>";
-                }
-            // ---------------------------------------------------------
-            // -- Livestock --------------------------------------------
-                $data .= "<section class='livestock_details'>";
-                    $data .= "<h3>Livestock</h3>";
-                    $data .= "<ul>";
-                        $data .=  $livestock_details;
-                    $data .= "</ul>";
-                $data .= "</section>";
-            // ---------------------------------------------------------
+                // ---------------------------------------------------------
 
-            echo $data;
+                echo $data;
 
+            }
+        // ---------------------------------------------------------------------
 
-        }
         // -- Diary card -------------------------------------------------------
             public function diaryCard($site_data, $id){
 
@@ -233,6 +235,27 @@
                     }
                 }
                 echo "</div>";
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Add diary entry --------------------------------------------------
+            public function addDiaryEntry(){
+
+                $form_element = new FormElements();
+                echo "<div class='form_container add_diary form_hide'>";
+                    echo "<h3>Add diary entry</h3>";
+                    echo "<form name='add_diary' class='col_2 js_form' data-action='add_diary'>";
+                        echo "<div>";
+                            $form_element -> input('required', '', '', false, '', '','');
+                            $form_element -> input('date', 'entry_date', 'Date', true, 'required', 'Please enter a Date','');
+                            $form_element -> input('hidden', 'entry_added_date', '', 'false', '', '', '');
+                            $form_element -> input('textarea', 'notes', 'Notes', false, '', '','');
+                            $form_element -> multiselect();
+                            $form_element -> input('submit', '', 'Add Diary entry', false, '', '','');
+                        echo "</div>";
+                    echo "</form>";
+                echo "</div>";
+
             }
         // ---------------------------------------------------------------------
 
