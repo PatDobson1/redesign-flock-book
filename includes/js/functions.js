@@ -148,6 +148,17 @@
                             }
                             callClass(payload,returnedData);
                         }
+                        if( type === 'diary' ){
+                            var livestock = returnedData.livestock.split(',');
+                            var medicine = returnedData.medicine.split(',');
+                            var manual_treatment = returnedData.manual_treatment.split(',');
+                            $('select[name=medicine]').val(medicine);
+                            $('select[name=manual_treatment]').val(manual_treatment);
+                            for( var i=0; i<livestock.length; i++ ){
+                                $('#livestockSource').find('option[value="' + livestock[i] + '"]').clone().appendTo('#livestockSelected');
+                                $('#livestockSource').find('option[value="' + livestock[i] + '"]').remove();
+                            }
+                        }
                     $('.js_edit_btn').fadeOut(300,function(){
                         $(form).slideDown(500);
                         $('body').animate({
@@ -425,6 +436,37 @@
                             }
                             callClass(payload,'');
 
+                        break;
+                    // ---------------------------------------------------------
+
+                    // -- Diary ------------------------------------------------
+                        case 'diaryAdded':
+                            $('.add_diary').slideUp();
+                            $('.js_showForm').show();
+                            $('form')[0].reset();
+                            $('#livestockSelected option').each(function(){
+                                $(this).clone().appendTo('#livestockSource');
+                                $(this).remove();
+                            });
+                            sort();
+                            displayMessage("Diary entry added");
+                        break;
+                        case 'diaryEdited':
+                            $('.edit_diary').slideUp();
+                            $('.js_edit_btn').show();
+                            $('#livestockSelected option').each(function(){
+                                $(this).clone().appendTo('#livestockSource');
+                                $(this).remove();
+                            });
+                            sort();
+                            $('form')[0].reset();
+                            displayMessage("Diary entry edited");
+                            var payload = {
+                                id: returnedData.id,
+                                class_name: 'diaryEdited',
+                                return_action: 'diaryEdited'
+                            }
+                            callClass(payload,'');
                         break;
                     // ---------------------------------------------------------
 
@@ -859,6 +901,10 @@ var general = function(){
             break;
             case 'medicineEdited':
                 $('.controls, .medicineCard').remove();
+                $('content').prepend(returnedData.html);
+            break;
+            case 'diaryEdited':
+                $('.controls, .diaryCardSingle').remove();
                 $('content').prepend(returnedData.html);
             break;
         }

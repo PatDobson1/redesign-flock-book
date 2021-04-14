@@ -4,6 +4,7 @@
 
         // -- Form submit ------------------------------------------------------
             public function submitForm($payload, $site_data){
+
                 $form_action = $payload['action'];
                 $form_data = $payload['formData'];
 
@@ -14,6 +15,7 @@
                 $suppier = new Supplier();
                 $feed = new Feed();
                 $medicine = new Medicine();
+                $diary = new Diary();
 
                 switch($form_action){
 
@@ -92,6 +94,15 @@
                         break;
                         case 'edit_medicine':
                             $medicine -> sql_editMedicine($form_data);
+                        break;
+                    // ---------------------------------------------------------
+
+                    // -- Diary ------------------------------------------------
+                        case 'add_diary':
+                            $diary -> sql_addDiary($form_data);
+                        break;
+                        case 'edit_diary':
+                            $diary -> sql_editDiary($form_data);
                         break;
                     // ---------------------------------------------------------
 

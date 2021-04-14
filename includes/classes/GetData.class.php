@@ -45,6 +45,10 @@
                         $medicine = new Medicine();
                         $medicine -> sql_getMedicine($id);
                         break;
+                    case 'diary':
+                        $diary = new Diary();
+                        $diary -> sql_getDiary($id);
+                        break;
                 }
             }
         // ---------------------------------------------------------------------
@@ -58,6 +62,8 @@
                 $breeds = new Breeds();
                 $feed = new Feed();
                 $medicine = new Medicine();
+                $diary = new Diary();
+                
                 switch($payload['class_name']){
                     case 'getBreeds':
                         $breeds_result = $generic -> getBreedList($payload['species'], $payload['return_action']);
@@ -99,6 +105,11 @@
                     case 'medicineEdited':
                         $medicineDetails = $medicine -> medicineCard($site_data, $payload['id'], 'return');
                         $data = array('html' => $medicineDetails, 'returnAction' => 'medicineEdited');
+                        echo json_encode($data);
+                    break;
+                    case 'diaryEdited':
+                        $diaryDetails = $diary -> singleDiaryEntry($site_data, $payload['id'], 'return');
+                        $data = array('html' => $diaryDetails, 'returnAction' => 'diaryEdited');
                         echo json_encode($data);
                     break;
                 }

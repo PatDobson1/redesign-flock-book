@@ -6,7 +6,7 @@
             public function getAllLivestock(){
                 $limit = 10;
                 $this -> connect();
-                    $query = "  SELECT livestock.livestock_name, livestock.uk_tag_no, livestock.date_of_sale,
+                    $query = "  SELECT livestock.id AS id, livestock.livestock_name, livestock.uk_tag_no, livestock.date_of_sale,
                                        breed.breed_name AS breed, species.species AS species
                                 FROM livestock
                                 INNER JOIN species ON species.id = livestock.species
@@ -17,7 +17,7 @@
                     $data = '';
                     while( $row = $sql -> fetch() ){
                         $description = $row['livestock_name'] ? $row['livestock_name'] . ' (' . $row['uk_tag_no'] .')' : $row['uk_tag_no'];
-                        $data .= "<option>$description ($row[species] - $row[breed])</option>";
+                        $data .= "<option value='$row[id]'>$description ($row[species] - $row[breed])</option>";
                     }
                     return $data;
 

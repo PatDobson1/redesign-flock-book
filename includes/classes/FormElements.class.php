@@ -34,6 +34,12 @@
                                     <select name='$name' data-validation='$validation' data-errormessage='$error'>$selectOptions</select>
                                 </p>";
                     break;
+                case 'selectMulti':
+                    $input = "  <p $class>
+                                    <label for='$name'>$text</label>
+                                    <select multiple='true' name='$name' data-validation='$validation' data-errormessage='$error'>$selectOptions</select>
+                                </p>";
+                    break;
                 case 'selectDisabled':
                     $input = "  <p $class>
                                     <label for='$name'>$text</label>

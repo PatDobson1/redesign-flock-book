@@ -15,7 +15,7 @@
 
         if( isset($_GET['id']) ){
             $diary -> singleDiaryEntry($site_data, $_GET['id'], 'echo');
-            // $breeds -> form_editBreed();
+            $diary -> form_editDiary();
         }else{
             echo "<p class='add_holder'>";
                 echo "<a class='js_showForm btn_island' data-form='add_diary'>Add diary entry</a>";

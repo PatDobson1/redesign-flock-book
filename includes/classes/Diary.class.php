@@ -62,8 +62,12 @@
                 $manual_treatment_length = $row['manual_treatment'] ? count($manual_treatment) : 0;
 
                 $data = '';
+                $data.= "<p class='controls'>";
+                    $data.= "<a href='$site_data[site_root]/diary' class='back'>Back to diary</a>";
+                    $data.= "<a class='right_aligned js_edit_btn' data-editid='$row[id]' data-edittype='diary' data-form='edit_diary'>Edit diary entry</a>";
+                $data.= "</p>";
                 $data .= "<div class='card diaryCardSingle'>";
-                    $data .= "<h2>Diary</h2>";
+                    $data .= "<h2>Diary entry</h2>";
                     $data .= "<span>$entry_date</span>";
                     $data .= "<p class='diaryNotes'>$row[notes]</p>";
                     // -- Medicine ---------------------------------------------
@@ -87,7 +91,7 @@
                                 $data .= "<ul>";
                                     foreach($manual_treatment as $item){
                                         $manual_treatment_detail = $manual_treatment_class -> getManualTreatment($item);
-                                        $data .= "<li><a href='$site_data[site_root]/manualTreatment?id=$medicine_detail[id]'>$manual_treatment_detail[treatment_name]</a></li>";
+                                        $data .= "<li><a href='$site_data[site_root]/manualTreatment?id=$manual_treatment_detail[id]'>$manual_treatment_detail[treatment_name]</a></li>";
                                     }
                                 $data .= "</ul>";
                             $data .= "</section>";
@@ -242,16 +246,52 @@
             public function addDiaryEntry(){
 
                 $form_element = new FormElements();
+                $generic = new Generic();
                 echo "<div class='form_container add_diary form_hide'>";
                     echo "<h3>Add diary entry</h3>";
                     echo "<form name='add_diary' class='col_2 js_form' data-action='add_diary'>";
                         echo "<div>";
                             $form_element -> input('required', '', '', false, '', '','');
                             $form_element -> input('date', 'entry_date', 'Date', true, 'required', 'Please enter a Date','');
-                            $form_element -> input('hidden', 'entry_added_date', '', 'false', '', '', '');
-                            $form_element -> input('textarea', 'notes', 'Notes', false, '', '','');
+                            $form_element -> input('selectMulti', 'medicine', 'Medicine', false, '', '', $generic -> getMedicineList());
+                            $form_element -> input('selectMulti', 'manual_treatment', 'Manual treatment', false, '', '', $generic -> getManualTreatmentList());
+                        echo "</div>";
+                        echo "<div>";
+                            echo "<p class='form_blank'></p>";
                             $form_element -> multiselect();
-                            $form_element -> input('submit', '', 'Add Diary entry', false, '', '','');
+                        echo "</div>";
+                        echo "<div class='fullWidth'>";
+                            $form_element -> input('textarea', 'notes', 'Notes', false, '', '','');
+                            $form_element -> input('submit', '', 'Add diary entry', false, '', '','');
+                        echo "</div>";
+                    echo "</form>";
+                echo "</div>";
+
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Edit diary entry -------------------------------------------------
+            public function form_editDiary(){
+
+                $form_element = new FormElements();
+                $generic = new Generic();
+                echo "<div class='form_container edit_diary form_hide'>";
+                    echo "<h3>Edit diary entry</h3>";
+                    echo "<form name='edit_diary' class='col_2 js_form' data-action='edit_diary'>";
+                        echo "<div>";
+                            $form_element -> input('required', '', '', false, '', '','');
+                            $form_element -> input('date', 'entry_date', 'Date', true, 'required', 'Please enter a Date','');
+                            $form_element -> input('selectMulti', 'medicine', 'Medicine', false, '', '', $generic -> getMedicineList());
+                            $form_element -> input('selectMulti', 'manual_treatment', 'Manual treatment', false, '', '', $generic -> getManualTreatmentList());
+                        echo "</div>";
+                        echo "<div>";
+                            echo "<p class='form_blank'></p>";
+                            $form_element -> multiselect();
+                            $form_element -> input('hidden', 'id', '', 'false', '', '', '');
+                        echo "</div>";
+                        echo "<div class='fullWidth'>";
+                            $form_element -> input('textarea', 'notes', 'Notes', false, '', '','');
+                            $form_element -> input('submit', '', 'Edit diary entry', false, '', '','');
                         echo "</div>";
                     echo "</form>";
                 echo "</div>";
@@ -275,6 +315,115 @@
                         array_push($years, $row['year']);
                     }
                     return $years;
+
+                $this -> disconnect();
+
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Add diary entry --------------------------------------------------
+            public function sql_addDiary($form_data){
+
+                $medicine = [];
+                $manual_treatment = [];
+                $livestock = [];
+                foreach($form_data as $value){
+                    if( $value['name'] == 'entry_date' ){ $entry_date = $value['value']; }
+                    if( $value['name'] == 'notes' ){ $notes = $value['value']; }
+                    if( $value['name'] == 'medicine' ){ array_push($medicine, $value['value']); }
+                    if( $value['name'] == 'manual_treatment' ){ array_push($manual_treatment, $value['value']); }
+                    if( $value['name'] == 'livestockSelected[]' ){ array_push($livestock, $value['value']); }
+                };
+                $medicine = implode(",", $medicine);
+                $manual_treatment = implode(",", $manual_treatment);
+                $livestock = implode(",", $livestock);
+
+                $this -> connect();
+                    $query = "INSERT INTO livestock_diary (entry_date, entry_added_date, notes, livestock, medicine, manual_treatment)
+                              VALUES (:entry_date, now(), :notes, :livestock, :medicine, :manual_treatment)";
+                    $sql = self::$conn -> prepare($query);
+                    $sql -> bindParam(':entry_date', $entry_date);
+                    $sql -> bindParam(':notes', $notes);
+                    $sql -> bindParam(':livestock', $livestock);
+                    $sql -> bindParam(':medicine', $medicine);
+                    $sql -> bindParam(':manual_treatment', $manual_treatment);
+                    $sql -> execute();
+                $this -> disconnect();
+                $output = new stdClass();
+                $output -> action = 'diaryAdded';
+                echo json_encode($output);
+
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Edit diary entry -------------------------------------------------
+            public function sql_editDiary($form_data){
+
+                $medicine = [];
+                $manual_treatment = [];
+                $livestock = [];
+                foreach($form_data as $value){
+                    if( $value['name'] == 'id' ){ $id = $value['value']; }
+                    if( $value['name'] == 'entry_date' ){ $entry_date = $value['value']; }
+                    if( $value['name'] == 'notes' ){ $notes = $value['value']; }
+                    if( $value['name'] == 'medicine' ){ array_push($medicine, $value['value']); }
+                    if( $value['name'] == 'manual_treatment' ){ array_push($manual_treatment, $value['value']); }
+                    if( $value['name'] == 'livestockSelected[]' ){ array_push($livestock, $value['value']); }
+                };
+                $medicine = implode(",", $medicine);
+                $manual_treatment = implode(",", $manual_treatment);
+                $livestock = implode(",", $livestock);
+
+                $this -> connect();
+                    $query = "  UPDATE livestock_diary
+                                SET entry_date = :entry_date,
+                                    notes = :notes,
+                                    livestock = :livestock,
+                                    medicine = :medicine,
+                                    manual_treatment = :manual_treatment
+                                WHERE id = :id";
+                    $sql = self::$conn -> prepare($query);
+                    $sql -> bindParam(':id', $id);
+                    $sql -> bindParam(':entry_date', $entry_date);
+                    $sql -> bindParam(':notes', $notes);
+                    $sql -> bindParam(':livestock', $livestock);
+                    $sql -> bindParam(':medicine', $medicine);
+                    $sql -> bindParam(':manual_treatment', $manual_treatment);
+                    $sql -> execute();
+                $this -> disconnect();
+
+                $output = new stdClass();
+                $output -> action = 'diaryEdited';
+                $output -> id = $id;
+                $output -> entry_date = $entry_date;
+                $output -> notes = $notes;
+                $output -> medicine = $medicine;
+                $output -> manual_treatment = $manual_treatment;
+                $output -> livestock = $livestock;
+                echo json_encode($output);
+
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Get medicine -----------------------------------------------------
+            public function sql_getDiary($id){
+
+                $this -> connect();
+
+                    $query = "SELECT * FROM livestock_diary WHERE id = :id";
+                    $sql = self::$conn -> prepare($query);
+                    $sql -> bindParam(':id', $id);
+                    $sql -> execute();
+                    $output = new stdClass();
+                    if($row = $sql -> fetch(PDO::FETCH_NAMED)){
+                        $output -> id = $id;
+                        $output -> entry_date = $row['entry_date'];
+                        $output -> notes = $row['notes'];
+                        $output -> livestock = $row['livestock'];
+                        $output -> medicine = $row['medicine'];
+                        $output -> manual_treatment = $row['manual_treatment'];
+                    }
+                    echo json_encode($output);
 
                 $this -> disconnect();
 

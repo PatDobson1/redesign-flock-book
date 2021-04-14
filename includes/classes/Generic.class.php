@@ -182,6 +182,36 @@
             }
         // ---------------------------------------------------------------------
 
+        // -- Get medicine list [select options] -------------------------------
+            public function getMedicineList(){
+                $query = "SELECT id, medicine_name FROM medicine ORDER BY medicine_name";
+                $this -> connect();
+                    $sql = self::$conn -> prepare($query);
+                    $sql -> execute();
+                    $output = '';
+                    while( $row = $sql -> fetch(PDO::FETCH_NAMED)){
+                        $output .= "<option value='$row[id]'>$row[medicine_name]</option>";
+                    }
+                    return $output;
+                $this -> disconnect();
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Get manual treatment list [select options] -----------------------
+            public function getManualTreatmentList(){
+                $query = "SELECT id, treatment_name FROM manual_treatment ORDER BY treatment_name";
+                $this -> connect();
+                    $sql = self::$conn -> prepare($query);
+                    $sql -> execute();
+                    $output = '';
+                    while( $row = $sql -> fetch(PDO::FETCH_NAMED)){
+                        $output .= "<option value='$row[id]'>$row[treatment_name]</option>";
+                    }
+                    return $output;
+                $this -> disconnect();
+            }
+        // ---------------------------------------------------------------------
+
     }
 
 ?>
