@@ -439,6 +439,17 @@
                         break;
                     // ---------------------------------------------------------
 
+                    // -- Manual treatment -------------------------------------
+                        case 'treatmentAdded':
+                            $('.add_manualTreatment').slideUp();
+                            $('.js_showForm').show();
+                            $('form')[0].reset();
+                            var newRow = "<tr><td class='left'>" + returnedData.treatment_name + "</td><td class='left'>" + returnedData.supplier + "</td><td>£" + returnedData.price + "</td><td></td></tr>";
+                            $('.manualTreatment_table').find('tr:first-child').after(newRow);
+                            displayMessage("Manual treatment added");
+                        break;
+                    // ---------------------------------------------------------
+
                     // -- Diary ------------------------------------------------
                         case 'diaryAdded':
                             $('.add_diary').slideUp();

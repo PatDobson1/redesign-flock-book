@@ -25,10 +25,10 @@
                     while( $row = $sql -> fetch() ){
                         $finished_cell = "<a class='js-finish tableLink' data-id='$row[id]' data-type='feed'>Finished</a>";
                         echo "<tr data-id='$row[id]' class='js-view'>
-                                <td>$row[product_name]</th>
-                                <td>$row[purchase_date]</td>
-                                <td>$row[expiration_date]</td>
-                                <td>$row[batch_number]</td>
+                                <td class='left'>$row[product_name]</th>
+                                <td class='cen'>$row[purchase_date]</td>
+                                <td class='cen'>$row[expiration_date]</td>
+                                <td class='left'>$row[batch_number]</td>
                                 <td>$finished_cell</td>
                             </tr>";
                     }
@@ -60,10 +60,10 @@
                             </tr>";
                     while( $row = $sql -> fetch() ){
                         echo "<tr data-id='$row[id]' class='js-view'>
-                                <td>$row[product_name]</th>
-                                <td>$row[purchase_date]</td>
-                                <td>$row[expiration_date]</td>
-                                <td>$row[batch_number]</td>
+                                <td class='left'>$row[product_name]</th>
+                                <td class='cen'>$row[purchase_date]</td>
+                                <td class='cen'>$row[expiration_date]</td>
+                                <td class='left'>$row[batch_number]</td>
                             </tr>";
                     }
 

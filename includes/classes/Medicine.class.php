@@ -26,11 +26,11 @@
                     while( $row = $sql -> fetch() ){
                         $finished_cell = "<a class='js-finish tableLink' data-id='$row[id]' data-type='medicine'>Finished</a>";
                         echo "<tr data-id='$row[id]' class='js-view'>
-                                <td>$row[medicine_name]</th>
-                                <td>$row[purchase_date]</td>
-                                <td>$row[expiry_date]</td>
-                                <td>$row[batch_number]</td>
-                                <td>$row[description]</td>
+                                <td class='left'>$row[medicine_name]</th>
+                                <td class='cen'>$row[purchase_date]</td>
+                                <td class='cen'>$row[expiry_date]</td>
+                                <td class='left'>$row[batch_number]</td>
+                                <td class='left'>$row[description]</td>
                                 <td>$finished_cell</td>
                             </tr>";
                     }
@@ -64,11 +64,11 @@
                             </tr>";
                     while( $row = $sql -> fetch() ){
                         echo "<tr data-id='$row[id]' class='js-view'>
-                                <td>$row[medicine_name]</th>
-                                <td>$row[purchase_date]</td>
-                                <td>$row[expiry_date]</td>
-                                <td>$row[batch_number]</td>
-                                <td>$row[description]</td>
+                                <td class='left'>$row[medicine_name]</th>
+                                <td class='cen'>$row[purchase_date]</td>
+                                <td class='cen'>$row[expiry_date]</td>
+                                <td class='left'>$row[batch_number]</td>
+                                <td class='left'>$row[description]</td>
                             </tr>";
                     }
 

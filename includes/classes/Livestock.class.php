@@ -10,7 +10,8 @@
                                        breed.breed_name AS breed, species.species AS species
                                 FROM livestock
                                 INNER JOIN species ON species.id = livestock.species
-                                INNER JOIN breed ON breed.id = livestock.breed";
+                                INNER JOIN breed ON breed.id = livestock.breed
+                                WHERE livestock.date_of_sale IS NULL AND livestock.date_of_death IS NULL AND livestock.deleted = 0";
 
                     $sql = self::$conn -> prepare($query);
                     $sql->execute();
@@ -528,10 +529,10 @@
                     echo "<form name='add_livestock' class='js_form col_3' data-action='add_livestock'>";
                             echo "<div>";
                                 $form_element -> input('required', '', '', false, '', '','');
-                                $form_element -> input('text', 'livestock_name', 'Name', true, 'required', 'Please enter a Name','');
+                                $form_element -> input('text', 'livestock_name', 'Name', false, '', '','');
                                 $form_element -> input('select', 'species', 'Species', true, 'required', 'Please select a species', $species_list);
                                 $form_element -> input('selectDisabled', 'breed', 'Breed', true, 'required', 'Please select a breed', $breed_list -> html);
-                                $form_element -> input('text', 'uk_tag_no', 'Tag', false, '', '','');
+                                $form_element -> input('text', 'uk_tag_no', 'Tag', true, 'required', 'Please add a tag number','');
                                 $form_element -> input('textarea', 'origin', 'Origin', false, '', '','');
                             echo "</div>";
                             echo "<div>";
@@ -571,10 +572,10 @@
                             echo "<div>";
                                 $form_element -> input('hidden', 'id', 'id', false, '', '','');
                                 $form_element -> input('required', '', '', false, '', '','');
-                                $form_element -> input('text', 'livestock_name', 'Name', true, 'required', 'Please enter a Name','');
+                                $form_element -> input('text', 'livestock_name', 'Name', false, '', '','');
                                 $form_element -> input('select', 'species', 'Species', true, 'required', 'Please select a species', $generic -> getSpeciesList());
                                 $form_element -> input('select', 'breed', 'Breed', true, 'required', 'Please select a breed', $breed_list -> html);
-                                $form_element -> input('text', 'uk_tag_no', 'Tag', false, '', '','');
+                                $form_element -> input('text', 'uk_tag_no', 'Tag', true, 'required', 'Please enter a tag number','');
                                 $form_element -> input('textarea', 'origin', 'Origin', false, '', '','');
                             echo "</div>";
                             echo "<div>";

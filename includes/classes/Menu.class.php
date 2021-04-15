@@ -19,6 +19,7 @@
                             <li><a href='$site_data[site_root]/suppliers'>Suppliers</a></li>
                             <li><a href='$site_data[site_root]/feed'>Feed</a></li>
                             <li><a href='$site_data[site_root]/medicine'>Medicine</a></li>
+                            <li><a href='$site_data[site_root]/manualTreatment'>Manual treatment</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -52,6 +53,7 @@
                         <li><a href='$site_data[site_root]/suppliers'>Suppliers</a></li>
                         <li><a href='$site_data[site_root]/feed'>Feed</a></li>
                         <li><a href='$site_data[site_root]/medicine'>Medicine</a></li>
+                        <li><a href='$site_data[site_root]/manualTreatment'>Manual treatment</a></li>
                         <li class='title'>Control</li>
                         <li><a class='js_print icon_print'>Print</a></li>
                         <li><a class='icon_logOut'>Log out</a></li>

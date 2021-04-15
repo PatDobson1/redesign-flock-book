@@ -15,6 +15,7 @@
                 $suppier = new Supplier();
                 $feed = new Feed();
                 $medicine = new Medicine();
+                $manualTreatment = new ManualTreatment();
                 $diary = new Diary();
 
                 switch($form_action){
@@ -94,6 +95,15 @@
                         break;
                         case 'edit_medicine':
                             $medicine -> sql_editMedicine($form_data);
+                        break;
+                    // ---------------------------------------------------------
+
+                    // -- Manual treatment -------------------------------------
+                        case 'add_manualTreatment':
+                            $manualTreatment -> sql_addManualTreatment($form_data);
+                        break;
+                        case 'edit_manualTreatment':
+                            echo "E D I T  manual treatment";
                         break;
                     // ---------------------------------------------------------
 
