@@ -448,6 +448,17 @@
                             $('.manualTreatment_table').find('tr:first-child').after(newRow);
                             displayMessage("Manual treatment added");
                         break;
+                        case 'treatmentEdited':
+                            $('.edit_manualTreatment').slideUp();
+                            $('.js_edit_btn').slideDown();
+                            var payload = {
+                                id: returnedData.id,
+                                class_name: 'manualTreatmentEdited',
+                                return_action: 'manualTreatmentEdited'
+                            }
+                            callClass(payload, '');
+                            displayMessage("Manual treatment edited");
+                        break;
                     // ---------------------------------------------------------
 
                     // -- Diary ------------------------------------------------
@@ -705,10 +716,7 @@ var general = function(){
             var id = $(this).data('id');
             var payload = { id: id, table: 'diaryQuickView' };
             var apiUrl = hostname + 'data_get.php';
-            console.log(payload);
-            console.log(apiUrl);
             $.post(apiUrl,payload,function(data){
-                console.log(data);
                 openModal('<h2>Quick view</h2>' + data);
             })
         })
@@ -918,6 +926,10 @@ var general = function(){
             break;
             case 'medicineEdited':
                 $('.controls, .medicineCard').remove();
+                $('content').prepend(returnedData.html);
+            break;
+            case 'treatmentEdited':
+                $('.controls, .manualTreatmentCard').remove();
                 $('content').prepend(returnedData.html);
             break;
             case 'diaryEdited':

@@ -103,7 +103,7 @@
                             $manualTreatment -> sql_addManualTreatment($form_data);
                         break;
                         case 'edit_manualTreatment':
-                            echo "E D I T  manual treatment";
+                            $manualTreatment -> sql_editManualTreatment($form_data);
                         break;
                     // ---------------------------------------------------------
 

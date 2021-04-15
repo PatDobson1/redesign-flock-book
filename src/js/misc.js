@@ -133,6 +133,10 @@
                 $('.controls, .medicineCard').remove();
                 $('content').prepend(returnedData.html);
             break;
+            case 'treatmentEdited':
+                $('.controls, .manualTreatmentCard').remove();
+                $('content').prepend(returnedData.html);
+            break;
             case 'diaryEdited':
                 $('.controls, .diaryCardSingle').remove();
                 $('content').prepend(returnedData.html);

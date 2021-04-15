@@ -448,6 +448,17 @@
                             $('.manualTreatment_table').find('tr:first-child').after(newRow);
                             displayMessage("Manual treatment added");
                         break;
+                        case 'treatmentEdited':
+                            $('.edit_manualTreatment').slideUp();
+                            $('.js_edit_btn').slideDown();
+                            var payload = {
+                                id: returnedData.id,
+                                class_name: 'manualTreatmentEdited',
+                                return_action: 'manualTreatmentEdited'
+                            }
+                            callClass(payload, '');
+                            displayMessage("Manual treatment edited");
+                        break;
                     // ---------------------------------------------------------
 
                     // -- Diary ------------------------------------------------

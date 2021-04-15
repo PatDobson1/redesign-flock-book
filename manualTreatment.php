@@ -15,7 +15,7 @@
 
         if( isset($_GET['id']) ){
             $manualTreatment -> manualTreatmentCardSingle($site_data, $_GET['id'], 'echo');
-            // $medicine -> form_editMedicine();
+            $manualTreatment -> form_editManualTreatment();
         }else{
             echo "<p class='add_holder'>";
                 echo "<a class='js_showForm btn_island' data-form='add_manualTreatment'>Add manual treatment</a>";
