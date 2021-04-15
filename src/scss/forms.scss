@@ -39,6 +39,20 @@
         }
         select{
             padding: 9px 10px;
+            + .unselect{
+                background-image: url('#{$site-root}/assets/img/unselect.svg');
+                background-repeat: no-repeat;
+                background-position: 0 50%;
+                background-size: 15px;
+                font-size: 0.9em;
+                padding-left: 20px;
+                margin-top: 5px;
+                display: block;
+                cursor: pointer;
+                &:hover{
+                    text-decoration: underline;
+                }
+            }
         }
         textarea{
             max-width: 90%;

@@ -38,6 +38,7 @@
                     $input = "  <p $class>
                                     <label for='$name'>$text</label>
                                     <select multiple='true' name='$name' data-validation='$validation' data-errormessage='$error'>$selectOptions</select>
+                                    <a class='js-unselect unselect'>Unselect all</a>
                                 </p>";
                     break;
                 case 'selectDisabled':
