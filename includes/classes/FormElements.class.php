@@ -17,6 +17,7 @@
                     $input = "  <p $class>
                                     <label for='$name'>$text</label>
                                     <input type='$type' name='$name' data-validation='$validation' data-errormessage='$error' class='datepicker' id='$name' />
+                                    <a class='js-clearDate clearDate'></a>
                                 </p>";
                     break;
                 case 'hidden':

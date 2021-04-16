@@ -635,7 +635,7 @@
                             echo "</div>";
                             echo "<div>";
                                 echo "<p class='form_blank'></p>";
-                                $form_element -> input('date', 'date_of_birth', 'Date of birth', false, '', '','');
+                                $form_element -> input('date', 'date_of_birth', 'Date of birth', true, 'required', 'Please enter a date of birth','');
                                 $form_element -> input('date', 'date_of_death', 'Date of death', false, '', '','');
                                 $form_element -> input('date', 'date_of_sale', 'Date of sale', false, '', '','');
                                 $form_element -> input('text', 'pedigree_no', 'Pedigree number', false, '', '','');

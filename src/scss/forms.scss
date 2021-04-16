@@ -29,12 +29,21 @@
             &:disabled{
                 background-color: $form-disabled;
             }
-            &[type=date]{
-                padding: 9px 10px;
-                color: $font-colour;
-            }
             @media(max-width: 800px){
                 width: 100%;
+                &[type=date]{
+                    width: calc( 100% - 30px );
+                }
+            }
+            + .clearDate{
+                background-image: url('#{$site-root}/assets/img/unselect.svg');
+                background-repeat: no-repeat;
+                background-position: 0 50%;
+                background-size: 20px;
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                margin: 0px 0 -5px 2px;
             }
         }
         select{
