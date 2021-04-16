@@ -43,8 +43,10 @@ var general = function(){
 
     // -- View -----------------------------------------------------------------
         $(document).on('click','.js-view',function(){
+            var path = $(this).data('path');
             var id = $(this).data('id');
-            window.location.href = '?id=' + id;
+            var destination = path ? path + '/livestock?id=' + id : '?id=' + id;
+            window.location.href = destination;
         })
     // -------------------------------------------------------------------------
 

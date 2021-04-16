@@ -12,6 +12,7 @@
                             <li><a href='$site_data[site_root]/species'>Species</a></li>
                             <li><a href='$site_data[site_root]/breeds'>Breeds</a></li>
                             <li><a href='$site_data[site_root]/diary'>Diary</a></li>
+                            <li><a href='$site_data[site_root]/archive'>Archive</a></li>
                         </ul>
                     </li>
                     <li class='dropdown'><a href='#'>Data</a>
@@ -49,6 +50,7 @@
                         <li><a href='$site_data[site_root]/livestock'>View livestock</a></li>
                         <li><a href='$site_data[site_root]/species'>View species</a></li>
                         <li><a href='$site_data[site_root]/breeds'>View breeds</a></li>
+                        <li><a href='$site_data[site_root]/archive'>Archive</a></li>
                         <li class='title'>Data</li>
                         <li><a href='$site_data[site_root]/suppliers'>Suppliers</a></li>
                         <li><a href='$site_data[site_root]/feed'>Feed</a></li>

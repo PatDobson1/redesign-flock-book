@@ -84,6 +84,7 @@
                                     FROM livestock
                                     INNER JOIN species ON species.id = livestock.species
                                     INNER JOIN breed ON breed.id = livestock.breed
+                                    WHERE livestock.date_of_sale IS NULL AND livestock.date_of_death IS NULL AND deleted = 0
                                     ORDER BY species, livestock_name";
 
                         $sql = self::$conn -> prepare($query);
@@ -103,6 +104,60 @@
                                 </tr>";
                     while( $row = $sql -> fetch() ){
                         echo "  <tr data-id='$row[id]' class='js-view'>
+                                    <td class='left'>$row[uk_tag_no]</td>
+                                    <td class='left'>$row[livestock_name]</td>
+                                    <td class='cen'>$row[date_of_birth]</td>
+                                    <td class='left'>$row[species]</td>
+                                    <td class='left'>$row[breed]</td>
+                                    <td><span class='icon icon_quickView js-quickView' data-id='$row[id]'></span></td>
+                                </tr>";
+                    }
+                    echo "</table>";
+                echo "</div>";
+
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Livestock card ---------------------------------------------------
+            public function liveStockArchiveCard($sortable, $status, $site_data){
+                echo "<div class='livestock_data'>";
+                    $sortable = $sortable ? 'sortable' : '';
+                    $this -> connect();
+                        if( $status == 'sold' ){
+                            $query = "  SELECT livestock.livestock_name, livestock.uk_tag_no, livestock.date_of_birth,
+                                               breed.breed_name AS breed, species.species AS species, species.id AS species_id,
+                                               breed.id AS breed_id, livestock.id
+                                        FROM livestock
+                                        INNER JOIN species ON species.id = livestock.species
+                                        INNER JOIN breed ON breed.id = livestock.breed
+                                        WHERE livestock.date_of_sale IS NOT NULL AND livestock.date_of_death IS NULL AND deleted = 0
+                                        ORDER BY species, livestock_name";
+                        }elseif( $status == 'dead' ){
+                            $query = "  SELECT livestock.livestock_name, livestock.uk_tag_no, livestock.date_of_birth,
+                                               breed.breed_name AS breed, species.species AS species, species.id AS species_id,
+                                               breed.id AS breed_id, livestock.id
+                                        FROM livestock
+                                        INNER JOIN species ON species.id = livestock.species
+                                        INNER JOIN breed ON breed.id = livestock.breed
+                                        WHERE livestock.date_of_death IS NOT NULL AND livestock.date_of_sale IS NULL AND deleted = 0
+                                        ORDER BY species, livestock_name";
+                        }
+
+                        $sql = self::$conn -> prepare($query);
+                        $sql->execute();
+                    $this -> disconnect();
+
+                    echo "  <table class='$sortable livestock_table'>
+                                <tr>
+                                    <th>Tag No.</th>
+                                    <th>Name</th>
+                                    <th>DOB</th>
+                                    <th>Species</th>
+                                    <th>Breed</th>
+                                    <th class='no_sort'></th>
+                                </tr>";
+                    while( $row = $sql -> fetch() ){
+                        echo "  <tr data-id='$row[id]' class='js-view' data-path='$site_data[site_root]'>
                                     <td class='left'>$row[uk_tag_no]</td>
                                     <td class='left'>$row[livestock_name]</td>
                                     <td class='cen'>$row[date_of_birth]</td>
@@ -693,6 +748,10 @@
                     if( $value['name'] == 'breed' ){ $breed = $value['value']; }
                     if( $value['name'] == 'livestock_notes' ){ $livestock_notes = $value['value']; }
                 };
+
+                $date_of_birth = $date_of_birth == null ? null : $date_of_birth;
+                $date_of_sale = $date_of_sale == null ? null : $date_of_sale;
+                $date_of_death = $date_of_death == null ? null : $date_of_death;
 
                 // -- Get existing TAG details ---------------------------------
                     $this -> connect();
