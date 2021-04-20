@@ -118,40 +118,43 @@
             }
         // ---------------------------------------------------------------------
 
-        // -- Livestock card ---------------------------------------------------
-            public function liveStockArchiveCard($sortable, $status, $site_data){
+        // -- Livestock archive card -------------------------------------------
+            public function liveStockArchiveCard($sortable, $status, $year, $site_data){
                 echo "<div class='livestock_data'>";
                     $sortable = $sortable ? 'sortable' : '';
                     $this -> connect();
                         if( $status == 'sold' ){
-                            $query = "  SELECT livestock.livestock_name, livestock.uk_tag_no, livestock.date_of_birth,
+                            $query = "  SELECT livestock.livestock_name, livestock.uk_tag_no, livestock.date_of_sale AS date,
                                                breed.breed_name AS breed, species.species AS species, species.id AS species_id,
                                                breed.id AS breed_id, livestock.id
                                         FROM livestock
                                         INNER JOIN species ON species.id = livestock.species
                                         INNER JOIN breed ON breed.id = livestock.breed
-                                        WHERE livestock.date_of_sale IS NOT NULL AND livestock.date_of_death IS NULL AND deleted = 0
+                                        WHERE livestock.date_of_sale IS NOT NULL AND livestock.date_of_death IS NULL AND deleted = 0 AND YEAR(livestock.date_of_sale) = :year
                                         ORDER BY species, livestock_name";
                         }elseif( $status == 'dead' ){
-                            $query = "  SELECT livestock.livestock_name, livestock.uk_tag_no, livestock.date_of_birth,
+                            $query = "  SELECT livestock.livestock_name, livestock.uk_tag_no, livestock.date_of_death AS date,
                                                breed.breed_name AS breed, species.species AS species, species.id AS species_id,
                                                breed.id AS breed_id, livestock.id
                                         FROM livestock
                                         INNER JOIN species ON species.id = livestock.species
                                         INNER JOIN breed ON breed.id = livestock.breed
-                                        WHERE livestock.date_of_death IS NOT NULL AND livestock.date_of_sale IS NULL AND deleted = 0
+                                        WHERE livestock.date_of_death IS NOT NULL AND livestock.date_of_sale IS NULL AND deleted = 0 AND YEAR(livestock.date_of_death) = :year
                                         ORDER BY species, livestock_name";
                         }
 
                         $sql = self::$conn -> prepare($query);
+                        $sql -> bindParam(':year', $year);
                         $sql->execute();
                     $this -> disconnect();
+
+                    $dateHeader = $status == 'sold' ? 'Date of sale' : 'Date of death';
 
                     echo "  <table class='$sortable livestock_table'>
                                 <tr>
                                     <th>Tag No.</th>
                                     <th>Name</th>
-                                    <th>DOB</th>
+                                    <th>$dateHeader</th>
                                     <th>Species</th>
                                     <th>Breed</th>
                                     <th class='no_sort'></th>
@@ -160,7 +163,7 @@
                         echo "  <tr data-id='$row[id]' class='js-view' data-path='$site_data[site_root]'>
                                     <td class='left'>$row[uk_tag_no]</td>
                                     <td class='left'>$row[livestock_name]</td>
-                                    <td class='cen'>$row[date_of_birth]</td>
+                                    <td class='cen'>$row[date]</td>
                                     <td class='left'>$row[species]</td>
                                     <td class='left'>$row[breed]</td>
                                     <td><span class='icon icon_quickView js-quickView' data-id='$row[id]'></span></td>
@@ -168,6 +171,36 @@
                     }
                     echo "</table>";
                 echo "</div>";
+
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Archive years ----------------------------------------------------
+            public function getDiaryYears($context){
+
+                $this -> connect();
+
+                    if( $context == 'sold' ){
+                        $query = "SELECT DISTINCT YEAR(date_of_sale) AS year
+                                  FROM livestock
+                                  WHERE date_of_sale IS NOT null
+                                  ORDER BY date_of_sale DESC";
+                    }else{
+                        $query = "SELECT DISTINCT YEAR(date_of_death) AS year
+                                  FROM livestock
+                                  WHERE date_of_death IS NOT null
+                                  ORDER BY date_of_death DESC";
+                    }
+                    $sql = self::$conn -> prepare($query);
+                    $sql -> execute();
+
+                    $years = array();
+                    while( $row = $sql -> fetch() ){
+                        array_push($years, $row['year']);
+                    }
+                    return $years;
+
+                $this -> disconnect();
 
             }
         // ---------------------------------------------------------------------
