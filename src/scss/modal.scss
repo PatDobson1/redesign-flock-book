@@ -1,0 +1,75 @@
+// -- Modal -----------------------------------------------------
+    .modalFade{
+        display: none;
+        background: rgba(0,0,0,0.2);
+        z-index: 101;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        .modal{
+            display: none;
+            position: fixed;
+            width: 40%;
+            min-height: 200px;
+            background: white;
+            box-shadow: 0 5px 10px -5px $black;
+            border-radius: $border-radius;
+            left: calc(50% - 20%);
+            top: 200px;
+            max-height: calc(100% - 400px);
+            overflow-y: auto;
+            @media( max-width: 768px ){
+                width: 80%;
+                left: calc(50% - 40% );
+            }
+            &:before{
+                content: '';
+                background: url('#{$site-root}/assets/img/cancel.svg');
+                background-repeat: no-repeat;
+                background-size: 20px;
+                width: 20px;
+                height: 20px;
+                position: absolute;
+                top: 15px;
+                right: 15px;
+                cursor: pointer;
+            }
+            h2{
+                padding: 15px 0 15px 0;
+                margin: 0 15px 15px 15px;
+                border-bottom: 1px solid $border-colour
+            }
+            p,
+            section{
+                padding: 0 15px;
+                font-size: 1.1em;
+            }
+            section{
+                margin-bottom: 30px;
+                ul{
+                    list-style: disc;
+                    margin-left: 30px;
+                }
+            }
+            div{
+                padding: 10px;
+                label + span{
+                    display: inline-block;
+                    width: calc( 100% - 170px );
+                }
+                &.modalScroll{
+                    max-height: 400px;
+                    overflow: auto;
+                    margin-bottom: 20px;
+                }
+            }
+            form{
+                padding-left: 15px;
+                display: inline-block;
+                margin-bottom: 20px;
+            }
+        }
+    }
+// --------------------------------------------------------------

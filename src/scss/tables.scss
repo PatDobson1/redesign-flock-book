@@ -58,6 +58,17 @@ table{
     }
 }
 
+.reminder_table{
+    margin-bottom: 40px;
+    tr{
+        td{
+            &:first-child,
+            &:nth-child(2){
+                width: 150px;
+            }
+        }
+    }
+}
 .mobile_table{
     display: none;
     tbody{

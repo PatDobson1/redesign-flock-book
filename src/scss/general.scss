@@ -89,90 +89,6 @@
     }
 // --------------------------------------------------------------
 
-// -- Accordion -------------------------------------------------
-    .accordion{
-        .accordion_title{
-            font-size: 1.2em;
-            font-weight: 700;
-            padding: 10px 0;
-            margin: 0;
-            border-bottom: 1px solid $border-colour;
-            cursor: pointer;
-            &:hover{
-                background-color: $light-border-colour;
-            }
-            span{
-                display: inline-block;
-                height: 15px;
-                width: 15px;
-                margin: 0 10px;
-                background-image: url('#{$site-root}/assets/img/left-arrow.svg');
-                background-repeat: no-repeat;
-                background-size: 15px;
-                background-position: 0 0%;
-                transform: rotate(180deg);
-                transition: all 0.2s ease-in-out;
-            }
-        }
-        .accordion_contents{
-            display: none;
-            margin: 20px 0;
-            ul{
-                list-style: circle;
-                padding-left: 30px;
-                line-height: 1.2em;
-            }
-            &.livestockLinks{
-                span{
-                    border: 1px solid $border-colour;
-                    border-radius: $border-radius;
-                    display: inline-block;
-                    padding: 5px;
-                    margin: 0 10px 10px 0;
-                    min-width: 300px;
-                    a{
-                        text-decoration: none;
-                        color: $font-colour;
-                    }
-                    .icon{
-                        float: right;
-                        margin: -2px 0 -2px 0;
-                    }
-                    &:hover{
-                        color: $white;
-                        background-color: $border-colour;
-                    }
-                    @media(max-width: 550px){
-                        min-width: 100%;
-                        .icon{
-                            float: none;
-                            margin-left: 10px;
-                        }
-                    }
-                }
-            }
-        }
-        &.open{
-            .accordion_title{
-                span{
-                    transform: rotate(270deg);
-                }
-            }
-            .accordion_contents{
-                display: block;
-            }
-        }
-    }
-    .livestockDiaryCard{
-        .accordion_title{
-            font-size: 0.9em;
-            span{
-                background-size: 10px;
-            }
-        }
-    }
-// --------------------------------------------------------------
-
 // -- Headers ---------------------------------------------------
     h1,h2,h3,h4,h5,h5{
         font-family: $header-font;
@@ -214,228 +130,40 @@
     }
 // --------------------------------------------------------------
 
-// -- Links -----------------------------------------------------
-    a{
-        &.delete_link{
-            color: $red;
-            border: 1px solid $red;
-            border-radius: $border-radius;
-            background-color: $white;
-            padding: 0 10px;
-            cursor: pointer;
-            &:hover{
+// -- Priority --------------------------------------------------
+    .priority{
+        &.red{
+            span{
                 background-color: $red;
-                color: $white;
+                border: 1px solid $red;
             }
         }
-        &.back{
+        &.amber{
+            span{
+                background-color: $amber;
+                border: 1px solid $amber;
+            }
+        }
+        &.green{
+            span{
+                background-color: $brightGreen;
+                border: 1px solid $brightGreen;
+            }
+        }
+        span{
             display: inline-block;
-            background-image: url('#{$site-root}/assets/img/left-arrow.svg');
-            background-repeat: no-repeat;
-            background-size: 15px;
-            background-position: 8px 50%;
-            text-decoration: none;
-            color: $font-colour;
-            padding: 10px 10px 10px 30px;
-            border: 1px solid $border-colour;
             border-radius: $border-radius;
-            &:hover{
-                color: $white;
-                background-color: $border-colour;
-                background-image: url('#{$site-root}/assets/img/left-arrow-white.svg');
-            }
-        }
-        &.inline{
-            background-image: url('#{$site-root}/assets/img/link.svg');
-            background-repeat: no-repeat;
-            background-size: 20px;
-            background-position: 0 0;
-            padding-left: 25px;
-            text-decoration: none;
-            color: $font-colour;
-            display: inline-block;
-            min-height: 25px;
-            &:hover{
-                text-decoration: underline;
-            }
-        }
-        &.link{
-            text-decoration: none;
-            color: $font-colour;
-            display: inline-block;
-            min-height: 25px;
-            &:hover{
-                text-decoration: underline;
-            }
-        }
-        &.tableLink{
-            display: inline-block;
-            text-decoration: none;
-            color: $font-colour;
-            padding: 2px 10px;
-            border: 1px solid $border-colour;
-            border-radius: $border-radius;
-            &:hover{
-                background-color: $white;
-            }
-        }
-        &.right_aligned{
-            display: inline-block;
-            text-decoration: none;
-            color: $font-colour;
-            padding: 10px;
-            border: 1px solid $border-colour;
-            border-radius: $border-radius;
-            float: right;
-            cursor: pointer;
-            &:hover{
-                color: $white;
-                background-color: $border-colour;
-            }
-        }
-    }
-// --------------------------------------------------------------
-
-// -- Buttons ---------------------------------------------------
-    button,
-    .form_btn{
-        padding: 10px 20px;
-        background: $white;
-        border: 1px solid $border-colour;
-        border-radius: $border-radius;
-        font-size: 1em;
-        cursor: pointer;
-        &:hover{
+            margin-left: 5px;
+            vertical-align: top;
             color: $white;
-            background-color: $border-colour;
-        }
-        &.btn_right{
-            margin-right: 15px;
-            float: right;
-        }
-    }
-// --------------------------------------------------------------
-
-// -- Modal -----------------------------------------------------
-    .modalFade{
-        display: none;
-        background: rgba(0,0,0,0.2);
-        z-index: 101;
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        .modal{
-            display: none;
-            position: fixed;
-            width: 40%;
-            min-height: 200px;
-            background: white;
-            box-shadow: 0 5px 10px -5px $black;
-            border-radius: $border-radius;
-            left: calc(50% - 20%);
-            top: 200px;
-            max-height: calc(100% - 400px);
-            overflow-y: auto;
-            @media( max-width: 768px ){
-                width: 80%;
-                left: calc(50% - 40% );
-            }
-            &:before{
-                content: '';
-                background: url('#{$site-root}/assets/img/cancel.svg');
-                background-repeat: no-repeat;
-                background-size: 20px;
+            padding: 2px 5px;
+            font-size: 0.8em;
+            font-weight: 700;
+            &.blank{
+                background: none;
                 width: 20px;
-                height: 20px;
-                position: absolute;
-                top: 15px;
-                right: 15px;
-                cursor: pointer;
+                height: 21px;
             }
-            h2{
-                padding: 15px 0 15px 0;
-                margin: 0 15px 15px 15px;
-                border-bottom: 1px solid $border-colour
-            }
-            p,
-            section{
-                padding: 0 15px;
-                font-size: 1.1em;
-            }
-            section{
-                margin-bottom: 30px;
-                ul{
-                    list-style: disc;
-                    margin-left: 30px;
-                }
-            }
-            div{
-                padding: 10px;
-                label + span{
-                    display: inline-block;
-                    width: calc( 100% - 170px );
-                }
-                &.modalScroll{
-                    max-height: 400px;
-                    overflow: auto;
-                    margin-bottom: 20px;
-                }
-            }
-            form{
-                padding-left: 15px;
-                display: inline-block;
-                margin-bottom: 20px;
-            }
-        }
-    }
-// --------------------------------------------------------------
-
-// -- Icons -----------------------------------------------------
-    .icon{
-        background-repeat: no-repeat;
-        background-size: 20px;
-        height: 20px;
-        width: 20px;
-        display: inline-block;
-        vertical-align: text-bottom;
-        &_tick{
-            background-image: url('#{$site-root}/assets/img/tick.svg');
-        }
-        &_cross{
-            background-image: url('#{$site-root}/assets/img/cross.svg');
-        }
-        &_quickView{
-            background-image: url('#{$site-root}/assets/img/quickView.svg');
-        }
-        &_print{
-            cursor: pointer;
-            background-image: url('#{$site-root}/assets/img/printer.svg');
-            background-size: 25px;
-            background-repeat: no-repeat;
-            background-position: 10px 50%;
-            padding: 10px 10px 10px 45px;
-            &:hover{
-                background-image: url('#{$site-root}/assets/img/printer_white.svg');
-            }
-        }
-        &_logOut{
-            cursor: pointer;
-            background-image: url('#{$site-root}/assets/img/log_out.svg');
-            background-size: 20px;
-            background-repeat: no-repeat;
-            background-position: 10px 50%;
-            padding: 10px 10px 10px 45px;
-            &:hover{
-                background-image: url('#{$site-root}/assets/img/log_out_white.svg');
-            }
-        }
-        &_menuTrigger{
-            background-image: url('#{$site-root}/assets/img/menu.svg');
-            background-size: 30px;
-            background-repeat: no-repeat;
-            background-position: 50%;
         }
     }
 // --------------------------------------------------------------

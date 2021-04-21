@@ -23,10 +23,11 @@
 
                 while( $row = $sql -> fetch() ){
 
+                    $notes = nl2br($row['notes']);
                     echo "<div class='diaryEntry js-view' data-id='$row[id]'>";
                         $entry_date = $functions -> cardDateFormat($row['entry_date']);
                         echo "<span>$entry_date</span>";
-                        echo "<span>$row[notes]</span>";
+                        echo "<span>$notes</span>";
                         echo "<a class='icon icon_quickView js-diaryQuickView' data-id='$row[id]'></a>";
                     echo "</div>";
 
@@ -60,6 +61,7 @@
                 $medicine_length = $row['medicine'] ? count($medicine) : 0;
                 $manual_treatment = explode(',',$row['manual_treatment']);
                 $manual_treatment_length = $row['manual_treatment'] ? count($manual_treatment) : 0;
+                $notes = nl2br($row['notes']);
 
                 $data = '';
                 $data.= "<p class='controls'>";
@@ -69,7 +71,7 @@
                 $data .= "<div class='card diaryCardSingle'>";
                     $data .= "<h2>Diary entry</h2>";
                     $data .= "<span>$entry_date</span>";
-                    $data .= "<p class='diaryNotes'>$row[notes]</p>";
+                    $data .= "<p class='diaryNotes'>$notes</p>";
                     // -- Medicine ---------------------------------------------
                         if($medicine_length){
                             $data .= "<section>";
@@ -138,10 +140,11 @@
                 $medicine_length = $row['medicine'] ? count($medicine) : 0;
                 $manual_treatment = explode(',',$row['manual_treatment']);
                 $manual_treatment_length = $row['manual_treatment'] ? count($manual_treatment) : 0;
+                $notes = nl2br($row['notes']);
 
                 $data = '';
                 $data .= "<span>$entry_date</span>";
-                $data .= "<p class='diaryNotes'>$row[notes]</p>";
+                $data .= "<p class='diaryNotes'>$notes</p>";
                 // -- Medicine ---------------------------------------------
                     if($medicine_length){
                         $data .= "<section>";
@@ -210,10 +213,11 @@
                         $livestock_length = count($livestock);
                         $entry_date = $functions -> cardDateFormat($row['entry_added_date']);
                         $livestock_details = $livestock_class -> sql_getLivestockRange($row['livestock'], $site_data, 'complex');
+                        $notes = nl2br($row['notes']);
 
                         echo "<div class='diaryCard'>";
                             echo $entry_date;
-                            echo "<p>$row[notes]</p>";
+                            echo "<p>$notes</p>";
                             if( $medicine_length ){
                                 echo "<div class='accordion'>";
                                     echo "<p class='accordion_title'><span></span>Medicines</p>";
