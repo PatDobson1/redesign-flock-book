@@ -18,19 +18,23 @@
         echo "<div class='card'>";
             echo "<h2>Archive - sold</h2>";
             foreach ($soldYears as $soldYear) {
-                echo "<details>";
-                echo "<summary>$soldYear</summary>";
-                echo $livestock-> liveStockArchiveCard(true, 'sold', $soldYear, $site_data);
-                echo "</details>";
+                echo "<div class='accordion'>";
+                    echo "<p class='accordion_title'><span></span>$soldYear</p>";
+                    echo "<div class='accordion_contents'>";
+                        echo $livestock-> liveStockArchiveCard(true, 'sold', $soldYear, $site_data);
+                    echo "</div>";
+                echo "</div>";
             }
         echo "</div>";
         echo "<div class='card'>";
             echo "<h3>Archive - dead</h3>";
             foreach ($deadYears as $deadYear) {
-                echo "<details>";
-                echo "<summary>$deadYear</summary>";
-                echo $livestock-> liveStockArchiveCard(true, 'dead', $deadYear, $site_data);
-                echo "</details>";
+                echo "<div class='accordion'>";
+                echo "<p class='accordion_title'><span></span>$deadYear</p>";
+                echo "<div class='accordion_contents'>";
+                    echo $livestock-> liveStockArchiveCard(true, 'dead', $deadYear, $site_data);
+                echo "</div>";
+                echo "</div>";
             }
         echo "</div>";
 

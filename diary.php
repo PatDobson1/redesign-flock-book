@@ -25,10 +25,12 @@
                 $years =  $diary -> getDiaryYears();
                 $thisYear = Date('Y');
                 foreach ($years as $year) {
-                    echo "<details>";
-                    echo "<summary>$year</summary>";
-                    echo $diary -> fullDiary($site_data, $year);
-                    echo "</details>";
+                    echo "<div class='accordion'>";
+                        echo "<p class='accordion_title'><span></span>$year</p>";
+                        echo "<div class='accordion_contents'>";
+                            echo $diary -> fullDiary($site_data, $year);
+                        echo "</div>";
+                    echo "</div>";
                 }
             echo "</div>";
             $diary -> addDiaryEntry();

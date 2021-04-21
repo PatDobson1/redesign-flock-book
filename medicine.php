@@ -28,10 +28,12 @@
                 echo "<h2>Finished medicine</h2>";
                 $years =  $medicine -> getMedicineYears();
                 foreach ($years as $year) {
-                    echo "<details>";
-                    echo "<summary>$year</summary>";
-                    echo $medicine -> finishedMedicineCard($year);
-                    echo "</details>";
+                    echo "<div class='accordion'>";
+                        echo "<p class='accordion_title'><span></span>$year</p>";
+                        echo "<div class='accordion_contents'>";
+                            echo $medicine -> finishedMedicineCard($year);
+                        echo "</div>";
+                    echo "</div>";
                 }
             echo "</div>";
             $medicine -> form_addMedicine();

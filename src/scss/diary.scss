@@ -1,7 +1,7 @@
 
 .diaryCard,
 .diaryCardSingle{
-    div{
+    div.diaryEntry{
         padding: 20px;
         margin-bottom: 20px;
         border: 1px solid $light-border-colour;
@@ -29,7 +29,8 @@
     .date{
         width: 70px;
         border: 1px solid $page-background-colour;
-        margin: 0;
+        margin: 0 10px 10px 0;
+        float: left;
         padding: 0;
         span{
             display: block;
@@ -37,10 +38,14 @@
             padding: 4px 2px;
             color: $page-background-colour;
             background-color: $white;
+            font-weight: 700;
             &:nth-child(2){
                 background-color: darken($page-background-colour, 10%);
                 color: $white;
             }
+        }
+        + p{
+            min-height: 70px;
         }
     }
 }
@@ -90,5 +95,13 @@
                 }
             }
         }
+    }
+}
+.livestockDiaryCard{
+    .diaryCard{
+        border: 1px solid $border-colour;
+        border-radius: $border-radius;
+        padding: 20px;
+        margin-bottom: 20px;
     }
 }

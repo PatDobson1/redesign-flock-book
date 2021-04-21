@@ -140,6 +140,17 @@ var general = function(){
         }
     // -------------------------------------------------------------------------
 
+    $(document).on('click','.accordion_title',function(){
+        var accordion = $(this).closest('.accordion');
+        if( accordion.hasClass('open') ){
+            accordion.removeClass('open');
+        }else{
+            $('.accordion').not($(this)).each(function(){
+                $(this).removeClass('open');
+            })
+            accordion.addClass('open');
+        }
+    })
 
 
 }

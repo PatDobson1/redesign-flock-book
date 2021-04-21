@@ -28,10 +28,12 @@
                 echo "<h2>Finished feed</h2>";
                 $years =  $feed -> getFeedYears();
                 foreach ($years as $year) {
-                    echo "<details>";
-                    echo "<summary>$year</summary>";
-                    echo $feed -> finishedFeedCard($site_data, $year);
-                    echo "</details>";
+                    echo "<div class='accordion'>";
+                        echo "<p class='accordion_title'><span></span>$year</p>";
+                        echo "<div class='accordion_contents'>";
+                            echo $feed -> finishedFeedCard($site_data, $year);
+                        echo "</div>";
+                    echo "</div>";
                 }
             echo "</div>";
             $feed -> form_addFeed();
