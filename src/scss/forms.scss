@@ -101,8 +101,8 @@
                 margin-left: 5px;
             }
             &.checkbox{
-                height: 68px;
-                padding-top: 35px;
+                height: 63px;
+                padding-top: 25px;
                 @media(max-width: 800px){
                     height: auto;
                     padding-top: 0;
@@ -117,7 +117,7 @@
                         width: 20px;
                         display: inline-block;
                         margin-right: 10px;
-                        vertical-align: sub;
+                        vertical-align: middle;
                     }
                 }
                 input{
@@ -133,6 +133,11 @@
                             }
                         }
                     }
+                }
+                &.close{
+                    height: auto;
+                    padding-top: 0;
+                    margin: 0 0 10px 0;
                 }
             }
         }

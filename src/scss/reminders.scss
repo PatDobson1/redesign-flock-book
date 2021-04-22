@@ -1,0 +1,53 @@
+// -- Priority --------------------------------------------------
+    .priority{
+        &.red{
+            span{
+                background-color: $red;
+                border: 1px solid $red;
+            }
+        }
+        &.amber{
+            span{
+                background-color: $amber;
+                border: 1px solid $amber;
+            }
+        }
+        &.green{
+            span{
+                background-color: $brightGreen;
+                border: 1px solid $brightGreen;
+            }
+        }
+        span{
+            display: inline-block;
+            border-radius: $border-radius;
+            margin-right: 5px;
+            vertical-align: top;
+            color: $white;
+            padding: 2px 5px;
+            font-size: 0.8em;
+            font-weight: 700;
+            &.blank{
+                background: none;
+                width: 20px;
+                height: 21px;
+            }
+        }
+    }
+    label + .priority{
+        span{
+            padding: 3px 5px;
+        }
+    }
+// --------------------------------------------------------------
+
+// -- Email list ------------------------------------------------
+    .emailDetails{
+        span{
+            border: 1px solid $light-border-colour;
+            border-radius: $border-radius;
+            padding: 2px 5px;
+            margin-right: 10px;
+        }
+    }
+// --------------------------------------------------------------

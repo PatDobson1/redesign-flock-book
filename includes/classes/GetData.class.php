@@ -53,6 +53,10 @@
                         $diary = new Diary();
                         $diary -> sql_getDiary($id);
                         break;
+                    case 'reminder':
+                        $reminders = new Reminders();
+                        $reminders -> sql_getReminder($id);
+                        break;
                 }
             }
         // ---------------------------------------------------------------------

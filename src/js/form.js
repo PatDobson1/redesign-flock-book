@@ -159,6 +159,24 @@
                                 $('#livestockSource').find('option[value="' + livestock[i] + '"]').remove();
                             }
                         }
+                        if( type === 'reminder' ){
+                            if( returnedData.remindMe_before != null ){
+                                var before = returnedData.remindMe_before.split(',');
+                                $.each(before, function(index,item){
+                                    if( item === '1 Month' ){ $('#before_1m').prop('checked', true) }
+                                    if( item === '1 Week' ){ $('#before_1w').prop('checked', true) }
+                                    if( item === '1 Day' ){ $('#before_1d').prop('checked', true) }
+                                })
+                            }
+                            if( returnedData.remindMe_after != null ){
+                                var after = returnedData.remindMe_after.split(',');
+                                $.each(after, function(index,item){
+                                    if( item === 'Monthly' ){ $('#after_m').prop('checked', true) }
+                                    if( item === 'Weekly' ){ $('#after_w').prop('checked', true) }
+                                    if( item === 'Daily' ){ $('#after_d').prop('checked', true) }
+                                })
+                            }
+                        }
                     $('.js_edit_btn').fadeOut(300,function(){
                         $(form).slideDown(500);
                         $('body').animate({
@@ -511,14 +529,13 @@
                             var priority = '<p class="priority ' + colour + '">';
                             for( var i=0; i<5; i++ ){
                                 if( i < returnedData.priority ){
-                                    priority += '<span>' + i + '</span>';
+                                    priority += '<span>' + (i+1) + '</span>';
                                 }else{
                                     priority += '<span class="blank"></span>';
                                 }
                             }
                             var newTable = '<h3>New</h3><table class="reminder_table"><tbody><tr><th>Due date</th><th width="100px">Priority</th><th>Description</th></tr><tr><td class="cen">' + returnedData.reminder_date + '</td><td class="left">' + priority + '</td><td class="left">' + returnedData.description + '</td></table>';
                             $('.card h2').after(newTable);
-                            // -- <p class="priority red"><span>1</span><span>2</span><span>3</span><span>4</span><span class="blank"></span></p>
                             $('form')[0].reset();
                             displayMessage("Reminder added");
                         break;

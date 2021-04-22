@@ -54,6 +54,12 @@
                                     <label for='$name'>$text</label>
                                 </p>";
                     break;
+                case 'checkbox_close':
+                    $input = "  <p class='checkbox close'>
+                                    <input type='checkbox' value='1' name='$name' id='$name' />
+                                    <label for='$name'>$text</label>
+                                </p>";
+                    break;
                 case 'control':
                     $input = "  <p class='form_control'>
                                     <input type='submit' value='$text' />
