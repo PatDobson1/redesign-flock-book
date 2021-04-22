@@ -6,7 +6,7 @@
         var formValid = true;
         $('.error_message').remove();
         $('.error').removeClass('error');
-        var form = 'form[name="' + form_name + '"] input, form[name="' + form_name + '"] select';
+        var form = 'form[name="' + form_name + '"] input, form[name="' + form_name + '"] select, form[name="' + form_name + '"] textarea';
         $(form).each(function(){
             var validation = $(this).data('validation')
             var input = $(this);

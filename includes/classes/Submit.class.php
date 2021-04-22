@@ -17,6 +17,7 @@
                 $medicine = new Medicine();
                 $manualTreatment = new ManualTreatment();
                 $diary = new Diary();
+                $reminders = new Reminders();
 
                 switch($form_action){
 
@@ -113,6 +114,15 @@
                         break;
                         case 'edit_diary':
                             $diary -> sql_editDiary($form_data);
+                        break;
+                    // ---------------------------------------------------------
+
+                    // -- Reminders --------------------------------------------
+                        case 'add_reminder':
+                            $reminders -> sql_addReminder($form_data);
+                        break;
+                        case 'edit_reminder':
+                            $reminders -> sql_editReminder($form_data);
                         break;
                     // ---------------------------------------------------------
 

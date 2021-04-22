@@ -116,7 +116,7 @@
             }
         // ---------------------------------------------------------------------
 
-        // -- Add reminder -----------------------------------------------------
+        // -- Add reminder form ------------------------------------------------
             public function form_addReminder(){
                 $generic = new Generic();
                 $form_element = new FormElements();
@@ -142,9 +142,40 @@
             }
         // ---------------------------------------------------------------------
 
-        // -- Edit reminder ----------------------------------------------------
+        // -- Add reminder SQL -------------------------------------------------
+            public function sql_addReminder($form_data){
+                $reminder_date = $form_data[0]['value'] ? $form_data[0]['value'] : null;
+                $description = $form_data[1]['value'];
+                $priority = $form_data[2]['value'];
+                $emails = $form_data[3]['value'];
+                $this -> connect();
+                    $query = "INSERT INTO reminders (created_date, reminder_date, priority, description, emails )
+                              VALUES (NOW(), :reminder_date, :priority, :description, :emails)";
+                    $sql = self::$conn -> prepare($query);
+                    $sql -> bindParam(':reminder_date', $reminder_date);
+                    $sql -> bindParam(':priority', $priority);
+                    $sql -> bindParam(':description', $description);
+                    $sql -> bindParam(':emails', $emails);
+                    $sql -> execute();
+                $this -> disconnect();
+                $output = new stdClass();
+                $output -> action = 'reminderAdded';
+                $output -> reminder_date = $reminder_date;
+                $output -> description = $description;
+                $output -> priority = $priority;
+                echo json_encode($output);
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Edit reminder form -----------------------------------------------
             public function form_editReminder(){
                 echo "EDIT REMINDER";
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Edit reminder SQL ------------------------------------------------
+            public function sql_editReminder($form_data){
+                echo "<p>Edit reminder</p>";
             }
         // ---------------------------------------------------------------------
 

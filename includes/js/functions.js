@@ -492,6 +492,38 @@
                         break;
                     // ---------------------------------------------------------
 
+                    // -- Reminders --------------------------------------------
+                        case 'reminderAdded':
+                            $('.add_reminder').slideUp();
+                            $('.js_showForm').show();
+                            var colour = '';
+                            switch(true){
+                                case returnedData.priority > 3:
+                                    colour = 'red';
+                                break;
+                                case returnedData.priority == 3:
+                                    colour = 'amber';
+                                break;
+                                case returnedData.priority > 0 && returnedData.priority < 3:
+                                    colour = 'green';
+                                break;
+                            }
+                            var priority = '<p class="priority ' + colour + '">';
+                            for( var i=0; i<5; i++ ){
+                                if( i < returnedData.priority ){
+                                    priority += '<span>' + i + '</span>';
+                                }else{
+                                    priority += '<span class="blank"></span>';
+                                }
+                            }
+                            var newTable = '<h3>New</h3><table class="reminder_table"><tbody><tr><th>Due date</th><th width="100px">Priority</th><th>Description</th></tr><tr><td class="cen">' + returnedData.reminder_date + '</td><td class="left">' + priority + '</td><td class="left">' + returnedData.description + '</td></table>';
+                            $('.card h2').after(newTable);
+                            // -- <p class="priority red"><span>1</span><span>2</span><span>3</span><span>4</span><span class="blank"></span></p>
+                            $('form')[0].reset();
+                            displayMessage("Reminder added");
+                        break;
+                    // ---------------------------------------------------------
+
                 }
             }
         // ---------------------------------------------------------------------
@@ -2328,7 +2360,7 @@ var tables = function(){
         var formValid = true;
         $('.error_message').remove();
         $('.error').removeClass('error');
-        var form = 'form[name="' + form_name + '"] input, form[name="' + form_name + '"] select';
+        var form = 'form[name="' + form_name + '"] input, form[name="' + form_name + '"] select, form[name="' + form_name + '"] textarea';
         $(form).each(function(){
             var validation = $(this).data('validation')
             var input = $(this);
