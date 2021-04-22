@@ -141,6 +141,10 @@
                 $('.controls, .diaryCardSingle').remove();
                 $('content').prepend(returnedData.html);
             break;
+            case 'reminderEdited':
+                $('.controls, .reminderCard').remove();
+                $('content').prepend(returnedData.html);
+            break;
         }
     }
 // -------------------------------------------------------------------------

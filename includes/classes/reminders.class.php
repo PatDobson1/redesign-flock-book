@@ -132,7 +132,7 @@
                             $data .= "<p class='fullWidth emailDetails'><label>Emails:</label>$emails</p>";
                         $data .= "</div>";
                     $data .= "</div>";
-                    if($return = 'echo'){
+                    if($return == 'echo'){
                         echo $data;
                     }else{
                         return $data;
@@ -233,6 +233,7 @@
                     echo "<h3>Edit reminder</h3>";
                     echo "<form name='edit_reminder' class='col_2 js_form' data-action='edit_reminder'>";
                         echo "<div>";
+                            $form_element -> input('hidden', 'id', 'id', false, '', '','');
                             $form_element -> input('required', '', '', false, '', '','');
                             $form_element -> input('date', 'reminder_date', 'Due date (leave blank for non-dated reminder)', false, '', '','');
                             $form_element -> input('textarea', 'description', 'Notes', true, 'required', 'Please enter some notes', '');
@@ -266,6 +267,7 @@
                 $this -> disconnect();
                 $output = new stdClass();
                 if($row = $sql -> fetch(PDO::FETCH_NAMED)){
+                    $output -> id = $row['id'];
                     $output -> reminder_date = $row['reminder_date'];
                     $output -> description = $row['description'];
                     $output -> priority = $row['priority'];
@@ -279,7 +281,58 @@
 
         // -- Edit reminder SQL ------------------------------------------------
             public function sql_editReminder($form_data){
-                echo "<p>Edit reminder</p>";
+
+                foreach($form_data as $value){
+                    if( $value['name'] == 'id' ){ $id = $value['value']; }
+                    if( $value['name'] == 'reminder_date' ){ $reminder_date = $value['value']; }
+                    if( $value['name'] == 'description' ){ $description = $value['value']; }
+                    if( $value['name'] == 'priority' ){ $priority = $value['value']; }
+                    if( $value['name'] == 'emails' ){ $emails = $value['value']; }
+                    if( $value['name'] == 'before_1m' ){ $before_1m = "1 Month"; }
+                    if( $value['name'] == 'before_1w' ){ $before_1w = "1 Week"; }
+                    if( $value['name'] == 'before_1d' ){ $before_1d = "1 Day"; }
+                    if( $value['name'] == 'after_m' ){ $after_m = "Monthly"; }
+                    if( $value['name'] == 'after_w' ){ $after_w = "Weekly"; }
+                    if( $value['name'] == 'after_d' ){ $after_d = "Daily"; }
+                }
+
+                // -- Create before & after arrays ----
+                    $before = [];
+                    $after = [];
+                    if(isset($before_1m)){ array_push($before, $before_1m); }
+                    if(isset($before_1w)){ array_push($before, $before_1w); }
+                    if(isset($before_1d)){ array_push($before, $before_1d); }
+                    if(isset($after_m)){ array_push($after, $after_m); }
+                    if(isset($after_w)){ array_push($after, $after_w); }
+                    if(isset($after_d)){ array_push($after, $after_d); }
+                    $before = implode(",", $before);
+                    $after = implode(",", $after);
+                // ------------------------------------
+
+                $this -> connect();
+                    $query = "UPDATE reminders
+                              SET   reminder_date = :reminder_date,
+                                    priority = :priority,
+                                    description = :description,
+                                    emails = :emails,
+                                    remindMe_before = :before,
+                                    remindMe_after = :after
+                              WHERE id = :id";
+                    $sql = self::$conn -> prepare($query);
+                    $sql -> bindParam(':id', $id);
+                    $sql -> bindParam(':reminder_date', $reminder_date);
+                    $sql -> bindParam(':priority', $priority);
+                    $sql -> bindParam(':description', $description);
+                    $sql -> bindParam(':emails', $emails);
+                    $sql -> bindParam(':before', $before);
+                    $sql -> bindParam(':after', $after);
+                    $sql -> execute();
+                $this -> disconnect();
+
+                $output = new stdClass();
+                    $output -> action = 'reminderEdited';
+                    $output -> id = $id;
+                echo json_encode($output);
             }
         // ---------------------------------------------------------------------
 

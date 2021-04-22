@@ -453,7 +453,6 @@
                                 return_action: 'medicineEdited'
                             }
                             callClass(payload,'');
-
                         break;
                     // ---------------------------------------------------------
 
@@ -538,6 +537,17 @@
                             $('.card h2').after(newTable);
                             $('form')[0].reset();
                             displayMessage("Reminder added");
+                        break;
+                        case 'reminderEdited':
+                            $('.edit_reminder').slideUp();
+                            $('.js_edit_btn').slideDown();
+                            displayMessage("Reminder edited");
+                            var payload = {
+                                id: returnedData.id,
+                                class_name: 'reminderEdited',
+                                return_action: 'reminderEdited'
+                            }
+                            callClass(payload,'');
                         break;
                     // ---------------------------------------------------------
 
@@ -1004,6 +1014,10 @@ var general = function(){
             break;
             case 'diaryEdited':
                 $('.controls, .diaryCardSingle').remove();
+                $('content').prepend(returnedData.html);
+            break;
+            case 'reminderEdited':
+                $('.controls, .reminderCard').remove();
                 $('content').prepend(returnedData.html);
             break;
         }

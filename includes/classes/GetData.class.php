@@ -72,6 +72,7 @@
                 $medicine = new Medicine();
                 $manualTreatment = new ManualTreatment();
                 $diary = new Diary();
+                $reminders = new Reminders();
 
                 switch($payload['class_name']){
                     case 'getBreeds':
@@ -124,6 +125,11 @@
                     case 'diaryEdited':
                         $diaryDetails = $diary -> singleDiaryEntry($site_data, $payload['id'], 'return');
                         $data = array('html' => $diaryDetails, 'returnAction' => 'diaryEdited');
+                        echo json_encode($data);
+                    break;
+                    case 'reminderEdited':
+                        $reminderDetails = $reminders -> singleReminder($site_data, $payload['id'], 'return');
+                        $data = array('html' => $reminderDetails, 'returnAction' => 'reminderEdited');
                         echo json_encode($data);
                     break;
                 }
