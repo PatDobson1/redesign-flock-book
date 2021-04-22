@@ -27,15 +27,28 @@
             echo "</div>";
         echo "</div>";
         echo "<div class='card'>";
+            $overdueCount = $reminders -> remindersCount('overdue');
+            $todayCount = $reminders -> remindersCount('today');
+            $futureCount = $reminders -> remindersCount('future');
+            $noDateCount = $reminders -> remindersCount('noDate');
+            $completedCount = $reminders -> remindersCount('completed');
             echo "<h2>Reminders</h2>";
-            echo "<h3>Overdue</h3>";
-            echo $reminders -> remindersCard($site_data, 'overdue');
-            echo "<h3>Today</h3>";
-            echo $reminders -> remindersCard($site_data, 'today');
-            echo "<h3>Future</h3>";
-            echo $reminders -> remindersCard($site_data, 'future');
-            echo "<h3>Un-dated</h3>";
-            echo $reminders -> remindersCard($site_data, 'noDate');
+            if($overdueCount){
+                echo "<h3>Overdue</h3>";
+                echo $reminders -> remindersCard($site_data, 'overdue');
+            }
+            if($todayCount){
+                echo "<h3>Today</h3>";
+                echo $reminders -> remindersCard($site_data, 'today');
+            }
+            if($futureCount){
+                echo "<h3>Future</h3>";
+                echo $reminders -> remindersCard($site_data, 'future');
+            }
+            if($noDateCount){
+                echo "<h3>Un-dated</h3>";
+                echo $reminders -> remindersCard($site_data, 'noDate');
+            }
         echo "</div>";
 
     // --------------------------------------------------------------

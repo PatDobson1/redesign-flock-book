@@ -75,6 +75,41 @@
             }
         // ---------------------------------------------------------------------
 
+        // -- Get reminder numbers ---------------------------------------------
+            public function remindersCount($context){
+                $this -> connect();
+                    switch( $context ){
+                        case 'overdue':
+                            $query = "SELECT COUNT(id) AS reminderCount FROM reminders
+                                      WHERE reminder_date < CURRENT_DATE() AND completed != 1";
+                        break;
+                        case 'today':
+                            $query = "SELECT COUNT(id) AS reminderCount FROM reminders
+                                      WHERE reminder_date = CURRENT_DATE() AND completed != 1";
+                        break;
+                        case 'future':
+                            $query = "SELECT COUNT(id) AS reminderCount FROM reminders
+                                      WHERE reminder_date > CURRENT_DATE() AND completed != 1";
+                        break;
+                        case 'noDate':
+                            $query = "SELECT COUNT(id) AS reminderCount FROM reminders
+                                      WHERE reminder_date IS null AND completed != 1";
+                        break;
+                        case 'completed':
+                            $query = "SELECT COUNT(id) AS reminderCount FROM reminders
+                                      WHERE completed = 1";
+                        break;
+                    }
+                    $sql = self::$conn -> prepare($query);
+                    $sql -> execute();
+                    $row = $sql -> fetch();
+                    return $row['reminderCount'];
+                $this -> disconnect();
+
+            }
+
+        // ---------------------------------------------------------------------
+
         // -- Single reminder --------------------------------------------------
             public function singleReminder($site_data, $id, $return){
                 echo "S IN G L E  R E M I N D E R";

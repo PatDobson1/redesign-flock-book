@@ -17,21 +17,36 @@
             $reminders -> singleReminder($site_data, $_GET['id'], 'echo');
             $reminders -> form_editReminder();
         }else{
+            $overdueCount = $reminders -> remindersCount('overdue');
+            $todayCount = $reminders -> remindersCount('today');
+            $futureCount = $reminders -> remindersCount('future');
+            $noDateCount = $reminders -> remindersCount('noDate');
+            $completedCount = $reminders -> remindersCount('completed');
             echo "<p class='add_holder'>";
                 echo "<a class='js_showForm btn_island' data-form='add_reminder'>Add reminder</a>";
             echo "</p>";
             echo "<div class='card'>";
                 echo "<h2>Reminders</h2>";
-                echo "<h3>Overdue</h3>";
-                echo $reminders -> remindersCard($site_data, 'overdue');
-                echo "<h3>Today</h3>";
-                echo $reminders -> remindersCard($site_data, 'today');
-                echo "<h3>Future</h3>";
-                echo $reminders -> remindersCard($site_data, 'future');
-                echo "<h3>Un-dated</h3>";
-                echo $reminders -> remindersCard($site_data, 'noDate');
-                echo "<h3>Completed</h3>";
-                echo $reminders -> remindersCard($site_data, 'completed');
+                if($overdueCount){
+                    echo "<h3>Overdue</h3>";
+                    echo $reminders -> remindersCard($site_data, 'overdue');
+                }
+                if($todayCount){
+                    echo "<h3>Today</h3>";
+                    echo $reminders -> remindersCard($site_data, 'today');
+                }
+                if($futureCount){
+                    echo "<h3>Future</h3>";
+                    echo $reminders -> remindersCard($site_data, 'future');
+                }
+                if($noDateCount){
+                    echo "<h3>Un-dated</h3>";
+                    echo $reminders -> remindersCard($site_data, 'noDate');
+                }
+                if($completedCount){
+                    echo "<h3>Completed</h3>";
+                    echo $reminders -> remindersCard($site_data, 'completed');
+                }
             echo "</div>";
             $reminders -> form_addReminder();
         }
