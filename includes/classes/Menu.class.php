@@ -34,6 +34,7 @@
                     <li class='dropdown'><a href='#'>Control</a>
                         <ul>
                             <li><a class='icon_reminder' href='$site_data[site_root]/reminders'>Reminders</a></li>
+                            <li><a class='icon_reminder' href='$site_data[site_root]/emailTest'>Email test</a></li>
                             <li><a class='js_print icon_print'>Print</a></li>
                             <li><a class='icon_logOut'>Log out</a></li>
                         </ul>

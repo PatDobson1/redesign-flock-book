@@ -15,8 +15,10 @@
 
     // -- Site settings --------------------------------------------------------
         $site_data = array(
-            "site_name" => "Broadstone",
-            "site_root" => "/redesign-flock-book"
+            "site_name"  => "Broadstone",
+            "site_subDomain" => 'broadstone',
+            "site_root"  => "/redesign-flock-book",
+            "base_email" => "pat@moonspace.co.uk"
         );
 	    date_default_timezone_set('Europe/London');
     // -------------------------------------------------------------------------

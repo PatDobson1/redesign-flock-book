@@ -5,6 +5,7 @@
         // -- Reminders card ----------------------------------------------------
             public function remindersCard($edit, $context){
                 $this -> connect();
+                    $editCell = "<td class='cen' width='150px'>[done]</td>";
                     switch( $context ){
                         case 'overdue':
                             $query = "SELECT * FROM reminders
@@ -30,6 +31,7 @@
                             $query = "SELECT * FROM reminders
                                       WHERE completed = 1
                                       ORDER by reminder_date ASC";
+                            $editCell = "<td class='cen' width='150px'>[not done]</td>";
                         break;
                     }
                     $sql = self::$conn -> prepare($query);
@@ -37,8 +39,9 @@
                     echo "  <table class='reminder_table'>
                                 <tr>
                                     <th>Due date</th>
-                                    <th width='100px'>Priority</th>
+                                    <th>Priority</th>
                                     <th>Description</th>
+                                    <th></th>
                                 </tr>";
                                 while( $row = $sql -> fetch() ){
                                 $priority = $this -> createPriority($row['priority'], 'p');
@@ -46,8 +49,9 @@
                                     $data_tag = $edit ? "data-id = '$row[id]' class='js-view'" : '';
                                     echo " <tr $data_tag>
                                                 <td class='cen'>$row[reminder_date]</td>
-                                                <td class='left'>$priority</td>
+                                                <td width='100px' class='left'>$priority</td>
                                                 <td class='left'>$description</td>
+                                                $editCell
                                             </tr>";
                                 }
                     echo "  </table>";

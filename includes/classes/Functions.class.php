@@ -15,6 +15,15 @@
             }
         // ---------------------------------------------------------------------
 
+        // -- Full date format -------------------------------------------------
+            public function fullDateFormat($date){
+
+                $formatted_date = date_create($date);
+                return date_format( $formatted_date,"l jS M Y" );
+
+            }
+        // ---------------------------------------------------------------------
+
         // -- Date format ------------------------------------------------------
             public function cardDateFormat($date){
 
