@@ -124,6 +124,9 @@
                         case 'edit_reminder':
                             $reminders -> sql_editReminder($form_data);
                         break;
+                        case 'reminder-change':
+                            $reminders -> sql_changeReminder($form_data);
+                        break;
                     // ---------------------------------------------------------
 
                 }

@@ -26,7 +26,7 @@
             echo "<p class='add_holder'>";
                 echo "<a class='js_showForm btn_island' data-form='add_reminder'>Add reminder</a>";
             echo "</p>";
-            echo "<div class='card'>";
+            echo "<div class='card reminders_card'>";
                 echo "<h2>Reminders</h2>";
                 if($overdueCount){
                     echo "<h3>Overdue</h3>";

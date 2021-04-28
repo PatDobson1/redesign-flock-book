@@ -266,6 +266,29 @@
             })
         // ---------------------------------------------------------------------
 
+        // -- Reminder completed link ------------------------------------------
+            $(document).on('click','.js-complete',function(e){
+                e.stopPropagation();
+                var status = $(this).data('state');
+                var id = $(this).data('id');
+                if( status == 'not-complete' ){
+                    $modal_content = '<h2>Mark reminder as complete</h2>' +
+                                     '<p>Are you sure you want to mark this reminder as complete?</p>';
+                 }else if( status == 'complete' ){
+                     $modal_content = '<h2>Mark reminder as not complete</h2>' +
+                                      '<p>Are you sure you want to mark this reminder as not complete?</p>' +
+                                      '<p>Any email reminders you set will be reinstated.</p>';
+                 }
+                 $modal_content +=  '<p>( you can change it later )</p>' +
+                                    '<form class="js_form" data-action="reminder-change">' +
+                                    '<input type="hidden" name="id" value="' + id + '" />' +
+                                    '<input type="submit" value="Confirm" class="form_btn" />' +
+                                    '</form>' +
+                                    '<button class="js_closeModal btn_right" />Cancel</button>';
+                 openModal($modal_content);
+            })
+        // ---------------------------------------------------------------------
+
         // -- Process form submit ----------------------------------------------
             var processSubmit = function(data){
                 var returnedData = JSON.parse(data);
@@ -533,7 +556,7 @@
                                     priority += '<span class="blank"></span>';
                                 }
                             }
-                            var newTable = '<h3>New</h3><table class="reminder_table"><tbody><tr><th>Due date</th><th width="100px">Priority</th><th>Description</th></tr><tr><td class="cen">' + returnedData.reminder_date + '</td><td class="left">' + priority + '</td><td class="left">' + returnedData.description + '</td></table>';
+                            var newTable = '<h3>New</h3><table class="reminder_table"><tbody><tr><th>Due date</th><th width="100px">Priority</th><th>Description</th></tr><tr><td class="cen">' + returnedData.reminder_date + '</td><td class="left">' + priority + '</td><td class="left">' + returnedData.description + '</td></tr></table>';
                             $('.card h2').after(newTable);
                             $('form')[0].reset();
                             displayMessage("Reminder added");
@@ -548,6 +571,18 @@
                                 return_action: 'reminderEdited'
                             }
                             callClass(payload,'');
+                        break;
+                        case 'reminderChanged':
+                            var changedTr = $('tr[data-id=' + returnedData.id + ']').clone();
+                            $('tr[data-id=' + returnedData.id + ']').remove();
+                            var newTable = '<h3>Changed</h3><table class="reminder_table change_table"><tbody><tr><th>Due date</th><th width="100px">Priority</th><th>Description</th></tr><tr>' + changedTr[0].outerHTML + '</tr></table>';
+                            if( $('.change_table').length ){
+                                $('.change_table').append(changedTr[0].outerHTML);
+                            }else{
+                                $('.reminders_card h2').after(newTable);
+                            }
+                            $('.change_table tr td:last-child').empty();
+                            displayMessage("Reminder changed");
                         break;
                     // ---------------------------------------------------------
 

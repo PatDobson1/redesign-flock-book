@@ -26,7 +26,7 @@
                 $breeds-> simpleBreedCard(false);
             echo "</div>";
         echo "</div>";
-        echo "<div class='card'>";
+        echo "<div class='card reminders_card'>";
             $overdueCount = $reminders -> remindersCount('overdue');
             $todayCount = $reminders -> remindersCount('today');
             $futureCount = $reminders -> remindersCount('future');

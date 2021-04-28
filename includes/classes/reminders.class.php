@@ -3,9 +3,9 @@
     class Reminders extends Db{
 
         // -- Reminders card ----------------------------------------------------
-            public function remindersCard($edit, $context){
+            public function remindersCard($site_data, $context){
                 $this -> connect();
-                    $editCell = "<td class='cen' width='150px'>[done]</td>";
+
                     switch( $context ){
                         case 'overdue':
                             $query = "SELECT * FROM reminders
@@ -31,7 +31,7 @@
                             $query = "SELECT * FROM reminders
                                       WHERE completed = 1
                                       ORDER by reminder_date ASC";
-                            $editCell = "<td class='cen' width='150px'>[not done]</td>";
+                            $editCell = "<td class='cen' width='150px'><a class='js-done tableLink'>Not completed</a></td>";
                         break;
                     }
                     $sql = self::$conn -> prepare($query);
@@ -44,10 +44,14 @@
                                     <th></th>
                                 </tr>";
                                 while( $row = $sql -> fetch() ){
-                                $priority = $this -> createPriority($row['priority'], 'p');
+                                    $priority = $this -> createPriority($row['priority'], 'p');
                                     $description = nl2br($row['description']);
-                                    $data_tag = $edit ? "data-id = '$row[id]' class='js-view'" : '';
-                                    echo " <tr $data_tag>
+                                    if($context != 'completed'){
+                                        $editCell = "<td class='cen' width='150px'><a class='js-complete tableLink' data-id='$row[id]' data-state='not-complete'>Completed</a></td>";
+                                    }else{
+                                        $editCell = "<td class='cen' width='150px'><a class='js-complete tableLink' data-id='$row[id]' data-state='complete'>Not completed</a></td>";
+                                    }
+                                    echo " <tr data-id = '$row[id]' class='js-view' data-linktype='reminder'>
                                                 <td class='cen'>$row[reminder_date]</td>
                                                 <td width='100px' class='left'>$priority</td>
                                                 <td class='left'>$description</td>
@@ -337,6 +341,28 @@
                     $output -> action = 'reminderEdited';
                     $output -> id = $id;
                 echo json_encode($output);
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Change reminder state --------------------------------------------
+            public function sql_changeReminder($form_data){
+
+                foreach($form_data as $value){
+                    if( $value['name'] == 'id' ){ $id = $value['value']; }
+                }
+
+                $this -> connect();
+                    $query = "UPDATE reminders SET completed = NOT completed WHERE id = :id";
+                    $sql = self::$conn -> prepare($query);
+                    $sql -> bindParam(':id', $id);
+                    $sql -> execute();
+                $this -> disconnect();
+
+                $output = new stdClass();
+                    $output -> action = 'reminderChanged';
+                    $output -> id = $id;
+                echo json_encode($output);
+
             }
         // ---------------------------------------------------------------------
 

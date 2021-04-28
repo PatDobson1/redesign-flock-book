@@ -14,7 +14,7 @@
                                 <link href='https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans:wght@300;600&display=swap' rel='stylesheet'>
                                 <link rel='stylesheet' href='includes/style/style.css' />
                             </head>
-                            <body>
+                            <body data-root='$site_data[site_root]'>
                             <div class='overall'>
                                 <header>
                                     <inner>

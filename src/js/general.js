@@ -43,9 +43,21 @@ var general = function(){
 
     // -- View -----------------------------------------------------------------
         $(document).on('click','.js-view',function(){
-            var path = $(this).data('path');
+            var site_root = $('body').data('root');
+            var linktype = $(this).data('linktype');
             var id = $(this).data('id');
-            var destination = path ? path + '/livestock?id=' + id : '?id=' + id;
+            var destination = '';
+            switch(linktype){
+                case 'livestock':
+                    destination = site_root + '/livestock?id=' + id;
+                break;
+                case 'reminder':
+                    destination = site_root + '/reminders?id=' + id;
+                break;
+                default:
+                    destination = '?id=' + id;
+                break;
+            }
             window.location.href = destination;
         })
     // -------------------------------------------------------------------------

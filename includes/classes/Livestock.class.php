@@ -160,7 +160,7 @@
                                     <th class='no_sort'></th>
                                 </tr>";
                     while( $row = $sql -> fetch() ){
-                        echo "  <tr data-id='$row[id]' class='js-view' data-path='$site_data[site_root]'>
+                        echo "  <tr data-id='$row[id]' class='js-view' data-linktype='livestock'>
                                     <td class='left'>$row[uk_tag_no]</td>
                                     <td class='left'>$row[livestock_name]</td>
                                     <td class='cen'>$row[date]</td>
