@@ -162,21 +162,23 @@
         // -- Process reminder email(s) ----------------------------------------
             private function processEmails($ids, $site_data){
 
-                $this -> connect();
-                    $query = "SELECT * FROM reminders where id IN (" . implode(',', $ids) . ")";
-                    $sql = self::$conn -> prepare($query);
-                    $sql -> execute();
-                    $count = $sql -> rowCount();
-                $this -> disconnect();
+                if(count($ids)){
+                    $this -> connect();
+                        $query = "SELECT * FROM reminders where id IN (" . implode(',', $ids) . ")";
+                        $sql = self::$conn -> prepare($query);
+                        $sql -> execute();
+                        $count = $sql -> rowCount();
+                    $this -> disconnect();
 
-                while( $row = $sql -> fetch() ){
-                    $data = new stdClass();
-                    $data -> reminder_date = $row['reminder_date'];
-                    $data -> description = $row['description'];
-                    $data -> priority = $row['priority'];
-                    $data -> emails = $row['emails'];
-                    $data -> siteUrl = "https://" . $site_data['site_subDomain'] . ".farmstockbook.co.uk";
-                    $this -> reminderEmail($data, $site_data);
+                    while( $row = $sql -> fetch() ){
+                        $data = new stdClass();
+                        $data -> reminder_date = $row['reminder_date'];
+                        $data -> description = $row['description'];
+                        $data -> priority = $row['priority'];
+                        $data -> emails = $row['emails'];
+                        $data -> siteUrl = "https://" . $site_data['site_subDomain'] . ".farmstockbook.co.uk";
+                        $this -> reminderEmail($data, $site_data);
+                    }
                 }
 
             }

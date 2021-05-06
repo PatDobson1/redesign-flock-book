@@ -197,6 +197,7 @@
                     if( $value['name'] == 'after_w' ){ $after_w = "Weekly"; }
                     if( $value['name'] == 'after_d' ){ $after_d = "Daily"; }
                 }
+                $reminder_date = $reminder_date == null ? null : $reminder_date;
 
                 // -- Create before & after arrays ----
                     $before = [];
@@ -303,6 +304,7 @@
                     if( $value['name'] == 'after_w' ){ $after_w = "Weekly"; }
                     if( $value['name'] == 'after_d' ){ $after_d = "Daily"; }
                 }
+                $reminder_date = $reminder_date == null ? null : $reminder_date;
 
                 // -- Create before & after arrays ----
                     $before = [];
