@@ -36,7 +36,7 @@
                     }
                     $sql = self::$conn -> prepare($query);
                     $sql -> execute();
-                    echo "  <table class='reminder_table'>
+                    echo "  <table class='reminder_table' data-classname='reminders'>
                                 <tr>
                                     <th>Due date</th>
                                     <th>Priority</th>
@@ -119,7 +119,7 @@
                     }
                     $data = '';
                     $data .= "<p class='controls'>";
-                        $data .= "<a href='$site_data[site_root]/reminders' class='back'>Back to reminders</a>";
+                        $data .= "<a href='$site_data[site_root]/reminders' class='back'>Reminders</a>";
                         $data .= "<a class='right_aligned js_edit_btn' data-editid='$id' data-edittype='reminder' data-form='edit_reminder'>Edit reminder</a>";
                     $data .= "</p>";
                     $data .= "<div class='card reminderCard'>";

@@ -557,7 +557,8 @@
                                 }
                             }
                             var newTable = '<h3>New</h3><table class="reminder_table"><tbody><tr><th>Due date</th><th width="100px">Priority</th><th>Description</th></tr><tr><td class="cen">' + returnedData.reminder_date + '</td><td class="left">' + priority + '</td><td class="left">' + returnedData.description + '</td></tr></table>';
-                            $('.card h2').after(newTable);
+                            var newMobileTable = '<table class="mobile_table  mobile_reminders"><tbody><tr><td><span>Due date</span>' + returnedData.reminder_date + '</td></tr><tr><td><span>Priority</span>' + priority + '</td></tr><tr><td><span>Description</span>' + returnedData.description + '</td></tr><tr><td></td></tr></tbody></table>';
+                            $('.card h2').after(newTable).after(newMobileTable);
                             $('form')[0].reset();
                             displayMessage("Reminder added");
                         break;
@@ -2404,7 +2405,9 @@ var tables = function(){
     // -- Create a mobile version of each table on the page --------------------
         $(document).find('table').each(function(){
 
-            var newTable = '<table class="mobile_table">';
+            var newClass = $(this).data('classname') ? ' mobile_' + $(this).data('classname') : '';
+            console.log(newClass);
+            var newTable = '<table class="mobile_table ' + newClass +'">';
             var cols = [];
             var newRows = '';
             $(this).find('tr').each(function(i){
@@ -2414,11 +2417,9 @@ var tables = function(){
                     })
                 }else{
                     var id_link = $(this).data('id') ? ' data-id="' + $(this).data('id') + '" ' : ' data-editid="' + $(this).data('editid') + '" ';
-                    var species_or_breed = $(this).data('form') == 'edit_breed' ? 'breed' : 'species';
-                    var edit_link = $(this).hasClass('js-view') ? ' class="js-view" ' : ' data-form="edit_' + species_or_breed + '" data-table="' + species_or_breed + '" class="js_edit" ';
                     newRows += '<tbody>';
                         $(this).find('td').each(function(i){
-                            newRows += '<tr' + edit_link + id_link + '><td>' + '<span>' + cols[i] + '</span>' + $(this).html()  + '</td></tr>';
+                            newRows += '<tr class="js-view"' + id_link + '><td>' + '<span>' + cols[i] + '</span>' + $(this).html()  + '</td></tr>';
                         })
                     newRows += '</tbody>';
                 }

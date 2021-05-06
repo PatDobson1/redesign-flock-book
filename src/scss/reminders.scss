@@ -39,6 +39,46 @@
             padding: 3px 5px;
         }
     }
+    .mobile_reminders{
+        tr{
+            td{
+                .priority{
+                    display: inline;
+                    span{
+                        width: auto;
+                        padding: 2px 5px;
+                        &.blank{
+                            background: none;
+                            width: 20px;
+                            height: 21px;
+                        }
+                    }
+                }
+            }
+            &:nth-child(3){
+                td{
+                    position: relative;
+                    padding: 5px 20px 20px 120px;
+                    span{
+                        position: absolute;
+                        top: 5px;
+                        left: 10px;
+                    }
+                    @media( max-width: 450px ){
+                        padding: 0 10px 0 10px;
+                        span{
+                            position: static;
+                        }
+                    }
+                }
+            }
+            &:nth-child(4){
+                td{
+                    text-align: right;
+                }
+            }
+        }
+    }
 // --------------------------------------------------------------
 
 // -- Email list ------------------------------------------------

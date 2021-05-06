@@ -310,7 +310,7 @@
 
                 $data = '';
                 $data.= "<p class='controls'>";
-                    $data.= "<a href='$site_data[site_root]/livestock' class='back'>Back to livestock</a>";
+                    $data.= "<a href='$site_data[site_root]/livestock' class='back'>Livestock</a>";
                     $data.= "<a class='right_aligned js_edit_btn' data-editid='$row[id]' data-edittype='livestock' data-form='edit_livestock'>Edit livestock</a>";
                 $data.= "</p>";
 

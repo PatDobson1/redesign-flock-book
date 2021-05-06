@@ -101,5 +101,17 @@ table{
     }
     @media( max-width: 800px ){
         display: table;
+        margin-bottom: 20px;
+    }
+    @media( max-width: 450px ){
+        tr{
+            td{
+                > span{
+                    display: block;
+                    text-align: left;
+                    margin-bottom: 10px;
+                }
+            }
+        }
     }
 }

@@ -115,7 +115,8 @@
                 border: 1px solid $light-border-colour;
                 border-radius: $border-radius;
                 &.icon_print,
-                &.icon_logOut{
+                &.icon_logOut,
+                &.icon_reminder{
                     padding-left: 50px
                 }
             }

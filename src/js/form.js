@@ -557,7 +557,8 @@
                                 }
                             }
                             var newTable = '<h3>New</h3><table class="reminder_table"><tbody><tr><th>Due date</th><th width="100px">Priority</th><th>Description</th></tr><tr><td class="cen">' + returnedData.reminder_date + '</td><td class="left">' + priority + '</td><td class="left">' + returnedData.description + '</td></tr></table>';
-                            $('.card h2').after(newTable);
+                            var newMobileTable = '<table class="mobile_table  mobile_reminders"><tbody><tr><td><span>Due date</span>' + returnedData.reminder_date + '</td></tr><tr><td><span>Priority</span>' + priority + '</td></tr><tr><td><span>Description</span>' + returnedData.description + '</td></tr><tr><td></td></tr></tbody></table>';
+                            $('.card h2').after(newTable).after(newMobileTable);
                             $('form')[0].reset();
                             displayMessage("Reminder added");
                         break;
