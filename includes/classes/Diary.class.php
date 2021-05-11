@@ -200,7 +200,7 @@
                     $sql -> execute();
                 $this -> disconnect();
 
-                echo "<div class='card livestockDiaryCard'>";
+                echo "<div class='card livestockDiaryCard no_print'>";
                 echo "  <h2>Diary</h2>";
                 while( $row = $sql -> fetch() ){
                     $livestock = explode(',', $row['livestock']);

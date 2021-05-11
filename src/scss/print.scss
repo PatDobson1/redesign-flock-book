@@ -6,9 +6,6 @@
     body{
         background-color: #ffffff;
     }
-    header{
-        display: none;
-    }
     content{
         max-width: none;
         background-color: #ffffff;
@@ -48,7 +45,6 @@
     footer{
         display: none;
     }
-
     .livestock_table,
     .feed_table{
         tr{
@@ -58,5 +54,27 @@
                 }
             }
         }
+    }
+    .page_break{
+        page-break-after: always;
+    }
+    .family_tree{
+        li{
+            div{
+                width: 100px;
+                word-wrap: break-word;
+                white-space: pre-wrap;
+                font-size: 0.6em;
+                text-align: left;
+                padding: 20px 0 10px 10px;
+            }
+        }
+    }
+    header,
+    .controls,
+    .delete_link,
+    .no_print
+    {
+        display: none;
     }
 }

@@ -314,7 +314,7 @@
                     $data.= "<a class='right_aligned js_edit_btn' data-editid='$row[id]' data-edittype='livestock' data-form='edit_livestock'>Edit livestock</a>";
                 $data.= "</p>";
 
-                $data.= "<div class='card animalCard'>";
+                $data.= "<div class='card animalCard page_break'>";
                 $data.= "  <h2>Stock details</h2>";
                 $data.= "  <div class='col_2'>";
                 $data.= "      <div>";
@@ -449,7 +449,9 @@
 
                 $this -> disconnect();
 
-                echo "<div class='card'>";
+                 $print_style = $count ? '' : ' no_print';
+
+                echo "<div class='card page_break $print_style'>";
                 if($count){
                     echo "  <h2>Siblings</h2>";
                     echo "  <table class='sortable'>";
@@ -502,7 +504,8 @@
 
                  $this -> disconnect();
 
-                 echo "<div class='card'>";
+                 $print_style = $count ? '' : ' no_print';
+                 echo "<div class='card page_break $print_style'>";
                  if($count){
                      echo "  <h2>Children</h2>";
                      echo "  <table class='sortable'>";
@@ -537,7 +540,7 @@
         // -- Family tree ------------------------------------------------------
             public function familyTree($site_data, $id){
 
-                echo "<div class='card'>";
+                echo "<div class='card page_break'>";
                 echo "  <h2>Family tree</h2>";
                 echo "  <div class='family_tree' data-id='$id'></div>";
                 echo "<div class='treeKey'>";
