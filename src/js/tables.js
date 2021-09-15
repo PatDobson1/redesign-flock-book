@@ -4,7 +4,6 @@ var tables = function(){
         $(document).find('table').each(function(){
 
             var newClass = $(this).data('classname') ? ' mobile_' + $(this).data('classname') : '';
-            console.log("newClass :: " + newClass);
             var newTable = '<table class="mobile_table ' + newClass +'">';
             var cols = [];
             var newRows = '';

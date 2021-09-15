@@ -364,6 +364,7 @@
                         case 'livestockFreeTextSearch':
                             $('.search_results').html(returnedData.html).slideDown();
                             applySorting();
+                            tables();
                         break;
                     // ---------------------------------------------------------
 
