@@ -26,16 +26,20 @@
                 e.preventDefault();
                 var breed = $('select[name=breed_filter]').val();
                 var species = $('select[name=species_filter]').val();
+                var gender = $('select[name=gender_filter]').val();
                 var year = $('select[name=year_filter]').val();
                 if( $('.livestock_table').is(':visible') ){
                     $('.livestock_table').find('tr').each(function(i){
                         $(this).show();
                         var displayed_year = $(this).find('td:nth-child(3)').text();
                         displayed_year = displayed_year.slice(0,4);
-                        if( breed != 'null' && $(this).find('td:nth-child(5)').text() != breed && i > 0){
+                        if( breed != 'null' && $(this).find('td:nth-child(6)').text() != breed && i > 0){
                             $(this).hide();
                         }
                         if( species != 'null' && $(this).find('td:nth-child(4)').text() != species && i > 0 ){
+                            $(this).hide();
+                        }
+                        if( gender != 'null' && $(this).find('td:nth-child(5)').text() != gender && i > 0 ){
                             $(this).hide();
                         }
                         if( year != 'null' && displayed_year != year && i > 0 ){
@@ -46,12 +50,16 @@
                     $('.livestock_data .mobile_table').find('tbody').each(function(){
                         $(this).show();
                         var displayed_year = ($(this).find('tr:nth-child(3) td').text()).slice(3);
-                        var displayed_breed = ($(this).find('tr:nth-child(5) td').text()).slice(5);
+                        var displayed_breed = ($(this).find('tr:nth-child(6) td').text()).slice(5);
                         var displayed_species = ($(this).find('tr:nth-child(4) td').text()).slice(7);
+                        var displayed_gender = ($(this).find('tr:nth-child(5) td').text()).slice(6);
                         if( breed != 'null' && displayed_breed != breed){
                             $(this).hide();
                         }
                         if( species != 'null' && displayed_species != species ){
+                            $(this).hide();
+                        }
+                        if( gender != 'null' && displayed_gender != gender ){
                             $(this).hide();
                         }
                         if( year != 'null' && displayed_year != year ){
@@ -868,13 +876,14 @@ var general = function(){
             var dob_list = [];
             var species_options = '';
             var breed_options = '';
+            var gender_options = '';
             var dob_options = '';
 
 
             table.find('tr').each(function(i){
                 if( i > 0 ){
                     var species = $(this).find('td:nth-child(4)').text();
-                    var breed = $(this).find('td:nth-child(5)').text();
+                    var breed = $(this).find('td:nth-child(6)').text();
                     var dobTemp = $(this).find('td:nth-child(3)').text();
                     var dob = dobTemp.slice(0,4);
                     if( species_list.indexOf(species) == -1 ){
@@ -890,18 +899,20 @@ var general = function(){
             })
 
             $.each(species_list, function(index, item){
-                species_options += '<option value="' + item + '">' + item + '</option>'
+                species_options += '<option value="' + item + '">' + item + '</option>';
             });
             $.each(breed_list, function(index, item){
-                breed_options += '<option value="' + item + '">' + item + '</option>'
+                breed_options += '<option value="' + item + '">' + item + '</option>';
             });
+            gender_options = '<option value="Male">Male</option><option value="Female">Female</option>';
             dob_list.sort().reverse();
             $.each(dob_list, function(index, item){
-                dob_options += '<option value="' + item + '">' + item + '</option>'
+                dob_options += '<option value="' + item + '">' + item + '</option>';
             });
 
             $('select[name=species_filter]').append(species_options);
             $('select[name=breed_filter]').append(breed_options);
+            $('select[name=gender_filter]').append(gender_options);
             $('select[name=year_filter]').append(dob_options);
         }
     // -------------------------------------------------------------------------
@@ -2406,7 +2417,7 @@ var tables = function(){
         $(document).find('table').each(function(){
 
             var newClass = $(this).data('classname') ? ' mobile_' + $(this).data('classname') : '';
-            console.log(newClass);
+            console.log("newClass :: " + newClass);
             var newTable = '<table class="mobile_table ' + newClass +'">';
             var cols = [];
             var newRows = '';

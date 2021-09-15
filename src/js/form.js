@@ -26,16 +26,20 @@
                 e.preventDefault();
                 var breed = $('select[name=breed_filter]').val();
                 var species = $('select[name=species_filter]').val();
+                var gender = $('select[name=gender_filter]').val();
                 var year = $('select[name=year_filter]').val();
                 if( $('.livestock_table').is(':visible') ){
                     $('.livestock_table').find('tr').each(function(i){
                         $(this).show();
                         var displayed_year = $(this).find('td:nth-child(3)').text();
                         displayed_year = displayed_year.slice(0,4);
-                        if( breed != 'null' && $(this).find('td:nth-child(5)').text() != breed && i > 0){
+                        if( breed != 'null' && $(this).find('td:nth-child(6)').text() != breed && i > 0){
                             $(this).hide();
                         }
                         if( species != 'null' && $(this).find('td:nth-child(4)').text() != species && i > 0 ){
+                            $(this).hide();
+                        }
+                        if( gender != 'null' && $(this).find('td:nth-child(5)').text() != gender && i > 0 ){
                             $(this).hide();
                         }
                         if( year != 'null' && displayed_year != year && i > 0 ){
@@ -46,12 +50,16 @@
                     $('.livestock_data .mobile_table').find('tbody').each(function(){
                         $(this).show();
                         var displayed_year = ($(this).find('tr:nth-child(3) td').text()).slice(3);
-                        var displayed_breed = ($(this).find('tr:nth-child(5) td').text()).slice(5);
+                        var displayed_breed = ($(this).find('tr:nth-child(6) td').text()).slice(5);
                         var displayed_species = ($(this).find('tr:nth-child(4) td').text()).slice(7);
+                        var displayed_gender = ($(this).find('tr:nth-child(5) td').text()).slice(6);
                         if( breed != 'null' && displayed_breed != breed){
                             $(this).hide();
                         }
                         if( species != 'null' && displayed_species != species ){
+                            $(this).hide();
+                        }
+                        if( gender != 'null' && displayed_gender != gender ){
                             $(this).hide();
                         }
                         if( year != 'null' && displayed_year != year ){

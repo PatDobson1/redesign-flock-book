@@ -114,13 +114,14 @@ var general = function(){
             var dob_list = [];
             var species_options = '';
             var breed_options = '';
+            var gender_options = '';
             var dob_options = '';
 
 
             table.find('tr').each(function(i){
                 if( i > 0 ){
                     var species = $(this).find('td:nth-child(4)').text();
-                    var breed = $(this).find('td:nth-child(5)').text();
+                    var breed = $(this).find('td:nth-child(6)').text();
                     var dobTemp = $(this).find('td:nth-child(3)').text();
                     var dob = dobTemp.slice(0,4);
                     if( species_list.indexOf(species) == -1 ){
@@ -136,18 +137,20 @@ var general = function(){
             })
 
             $.each(species_list, function(index, item){
-                species_options += '<option value="' + item + '">' + item + '</option>'
+                species_options += '<option value="' + item + '">' + item + '</option>';
             });
             $.each(breed_list, function(index, item){
-                breed_options += '<option value="' + item + '">' + item + '</option>'
+                breed_options += '<option value="' + item + '">' + item + '</option>';
             });
+            gender_options = '<option value="Male">Male</option><option value="Female">Female</option>';
             dob_list.sort().reverse();
             $.each(dob_list, function(index, item){
-                dob_options += '<option value="' + item + '">' + item + '</option>'
+                dob_options += '<option value="' + item + '">' + item + '</option>';
             });
 
             $('select[name=species_filter]').append(species_options);
             $('select[name=breed_filter]').append(breed_options);
+            $('select[name=gender_filter]').append(gender_options);
             $('select[name=year_filter]').append(dob_options);
         }
     // -------------------------------------------------------------------------

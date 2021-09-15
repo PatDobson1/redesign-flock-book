@@ -54,6 +54,10 @@
                     $species_select .= "<option value='null'>Select a species</option>";
                 $species_select .= "</select>";
 
+                $gender_select = "<select name='gender_filter'>";
+                    $gender_select .= "<option value='null'>Select a gender</option>";
+                $gender_select .= "</select>";
+
                 $years_select = "<select name='year_filter'>";
                     $years_select .= "<option value='null'>Select a DOB</option>";
                 $years_select .= "</select>";
@@ -63,6 +67,7 @@
                     $filter .= "<form name='filter_results' class='js_filter' data-action='filter_results'>";
                         $filter .= $breeds_select;
                         $filter .= $species_select;
+                        $filter .= $gender_select;
                         $filter .= $years_select;
                         $filter .= "<input type='button' value='Clear' class='js_clearFilters' />";
                     $filter .= "</form>";
@@ -80,10 +85,11 @@
                     $this -> connect();
                         $query = "  SELECT livestock.livestock_name, livestock.uk_tag_no, livestock.date_of_birth,
                                            breed.breed_name AS breed, species.species AS species, species.id AS species_id,
-                                           breed.id AS breed_id, livestock.id
+                                           breed.id AS breed_id, livestock.id, gender.gender AS gender
                                     FROM livestock
                                     INNER JOIN species ON species.id = livestock.species
                                     INNER JOIN breed ON breed.id = livestock.breed
+                                    INNER JOIN gender ON gender.id = livestock.gender
                                     WHERE livestock.date_of_sale IS NULL AND livestock.date_of_death IS NULL AND deleted = 0
                                     ORDER BY species, livestock_name";
 
@@ -99,6 +105,7 @@
                                     <th>Name</th>
                                     <th>DOB</th>
                                     <th>Species</th>
+                                    <th>Gender</th>
                                     <th>Breed</th>
                                     <th class='no_sort'></th>
                                 </tr>";
@@ -108,6 +115,7 @@
                                     <td class='left'>$row[livestock_name]</td>
                                     <td class='cen'>$row[date_of_birth]</td>
                                     <td class='left'>$row[species]</td>
+                                    <td class='left'>$row[gender]</td>
                                     <td class='left'>$row[breed]</td>
                                     <td><span class='icon icon_quickView js-quickView' data-id='$row[id]'></span></td>
                                 </tr>";
