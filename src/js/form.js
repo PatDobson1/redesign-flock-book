@@ -274,27 +274,36 @@
             })
         // ---------------------------------------------------------------------
 
-        // -- Reminder completed link ------------------------------------------
+        // -- Reminder links ---------------------------------------------------
             $(document).on('click','.js-complete',function(e){
                 e.stopPropagation();
                 var status = $(this).data('state');
                 var id = $(this).data('id');
+                var $modal_content;
+                var form_action = 'reminder-change';
+                if(status == 'delete'){
+                    form_action = 'reminder-delete';
+                    modal_content = '<h2>Delete reminder</h2>' +
+                                     '<p>Are you sure you want to delete this reminder?</p>' +
+                                     '<p>Deleting is permanent and cannot be undone.</p>';
+                }
                 if( status == 'not-complete' ){
-                    $modal_content = '<h2>Mark reminder as complete</h2>' +
-                                     '<p>Are you sure you want to mark this reminder as complete?</p>';
+                    modal_content = '<h2>Mark reminder as complete</h2>' +
+                                     '<p>Are you sure you want to mark this reminder as complete?</p>' +
+                                     '<p>( you can change it later )</p>';
                  }else if( status == 'complete' ){
-                     $modal_content = '<h2>Mark reminder as not complete</h2>' +
+                    modal_content = '<h2>Mark reminder as not complete</h2>' +
                                       '<p>Are you sure you want to mark this reminder as not complete?</p>' +
-                                      '<p>Any email reminders you set will be reinstated.</p>';
+                                      '<p>Any email reminders you set will be reinstated.</p>' +
+                                      '<p>( you can change it later )</p>';
                  }
-                 $modal_content +=  '<p>( you can change it later )</p>' +
-                                    '<form class="js_form" data-action="reminder-change">' +
+                 modal_content +=  '<form class="js_form" data-action="' + form_action + '">' +
                                     '<input type="hidden" name="id" value="' + id + '" />' +
                                     '<input type="submit" value="Confirm" class="form_btn" />' +
                                     '</form>' +
                                     '<button class="js_closeModal btn_right" />Cancel</button>';
-                 openModal($modal_content);
-            })
+                 openModal(modal_content);
+            });
         // ---------------------------------------------------------------------
 
         // -- Process form submit ----------------------------------------------
@@ -593,6 +602,10 @@
                             }
                             $('.change_table tr td:last-child').empty();
                             displayMessage("Reminder changed");
+                        break;
+                        case 'reminderDeleted':
+                            $('tr[data-id=' + returnedData.id + ']').remove();
+                            displayMessage("Reminder deleted");
                         break;
                     // ---------------------------------------------------------
 

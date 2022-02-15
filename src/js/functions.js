@@ -1,6 +1,7 @@
 $(document).ready(function(){
 
-    hostname = 'http://' + window.location.hostname + '/redesign-flock-book/';
+    hostname = 'http://' + window.location.hostname + '/';
+    console.log(hostname);
     applySorting();
     form_functions();
     pikaday();

@@ -127,6 +127,9 @@
                         case 'reminder-change':
                             $reminders -> sql_changeReminder($form_data);
                         break;
+                        case 'reminder-delete':
+                            $reminders -> sql_deleteReminder($form_data);
+                        break;
                     // ---------------------------------------------------------
 
                 }

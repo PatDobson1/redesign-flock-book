@@ -49,7 +49,10 @@
                                     if($context != 'completed'){
                                         $editCell = "<td class='cen' width='150px'><a class='js-complete tableLink' data-id='$row[id]' data-state='not-complete'>Completed</a></td>";
                                     }else{
-                                        $editCell = "<td class='cen' width='150px'><a class='js-complete tableLink' data-id='$row[id]' data-state='complete'>Not completed</a></td>";
+                                        $editCell = "<td class='cen' width='150px'>
+                                                        <a class='js-complete tableLink' data-id='$row[id]' data-state='complete'>Not completed</a>
+                                                        <a class='js-complete tableLink delete' data-id='$row[id]' data-state='delete'>Delete</a>
+                                                     </td>";
                                     }
                                     echo " <tr data-id = '$row[id]' class='js-view' data-linktype='reminder'>
                                                 <td class='cen'>$row[reminder_date]</td>
@@ -367,6 +370,24 @@
 
             }
         // ---------------------------------------------------------------------
+
+        public function sql_deleteReminder($form_data){
+            foreach($form_data as $value){
+                if( $value['name'] == 'id' ){ $id = $value['value']; }
+            }
+
+            $this -> connect();
+                $query = "DELETE FROM reminders WHERE id = :id";
+                $sql = self::$conn -> prepare($query);
+                $sql -> bindParam(':id', $id);
+                $sql -> execute();
+            $this -> disconnect();
+
+            $output = new stdClass();
+                $output -> action = 'reminderDeleted';
+                $output -> id = $id;
+            echo json_encode($output);
+        }
 
         // -- Create priority --------------------------------------------------
             private function createPriority($priority, $return){

@@ -5,7 +5,7 @@
         public function mainMenu($site_data){
             echo "<menu>
                 <ul>
-                    <li><a href='$site_data[site_root]'>Dashboard</a></li>
+                    <li><a href='$site_data[site_root]/'>Dashboard</a></li>
                     <li class='dropdown'><a>Livestock</a>
                         <ul>
                             <li><a href='$site_data[site_root]/livestock'>Livestock</a></li>
