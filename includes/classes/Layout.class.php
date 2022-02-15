@@ -2,6 +2,40 @@
 
     class Layout extends Db{
 
+        // -- Login form -------------------------------------------------------
+            public function login($site_data){
+                echo "<html>
+                        <head>
+                            <meta charset='utf-8'>
+                            <meta content='width=device-width, initial-scale=1.0' name='viewport'>
+                            <link rel='icon' href='$site_data[site_root]/favicon.ico'>
+                            <link href='https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans:wght@300;600&display=swap' rel='stylesheet'>
+                    		<link rel='stylesheet' href='includes/style/style.css' />
+                    		<title>Stockbook - Login</title>
+                        </head>
+                        <body class='login'>
+                            <div class='form_container'>
+                                <form class='loginForm' method='post' action='/'>
+                        			<div>
+                        				<h1>Log in to your account</h1>
+                        				<p>
+                        					<label>Username</label>
+                        					<input type='text' name='username' />
+                        				</p>
+                        				<p>
+                        					<label>Password</label>
+                        					<input type='password' name='password' />
+                        				</p>
+                        				<p class='form_control'>
+                        					<input type='submit' value='Log in' id='loginNow' />
+                        				</p>
+                        			</div>
+                        		</form>
+                            </div>
+                    </html>";
+            }
+        // ---------------------------------------------------------------------
+
         // -- Header -------------------------------------------
             public function header($site_data){
                 $menu = new Menu();

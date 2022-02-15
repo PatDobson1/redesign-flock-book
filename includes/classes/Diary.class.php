@@ -146,6 +146,7 @@
                 $data .= "<span>$entry_date</span>";
                 $data .= "<p class='diaryNotes'>$notes</p>";
                 // -- Medicine ---------------------------------------------
+                echo "medicine_length :: " . $medicine_length;
                     if($medicine_length){
                         $data .= "<section>";
                             $data .= "<h3>Medicine</h3>";

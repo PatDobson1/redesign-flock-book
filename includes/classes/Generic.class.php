@@ -2,6 +2,29 @@
 
     class Generic extends Db{
 
+        // -- Attempt login ----------------------------------------------------
+            public function attemptLogin($postData){
+                $query = "SELECT password FROM users WHERE username = :username";
+                $this -> connect();
+                    $sql = self::$conn -> prepare($query);
+                    $sql -> bindParam(':username', $postData['username']);
+                    $sql -> execute();
+                    $row = $sql -> fetch();
+                    $count = $sql -> rowCount();
+                $this -> disconnect();
+
+                if( $count ){
+                    if( password_verify($_POST['password'], $row['password']) ){
+                        $_SESSION['loggedIn'] = true;
+                        header("Refresh:0");
+                        exit;
+    				}
+                }
+                $_SESSION['loggedIn'] = false;
+                header("Refresh:0");
+                exit;
+            }
+        // ---------------------------------------------------------------------
 
         // -- Get species based on id ------------------------------------------
             public function getSpecies($id){

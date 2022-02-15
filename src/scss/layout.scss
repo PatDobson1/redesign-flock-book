@@ -35,6 +35,7 @@
             margin: 0 0 10px 0;
         }
         .col_3{
+            flex-wrap: nowrap;
             div:nth-child(2){
                 text-align: center;
             }

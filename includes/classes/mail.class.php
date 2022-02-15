@@ -186,13 +186,16 @@
 
         // -- Send single reminder email ---------------------------------------
             private function reminderEmail($data, $site_data){
-
+                
+                require 'includes/class.phpmailer.php';
                 $emailAddresses = [];
                 if( $data -> emails != '' ){
                     $emailAddresses = explode(",",$data -> emails);
                 }else{
                     array_push($emailAddresses, $site_data['base_email']);
                 }
+
+                var_dump($emailAddresses);
 
                 foreach($emailAddresses as $address){
                     $to = $address;

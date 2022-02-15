@@ -1,5 +1,7 @@
 <?php
 
+    session_start();
+
     // -- Error reporting ------------------------------------------------------
         ini_set('display_errors',1);
         ini_set('display_startup_errors',1);
@@ -23,6 +25,32 @@
 	    date_default_timezone_set('Europe/London');
     // -------------------------------------------------------------------------
 
-	session_start();
+	// -- SMTP config ----------------------------------------------------------
+		$smtp_host = "moonspace.co.uk";
+		$smtp_username = "ptbSMTP@moonspace.co.uk";
+		$smtp_password = "uMa53t^6_76GHgfD";
+	// -------------------------------------------------------------------------
+
+    // -- Login ----------------------------------------------------------------
+        if( !isset($_SESSION['loggedIn']) ){
+            $_SESSION['loggedIn'] = false;
+        };
+        if( isset($_GET['logout']) ){
+			$_SESSION['loggedIn'] = false;
+			$_SESSION['userID'] = null;
+		};
+        if( !$_SESSION['loggedIn'] ){
+            if( isset($_POST['username']) ){
+                $generic = new Generic();
+                $generic -> attemptLogin($_POST);
+                exit;
+            }else{
+                $layout = new Layout();
+                $layout -> login($site_data);
+                exit;
+            }
+        }
+    // -------------------------------------------------------------------------
+
 
 ?>
