@@ -142,9 +142,9 @@
 
         // -- Get fathers list -------------------------------------------------
             public function getFathersList($species, $return_action){
-                $query = "  SELECT livestock_name, uk_tag_no, id
+                $query = "  SELECT livestock_name, uk_tag_no, id, date_of_death, date_of_sale
                             FROM livestock
-                            WHERE gender = 1 AND species = :species
+                            WHERE gender = 1 AND species = :species AND deleted != 1
                             ORDER BY livestock_name, uk_tag_no";
                 $this -> connect();
                     $sql = self::$conn -> prepare($query);
@@ -164,7 +164,9 @@
                             }else{
                                 $text = $row['uk_tag_no'];
                             }
-                            $html .= "<option value='$row[id]'>$text</option>";
+                            if( $row['date_of_death'] == null && $row['date_of_sale'] == null ){
+                                $html .= "<option value='$row[id]'>$text</option>";
+                            }
                         }
                         $output -> html = $html;
                     return $output;
