@@ -83,10 +83,17 @@
     }
     .menuTrigger{
         position: absolute;
-        top: 16px;
+        top: 22px;
         right: 0px;
-        width: 30px;
-        height: 30px;
+        border: 1px solid $black;
+        width: 26px;
+        height: 26px;
+        border-radius: 5px;
+        p{
+            height: 1px;
+            margin: 5px;
+            background: $black;
+        }
         @media(min-width:801px){
             display: none;
         }

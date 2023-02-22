@@ -44,7 +44,8 @@
         }
 
         public function mobileMenu($site_data){
-            echo "<a class='menuTrigger icon_menuTrigger'></a>
+            echo "<!--<a class='menuTrigger icon_menuTrigger'></a>-->
+                <div class='menuTrigger'><p></p><p></p><p></p></div>
                 <div class='mobileMenu'>
                     <ul>
                         <li class='topLevel'><a href='$site_data[site_root]'>Dashboard</a></li>

@@ -11,7 +11,7 @@
                             <link rel='icon' href='$site_data[site_root]/favicon.ico'>
                             <link href='https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans:wght@300;600&display=swap' rel='stylesheet'>
                     		<link rel='stylesheet' href='includes/style/style.css' />
-                    		<title>Stockbook - Login</title>
+                    		<title>$site_data[site_name] StockBook - Login</title>
                         </head>
                         <body class='login'>
                             <div class='form_container'>
@@ -47,6 +47,7 @@
                                 <link rel='icon' href='$site_data[site_root]/favicon.ico'>
                                 <link href='https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans:wght@300;600&display=swap' rel='stylesheet'>
                                 <link rel='stylesheet' href='includes/style/style.css' />
+                                <title>$site_data[site_name] StockBook</title>
                             </head>
                             <body data-root='$site_data[site_root]'>
                             <div class='overall'>

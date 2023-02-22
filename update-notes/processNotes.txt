@@ -35,4 +35,10 @@
             echo json_encode($output);
     -------
 
+    -- 2 --
+        [build process]
+            Run 'npm install' from site_root
+            run 'gulp' to watch
+    -------
+
 --------------------------------------------------------------------------------
