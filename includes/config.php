@@ -32,24 +32,24 @@
 	// -------------------------------------------------------------------------
 
     // -- Login ----------------------------------------------------------------
-        if( !isset($_SESSION['loggedIn']) ){
-            $_SESSION['loggedIn'] = false;
-        };
-        if( isset($_GET['logout']) ){
-			$_SESSION['loggedIn'] = false;
-			$_SESSION['userID'] = null;
-		};
-        if( !$_SESSION['loggedIn'] ){
-            if( isset($_POST['username']) ){
-                $generic = new Generic();
-                $generic -> attemptLogin($_POST);
-                exit;
-            }else{
-                $layout = new Layout();
-                $layout -> login($site_data);
-                exit;
-            }
-        }
+        // if( !isset($_SESSION['loggedIn']) ){
+        //     $_SESSION['loggedIn'] = false;
+        // };
+        // if( isset($_GET['logout']) ){
+		// 	$_SESSION['loggedIn'] = false;
+		// 	$_SESSION['userID'] = null;
+		// };
+        // if( !$_SESSION['loggedIn'] ){
+        //     if( isset($_POST['username']) ){
+        //         $generic = new Generic();
+        //         $generic -> attemptLogin($_POST);
+        //         exit;
+        //     }else{
+        //         $layout = new Layout();
+        //         $layout -> login($site_data);
+        //         exit;
+        //     }
+        // }
     // -------------------------------------------------------------------------
 
 

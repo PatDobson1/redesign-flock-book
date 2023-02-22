@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+- phpMyAdmin XML Dump
+- version 5.2.0
+- https://www.phpmyadmin.net
+-
+- Host: 127.0.0.1
+- Generation Time: Feb 22, 2023 at 04:44 PM
+- Server version: 10.4.24-MariaDB
+- PHP Version: 8.1.6
+-->
+
+<pma_xml_export version="1.0" xmlns:pma="https://www.phpmyadmin.net/some_doc_url/">
+    <!--
+    - Structure schemas
+    -->
+    <pma:structure_schemas>
+        <pma:database name="fb_redesign" collation="utf8mb4_general_ci" charset="utf8mb4">
+            <pma:table name="breed">
+                CREATE TABLE `breed` (
+                  `id` int(11) NOT NULL AUTO_INCREMENT,
+                  `breed_name` varchar(500) NOT NULL,
+                  `species` int(11) NOT NULL DEFAULT 1,
+                  `notes` text DEFAULT NULL,
+                  `active` tinyint(1) NOT NULL DEFAULT 1,
+                  PRIMARY KEY (`id`)
+                ) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="farm_diary">
+                CREATE TABLE `farm_diary` (
+                  `id` int(11) NOT NULL AUTO_INCREMENT,
+                  `date` date NOT NULL,
+                  `entry` text NOT NULL,
+                  PRIMARY KEY (`id`)
+                ) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="feed">
+                CREATE TABLE `feed` (
+                  `id` int(11) NOT NULL AUTO_INCREMENT,
+                  `purchase_date` date DEFAULT NULL,
+                  `product_name` varchar(500) NOT NULL,
+                  `batch_number` varchar(500) DEFAULT NULL,
+                  `expiration_date` date DEFAULT NULL,
+                  `finished_date` date DEFAULT NULL,
+                  `purchased_from` varchar(500) DEFAULT NULL,
+                  `cost_per_item` float NOT NULL,
+                  `quantity` int(11) DEFAULT NULL,
+                  `feed_type` varchar(500) DEFAULT NULL,
+                  `feed_target` varchar(500) DEFAULT NULL,
+                  `notes` text DEFAULT NULL,
+                  PRIMARY KEY (`id`)
+                ) ENGINE=MyISAM AUTO_INCREMENT=226 DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="gender">
+                CREATE TABLE `gender` (
+                  `id` int(11) NOT NULL AUTO_INCREMENT,
+                  `gender` varchar(10) DEFAULT NULL,
+                  PRIMARY KEY (`id`)
+                ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="livestock">
+                CREATE TABLE `livestock` (
+                  `id` int(11) NOT NULL AUTO_INCREMENT,
+                  `species` int(11) NOT NULL,
+                  `livestock_name` text DEFAULT NULL,
+                  `gender` varchar(10) NOT NULL,
+                  `uk_tag_no` varchar(500) DEFAULT NULL,
+                  `previous_tags` varchar(255) CHARACTER SET ascii DEFAULT NULL,
+                  `for_slaughter` tinyint(4) NOT NULL DEFAULT 0,
+                  `pedigree_no` varchar(500) DEFAULT NULL,
+                  `date_of_birth` date DEFAULT NULL,
+                  `date_of_sale` date DEFAULT NULL,
+                  `date_of_death` date DEFAULT NULL,
+                  `mother` int(11) DEFAULT NULL,
+                  `father` int(11) DEFAULT NULL,
+                  `home_bred` tinyint(4) NOT NULL,
+                  `origin` text DEFAULT NULL,
+                  `breed` int(11) NOT NULL,
+                  `notes` text DEFAULT NULL,
+                  `deleted` tinyint(4) NOT NULL DEFAULT 0,
+                  PRIMARY KEY (`id`)
+                ) ENGINE=MyISAM AUTO_INCREMENT=257 DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="livestock_diary">
+                CREATE TABLE `livestock_diary` (
+                  `id` int(11) NOT NULL AUTO_INCREMENT,
+                  `entry_date` date NOT NULL,
+                  `entry_added_date` timestamp NOT NULL DEFAULT current_timestamp(),
+                  `notes` text DEFAULT NULL,
+                  `livestock` varchar(500) DEFAULT NULL,
+                  `medicine` varchar(500) NOT NULL,
+                  `manual_treatment` varchar(500) NOT NULL,
+                  PRIMARY KEY (`id`)
+                ) ENGINE=MyISAM AUTO_INCREMENT=140 DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="manual_treatment">
+                CREATE TABLE `manual_treatment` (
+                  `id` int(11) NOT NULL AUTO_INCREMENT,
+                  `treatment_name` varchar(500) NOT NULL,
+                  `notes` text DEFAULT NULL,
+                  `price` decimal(10,2) DEFAULT NULL,
+                  `supplier` int(11) NOT NULL,
+                  PRIMARY KEY (`id`)
+                ) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="manual_treatment_supplier">
+                CREATE TABLE `manual_treatment_supplier` (
+                  `id` int(11) NOT NULL AUTO_INCREMENT,
+                  `supplier_name` varchar(500) NOT NULL,
+                  `treatment_type` varchar(500) DEFAULT NULL,
+                  `address` text DEFAULT NULL,
+                  `website` varchar(500) DEFAULT NULL,
+                  `email` varchar(500) DEFAULT NULL,
+                  `telephone` varchar(500) DEFAULT NULL,
+                  `notes` text DEFAULT NULL,
+                  `deleted` tinyint(4) NOT NULL DEFAULT 0,
+                  PRIMARY KEY (`id`)
+                ) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="medicine">
+                CREATE TABLE `medicine` (
+                  `id` int(11) NOT NULL AUTO_INCREMENT,
+                  `quantity` varchar(500) DEFAULT NULL,
+                  `medicine_name` varchar(500) NOT NULL,
+                  `description` text DEFAULT NULL,
+                  `batch_number` varchar(500) DEFAULT NULL,
+                  `price` decimal(10,2) DEFAULT NULL,
+                  `purchase_date` date DEFAULT NULL,
+                  `expiry_date` date DEFAULT NULL,
+                  `finished_date` date DEFAULT NULL,
+                  `supplier` int(11) NOT NULL,
+                  `medicine_type` int(11) NOT NULL,
+                  PRIMARY KEY (`id`)
+                ) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="medicine_supplier">
+                CREATE TABLE `medicine_supplier` (
+                  `id` int(11) NOT NULL AUTO_INCREMENT,
+                  `name` varchar(500) NOT NULL,
+                  `address` text DEFAULT NULL,
+                  `website` varchar(500) DEFAULT NULL,
+                  `email` varchar(500) DEFAULT NULL,
+                  `telephone` varchar(500) DEFAULT NULL,
+                  `notes` text NOT NULL,
+                  `deleted` tinyint(4) NOT NULL DEFAULT 0,
+                  PRIMARY KEY (`id`)
+                ) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="medicine_type">
+                CREATE TABLE `medicine_type` (
+                  `id` int(11) NOT NULL AUTO_INCREMENT,
+                  `type` varchar(500) NOT NULL,
+                  `description` text DEFAULT NULL,
+                  `deleted` tinyint(4) NOT NULL DEFAULT 0,
+                  PRIMARY KEY (`id`)
+                ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="reminders">
+                CREATE TABLE `reminders` (
+                  `id` int(11) NOT NULL AUTO_INCREMENT,
+                  `created_date` timestamp NOT NULL DEFAULT current_timestamp(),
+                  `reminder_date` timestamp NOT NULL DEFAULT current_timestamp(),
+                  `priority` int(11) NOT NULL,
+                  `description` text NOT NULL,
+                  `emails` text NOT NULL,
+                  `remindMe_before` varchar(400) NOT NULL,
+                  `remindMe_after` varchar(400) NOT NULL,
+                  `completed` tinyint(1) NOT NULL DEFAULT 0,
+                  PRIMARY KEY (`id`)
+                ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+            </pma:table>
+            <pma:table name="species">
+                CREATE TABLE `species` (
+                  `id` int(11) NOT NULL AUTO_INCREMENT,
+                  `species` varchar(255) NOT NULL,
+                  `notes` text NOT NULL,
+                  PRIMARY KEY (`id`)
+                ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="treatment">
+                CREATE TABLE `treatment` (
+                  `id` int(11) NOT NULL AUTO_INCREMENT,
+                  `diary_entry` int(11) NOT NULL,
+                  `medicine` int(11) NOT NULL,
+                  `manual_treatment` int(11) NOT NULL,
+                  PRIMARY KEY (`id`)
+                ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="users">
+                CREATE TABLE `users` (
+                  `id` int(11) NOT NULL AUTO_INCREMENT,
+                  `flockbook_name` varchar(255) NOT NULL,
+                  `username` varchar(255) NOT NULL,
+                  `password` varchar(255) NOT NULL,
+                  `email` varchar(255) NOT NULL,
+                  `active` tinyint(4) NOT NULL DEFAULT 1,
+                  PRIMARY KEY (`id`)
+                ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+            </pma:table>
+        </pma:database>
+    </pma:structure_schemas>
+</pma_xml_export>
