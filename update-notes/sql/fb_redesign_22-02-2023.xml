@@ -5,7 +5,7 @@
 - https://www.phpmyadmin.net
 -
 - Host: 127.0.0.1
-- Generation Time: Feb 22, 2023 at 04:44 PM
+- Generation Time: Feb 22, 2023 at 05:25 PM
 - Server version: 10.4.24-MariaDB
 - PHP Version: 8.1.6
 -->
@@ -42,7 +42,7 @@
                   `batch_number` varchar(500) DEFAULT NULL,
                   `expiration_date` date DEFAULT NULL,
                   `finished_date` date DEFAULT NULL,
-                  `purchased_from` varchar(500) DEFAULT NULL,
+                  `supplier` varchar(500) DEFAULT NULL,
                   `cost_per_item` float NOT NULL,
                   `quantity` int(11) DEFAULT NULL,
                   `feed_type` varchar(500) DEFAULT NULL,
@@ -101,7 +101,7 @@
                   `price` decimal(10,2) DEFAULT NULL,
                   `supplier` int(11) NOT NULL,
                   PRIMARY KEY (`id`)
-                ) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+                ) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
             </pma:table>
             <pma:table name="manual_treatment_supplier">
                 CREATE TABLE `manual_treatment_supplier` (
@@ -176,6 +176,20 @@
                   `notes` text NOT NULL,
                   PRIMARY KEY (`id`)
                 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="supplier">
+                CREATE TABLE `supplier` (
+                  `id` int(11) NOT NULL AUTO_INCREMENT,
+                  `supplier_name` varchar(400) NOT NULL,
+                  `supplies` text NOT NULL,
+                  `address` text NOT NULL,
+                  `website` varchar(400) NOT NULL,
+                  `email` varchar(400) NOT NULL,
+                  `telephone` varchar(100) NOT NULL,
+                  `notes` text NOT NULL,
+                  `deleted` tinyint(1) NOT NULL DEFAULT 0,
+                  PRIMARY KEY (`id`)
+                ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
             </pma:table>
             <pma:table name="treatment">
                 CREATE TABLE `treatment` (

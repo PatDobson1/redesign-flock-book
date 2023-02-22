@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 22, 2023 at 04:46 PM
+-- Generation Time: Feb 22, 2023 at 05:25 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `fb_redesign`
 --
-CREATE DATABASE IF NOT EXISTS `fb_redesign` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `fb_redesign`;
 
 -- --------------------------------------------------------
 
@@ -52,7 +50,7 @@ INSERT INTO `breed` (`id`, `breed_name`, `species`, `notes`, `active`) VALUES
 (18, 'Coloured Blue Faced Leicester', 1, '', 1),
 (19, 'White Blue Faced Leicester', 1, '', 1),
 (20, 'X breed', 1, '', 1),
-(21, 'Holstein', 1, NULL, 1);
+(21, 'Holstein', 2, '', 1);
 
 -- --------------------------------------------------------
 
@@ -79,7 +77,7 @@ CREATE TABLE `feed` (
   `batch_number` varchar(500) DEFAULT NULL,
   `expiration_date` date DEFAULT NULL,
   `finished_date` date DEFAULT NULL,
-  `purchased_from` varchar(500) DEFAULT NULL,
+  `supplier` varchar(500) DEFAULT NULL,
   `cost_per_item` float NOT NULL,
   `quantity` int(11) DEFAULT NULL,
   `feed_type` varchar(500) DEFAULT NULL,
@@ -91,7 +89,7 @@ CREATE TABLE `feed` (
 -- Dumping data for table `feed`
 --
 
-INSERT INTO `feed` (`id`, `purchase_date`, `product_name`, `batch_number`, `expiration_date`, `finished_date`, `purchased_from`, `cost_per_item`, `quantity`, `feed_type`, `feed_target`, `notes`) VALUES
+INSERT INTO `feed` (`id`, `purchase_date`, `product_name`, `batch_number`, `expiration_date`, `finished_date`, `supplier`, `cost_per_item`, `quantity`, `feed_type`, `feed_target`, `notes`) VALUES
 (25, '2018-11-30', 'Organic Allrounder 18%', '7336', '2019-02-27', '2018-12-12', 'CCF', 10.6, 4, 'nut', 'sheep', ''),
 (26, '2018-11-30', 'Oyster shell', '', NULL, '2018-12-17', 'CCF', 0.4, 1, 'supplement', 'Chickens', 'To be added to layers pellets'),
 (27, '2018-12-04', 'Org all rounder', 'UID 0304099   7336.00', '2019-02-12', '2018-12-12', 'CCF', 10.6, 3, '25KG', 'sheep', ''),
@@ -689,8 +687,9 @@ CREATE TABLE `manual_treatment` (
 --
 
 INSERT INTO `manual_treatment` (`id`, `treatment_name`, `notes`, `price`, `supplier`) VALUES
-(7, 'Dagging', '', '0.00', 7),
-(8, 'Wormer - Drench', '', '0.00', 7);
+(7, 'Dagging', '', '0.00', 1),
+(8, 'Wormer - Drench', '', '0.00', 1),
+(9, 'Something', 'fvfdvfvfd', '100.00', 1);
 
 -- --------------------------------------------------------
 
@@ -743,13 +742,13 @@ CREATE TABLE `medicine` (
 --
 
 INSERT INTO `medicine` (`id`, `quantity`, `medicine_name`, `description`, `batch_number`, `price`, `purchase_date`, `expiry_date`, `finished_date`, `supplier`, `medicine_type`) VALUES
-(30, '100ml', 'Pen and Strp', 'AB for sheep', '9332-50A', '0.00', '2020-01-02', '2020-05-13', NULL, 10, 6),
-(31, '1', 'combinex 2.2l', 'wormer', '22749', '88.00', '2020-02-07', '2022-03-30', NULL, 9, 6),
-(24, '1L', 'Panacur 10%', 'Broad spectrum wormer\r\n1BZ', 'E383BV01', '0.00', '2019-06-13', '2020-06-01', NULL, 8, 6),
-(25, '', 'Maggot oil', '', '', '0.00', NULL, NULL, NULL, 9, 6),
-(27, '0.8l', 'Crovect', 'maggot control', '22641', '40.20', '2019-07-17', '2020-06-30', NULL, 9, 6),
-(28, '0.8l', 'Combinex sheep 0.8l', 'Wormer', '', '0.00', '2019-10-08', NULL, NULL, 9, 6),
-(29, '2.2l', 'Combinex sheep 2.2l', 'wormer', '21826', '105.60', '2019-10-10', '2021-07-31', NULL, 9, 6);
+(30, '100ml', 'Pen and Strp', 'AB for sheep', '9332-50A', '0.00', '2020-01-02', '2020-05-13', NULL, 1, 6),
+(31, '1', 'combinex 2.2l', 'wormer', '22749', '88.00', '2020-02-07', '2022-03-30', NULL, 1, 6),
+(24, '1L', 'Panacur 10%', 'Broad spectrum wormer\r\n1BZ', 'E383BV01', '0.00', '2019-06-13', '2020-06-01', NULL, 1, 6),
+(25, '', 'Maggot oil', '', '', '0.00', NULL, NULL, NULL, 1, 6),
+(27, '0.8l', 'Crovect', 'maggot control', '22641', '40.20', '2019-07-17', '2020-06-30', NULL, 1, 6),
+(28, '0.8l', 'Combinex sheep 0.8l', 'Wormer', '', '0.00', '2019-10-08', NULL, NULL, 1, 6),
+(29, '2.2l', 'Combinex sheep 2.2l', 'wormer', '21826', '105.60', '2019-10-10', '2021-07-31', NULL, 1, 6);
 
 -- --------------------------------------------------------
 
@@ -846,6 +845,31 @@ INSERT INTO `species` (`id`, `species`, `notes`) VALUES
 (1, 'Sheep', ''),
 (2, 'Cow', ''),
 (3, 'Goat', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `supplier`
+--
+
+CREATE TABLE `supplier` (
+  `id` int(11) NOT NULL,
+  `supplier_name` varchar(400) NOT NULL,
+  `supplies` text NOT NULL,
+  `address` text NOT NULL,
+  `website` varchar(400) NOT NULL,
+  `email` varchar(400) NOT NULL,
+  `telephone` varchar(100) NOT NULL,
+  `notes` text NOT NULL,
+  `deleted` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `supplier`
+--
+
+INSERT INTO `supplier` (`id`, `supplier_name`, `supplies`, `address`, `website`, `email`, `telephone`, `notes`, `deleted`) VALUES
+(1, 'Bob', 'Stuff', 'Bob\'s address', 'bob.com', 'bob@bob.com', '12345', 'bob notes', 0);
 
 -- --------------------------------------------------------
 
@@ -965,6 +989,12 @@ ALTER TABLE `species`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `supplier`
+--
+ALTER TABLE `supplier`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `treatment`
 --
 ALTER TABLE `treatment`
@@ -1020,7 +1050,7 @@ ALTER TABLE `livestock_diary`
 -- AUTO_INCREMENT for table `manual_treatment`
 --
 ALTER TABLE `manual_treatment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `manual_treatment_supplier`
@@ -1057,6 +1087,12 @@ ALTER TABLE `reminders`
 --
 ALTER TABLE `species`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `supplier`
+--
+ALTER TABLE `supplier`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `treatment`
