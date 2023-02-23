@@ -162,8 +162,8 @@
                     echo "<h3>Add reminder</h3>";
                     echo "<form name='add_reminder' class='col_2 js_form' data-action='add_reminder'>";
                         echo "<div>";
-                            $form_element -> input('required', '', '', false, '', '','');
-                            $form_element -> input('date', 'reminder_date', 'Due date (leave blank for non-dated reminder)', false, '', '','');
+                            $form_element -> required();
+                            $form_element -> date('reminder_date', 'Due date (leave blank for non-dated reminder)', false, '', '');
                             $form_element -> input('textarea', 'description', 'Notes', true, 'required', 'Please enter some notes', '');
                             $form_element -> input('checkbox_close', 'before_1m', 'Remind me 1 month before', false, '', '', '');
                             $form_element -> input('checkbox_close', 'before_1w', 'Remind me 1 week before', false, '', '', '');
@@ -178,7 +178,7 @@
                             $form_element -> input('checkbox_close', 'after_d', 'After, Remind me daily', false, '', '', '');
                         echo "</div>";
                         echo "<div class='fullWidth'>";
-                            $form_element -> input('submit', '', 'Add reminder', false, '', '','');
+                            $form_element -> submit('Add reminder');
                         echo "</div>";
                     echo "</form>";
                 echo "</div>";
@@ -245,9 +245,9 @@
                     echo "<h3>Edit reminder</h3>";
                     echo "<form name='edit_reminder' class='col_2 js_form' data-action='edit_reminder'>";
                         echo "<div>";
-                            $form_element -> input('hidden', 'id', 'id', false, '', '','');
-                            $form_element -> input('required', '', '', false, '', '','');
-                            $form_element -> input('date', 'reminder_date', 'Due date (leave blank for non-dated reminder)', false, '', '','');
+                            $form_element -> hidden('id');
+                            $form_element -> required();
+                            $form_element -> date('reminder_date', 'Due date (leave blank for non-dated reminder)', false, '', '');
                             $form_element -> input('textarea', 'description', 'Notes', true, 'required', 'Please enter some notes', '');
                             $form_element -> input('checkbox_close', 'before_1m', 'Remind me 1 month before', false, '', '', '');
                             $form_element -> input('checkbox_close', 'before_1w', 'Remind me 1 week before', false, '', '', '');
@@ -262,7 +262,7 @@
                             $form_element -> input('checkbox_close', 'after_d', 'After, Remind me daily', false, '', '', '');
                         echo "</div>";
                         echo "<div class='fullWidth'>";
-                            $form_element -> input('submit', '', 'Edit reminder', false, '', '','');
+                            $form_element -> submit('Edit reminder');
                         echo "</div>";
                     echo "</form>";
                 echo "</div>";
