@@ -126,7 +126,7 @@
                         echo "<div>";
                             $form_element -> required();
                             $form_element -> text('medicine_name', 'Medicine name', true, 'required', 'Please enter a medicine name');
-                            $form_element -> input('select', 'supplier', 'Supplier', true, 'required', 'Please select a supplier', $supplier_list);
+                            $form_element -> select('supplier', 'Supplier', true, 'required', 'Please select a supplier', $supplier_list);
                             $form_element -> date('purchase_date', 'Purchase date', true, 'required', 'Please enter a purchase date');
                             $form_element -> date('expiry_date', 'Expiration date', false, '', '');
                             $form_element -> date('finished_date', 'Finished date', false, '', '');
@@ -136,7 +136,7 @@
                             $form_element -> text('batch_number', 'Batch number', false, '', '');
                             $form_element -> text('price', 'Price', false, '', '');
                             $form_element -> text('quantity', 'Quantity', false, '', '');
-                            $form_element -> input('textarea', 'description', 'Description', false, '', '', '');
+                            $form_element -> textarea('description', 'Description', false, '', '');
                         echo "</div>";
                         echo "<div class='fullWidth'>";
                             $form_element -> submit('Add medicine');
@@ -263,7 +263,7 @@
                         echo "<div>";
                             $form_element -> required();
                             $form_element -> text('medicine_name', 'Medicine name', true, 'required', 'Please enter a medicine name');
-                            $form_element -> input('select', 'supplier', 'Supplier', true, 'required', 'Please select a supplier', $supplier_list);
+                            $form_element -> select('supplier', 'Supplier', true, 'required', 'Please select a supplier', $supplier_list);
                             $form_element -> date('purchase_date', 'Purchase date', true, 'required', 'Please enter a purchase date');
                             $form_element -> date('expiry_date', 'Expiration date', false, '', '');
                             $form_element -> date('finished_date', 'Finished date', false, '', '');
@@ -273,7 +273,7 @@
                             $form_element -> text('batch_number', 'Batch number', false, '', '');
                             $form_element -> text('price', 'Price', false, '', '');
                             $form_element -> text('quantity', 'Quantity', false, '', '');
-                            $form_element -> input('textarea', 'description', 'Description', false, '', '', '');
+                            $form_element -> textarea('description', 'Description', false, '', '');
                             $form_element -> hidden('id');
                         echo "</div>";
                         echo "<div class='fullWidth'>";

@@ -271,15 +271,15 @@
                         echo "<div>";
                             $form_element -> required();
                             $form_element -> date('entry_date', 'Date', true, 'required', 'Please enter a Date');
-                            $form_element -> input('selectMulti', 'medicine', 'Medicine', false, '', '', $generic -> getMedicineList());
-                            $form_element -> input('selectMulti', 'manual_treatment', 'Manual treatment', false, '', '', $generic -> getManualTreatmentList());
+                            $form_element -> selectMulti('medicine', 'Medicine', false, '', '', $generic -> getMedicineList());
+                            $form_element -> selectMulti('manual_treatment', 'Manual treatment', false, '', '', $generic -> getManualTreatmentList());
                         echo "</div>";
                         echo "<div>";
                             echo "<p class='form_blank'></p>";
                             $form_element -> multiselect();
                         echo "</div>";
                         echo "<div class='fullWidth'>";
-                            $form_element -> input('textarea', 'notes', 'Notes', false, '', '','');
+                            $form_element -> textarea('notes', 'Notes', false, '', '');
                             $form_element -> submit('Add diary entry');
                         echo "</div>";
                     echo "</form>";
@@ -299,8 +299,8 @@
                         echo "<div>";
                             $form_element -> required();
                             $form_element -> date('entry_date', 'Date', true, 'required', 'Please enter a Date');
-                            $form_element -> input('selectMulti', 'medicine', 'Medicine', false, '', '', $generic -> getMedicineList());
-                            $form_element -> input('selectMulti', 'manual_treatment', 'Manual treatment', false, '', '', $generic -> getManualTreatmentList());
+                            $form_element -> selectMulti('medicine', 'Medicine', false, '', '', $generic -> getMedicineList());
+                            $form_element -> selectMulti('manual_treatment', 'Manual treatment', false, '', '', $generic -> getManualTreatmentList());
                         echo "</div>";
                         echo "<div>";
                             echo "<p class='form_blank'></p>";
@@ -308,7 +308,7 @@
                             $form_element -> hidden('id');
                         echo "</div>";
                         echo "<div class='fullWidth'>";
-                            $form_element -> input('textarea', 'notes', 'Notes', false, '', '','');
+                            $form_element -> textarea('notes', 'Notes', false, '', '');
                             $form_element -> submit('Edit diary entry');
                         echo "</div>";
                     echo "</form>";

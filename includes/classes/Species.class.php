@@ -127,7 +127,7 @@
                         echo "<div>";
                             $form_element -> required();
                             $form_element -> text('species_name', 'Name', true, 'required', 'Please enter a Name');
-                            $form_element -> input('textarea', 'species_notes', 'Notes', false, '', '', '');
+                            $form_element -> textarea('species_notes', 'Notes', false, '', '');
                             $form_element -> submit('Add Species');
                         echo "</div>";
                     echo "</form>";
@@ -145,7 +145,7 @@
                             $form_element -> required();
                             $form_element -> hidden('species_id');
                             $form_element -> text('species_name', 'Name', true, 'required', 'Please enter a Name');
-                            $form_element -> input('textarea', 'species_notes', 'Notes', false, '', '', '');
+                            $form_element -> textarea('species_notes', 'Notes', false, '', '');
                             $form_element -> submit('Edit Species');
                         echo "</div>";
                     echo "</form>";

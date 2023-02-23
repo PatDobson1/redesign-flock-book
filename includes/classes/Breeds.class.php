@@ -162,8 +162,8 @@
                         echo "<div>";
                             $form_element -> required();
                             $form_element -> text('breed_name', 'Name', true, 'required', 'Please enter a Name');
-                            $form_element -> input('select', 'species', 'Species', true, 'required', 'Please select a species', $generic -> getSpeciesList());
-                            $form_element -> input('textarea', 'breed_notes', 'Notes', false, '', '','');
+                            $form_element -> select('species', 'Species', true, 'required', 'Please select a species', $generic -> getSpeciesList());
+                            $form_element -> textarea('breed_notes', 'Notes', false, '', '');
                             $form_element -> submit('Add Breed');
                         echo "</div>";
                     echo "</form>";
@@ -203,8 +203,8 @@
                         echo "<div>";
                             $form_element -> required();
                             $form_element -> text('breed_name', 'Name', true, 'required', 'Please enter a Name');
-                            $form_element -> input('select', 'species', 'Species', false, '', '', $generic -> getSpeciesList());
-                            $form_element -> input('textarea', 'breed_notes', 'Notes', false, '', '','');
+                            $form_element -> select('species', 'Species', false, '', '', $generic -> getSpeciesList());
+                            $form_element -> textarea('breed_notes', 'Notes', false, '', '');
                             $form_element -> hidden('breed_id');
                             $form_element -> submit('Edit Breed');
                         echo "</div>";

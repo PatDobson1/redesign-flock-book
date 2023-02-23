@@ -2,8 +2,16 @@
 
     class FormElements{
 
+        // -- Input parameters -------------------------------------------------
+            // -- $name [str] - The name of the input
+            // -- $label [str] - The label for the $input
+            // -- $required [bool] [true/false] - Denotes if the input is required
+            // -- $validation [str] - The type of validation to apply
+            // -- $error [str] - The error message to display if validation fails
+            // -- $selectOptions[str] - The options for the select drop down
+        // ---------------------------------------------------------------------
+
         // -- Creates a submit element -----------------------------------------
-        // -- @param [str] - $text - The text to display on the button --
             public function submit($text){
                 $input = "  <p class='form_control'>
                                 <input type='submit' value='$text' />
@@ -13,11 +21,6 @@
         // ---------------------------------------------------------------------
 
         // -- Creates a text input field ---------------------------------------
-        // -- @param [str] - $name - The name of the input
-        // -- @param [str] - $label - The label for the $input
-        // -- @param [bool] [true/false] - $required - Denotes if the input is required
-        // -- @param [str] - $validation - The type of validation to apply
-        // -- @param [str] - $error - The error message to display if validation fails
             public function text($name, $label, $required, $validation, $error){
                 $class = $required ? " class='required'" : "";
                 $input = "  <p $class>
@@ -36,7 +39,6 @@
         // ---------------------------------------------------------------------
 
         // -- Creates a hidden text field --------------------------------------
-        // -- @param [str] - $name - The name of the input
             public function hidden($name){
                 $input = "  <input type='hidden' name='$name'  />";
                 echo $input;
@@ -44,11 +46,6 @@
         // ---------------------------------------------------------------------
 
         // -- Creates a date input ---------------------------------------------
-        // -- @param [str] - $name - The name of the input
-        // -- @param [str] - $label - The label for the $input
-        // -- @param [bool] [true/false] - $required - Denotes if the input is required
-        // -- @param [str] - $validation - The type of validation to apply
-        // -- @param [str] - $error - The error message to display if validation fails
             public function date($name, $label, $required, $validation, $error){
                 $class = $required ? " class='required'" : "";
                 $input = "  <p $class>
@@ -60,56 +57,74 @@
             }
         // ---------------------------------------------------------------------
 
-        public function input($type, $name, $text, $required, $validation, $error, $selectOptions){
+        // -- Creates a textarea -----------------------------------------------
+            public function textarea($name, $label, $required, $validation, $error){
+                $class = $required ? " class='required'" : "";
+                $input = "  <p $class>
+                                <label for='$name'>$label</label>
+                                <textarea name='$name' data-validation='$validation' data-errormessage='$error'></textarea>
+                            </p>";
+                echo $input;
+            }
+        // ---------------------------------------------------------------------
 
-            $class = $required ? " class='required'" : "";
+        // -- Creates a select box ---------------------------------------------
+            public function select($name, $label, $required, $validation, $error, $selectOptions){
+                $class = $required ? " class='required'" : "";
+                $input = "  <p $class>
+                                <label for='$name'>$label</label>
+                                <select name='$name' data-validation='$validation' data-errormessage='$error'>$selectOptions</select>
+                            </p>";
+                echo $input;
+            }
+        // ---------------------------------------------------------------------
 
-            switch($type){
-                case 'textarea':
-                    $input = "  <p $class>
-                                    <label for='$name'>$text</label>
-                                    <textarea name='$name' data-validation='$validation' data-errormessage='$error'></textarea>
-                                </p>";
-                    break;
-                case 'select':
-                    $input = "  <p $class>
-                                    <label for='$name'>$text</label>
-                                    <select name='$name' data-validation='$validation' data-errormessage='$error'>$selectOptions</select>
-                                </p>";
-                    break;
-                case 'selectMulti':
-                    $input = "  <p $class>
-                                    <label for='$name'>$text</label>
-                                    <select multiple='true' name='$name' data-validation='$validation' data-errormessage='$error'>$selectOptions</select>
-                                    <a class='js-unselect unselect'>Unselect all</a>
-                                </p>";
-                    break;
-                case 'selectDisabled':
-                    $input = "  <p $class>
-                                    <label for='$name'>$text</label>
-                                    <select name='$name' disabled='disabled' data-validation='$validation' data-errormessage='$error'>$selectOptions</select>
-                                </p>";
-                    break;
-                case 'checkbox':
-                    $input = "  <p class='checkbox'>
-                                    <input type='checkbox' value='1' name='$name' id='$name' />
-                                    <label for='$name'>$text</label>
-                                </p>";
-                    break;
-                case 'checkbox_close':
-                    $input = "  <p class='checkbox close'>
-                                    <input type='checkbox' value='1' name='$name' id='$name' />
-                                    <label for='$name'>$text</label>
-                                </p>";
-                    break;
+        // -- Creates a disabled select box ------------------------------------
+            public function selectDisabled($name, $label, $required, $validation, $error, $selectOptions){
+                $class = $required ? " class='required'" : "";
+                $input = "  <p $class>
+                                <label for='$name'>$label</label>
+                                <select name='$name' disabled='disabled' data-validation='$validation' data-errormessage='$error'>$selectOptions</select>
+                            </p>";
+                echo $input;
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Creates a multi-select drop down ---------------------------------
+            public function selectMulti($name, $label, $required, $validation, $error, $selectOptions){
+                $class = $required ? " class='required'" : "";
+                $input = "  <p $class>
+                                <label for='$name'>$label</label>
+                                <select multiple='true' name='$name' data-validation='$validation' data-errormessage='$error'>$selectOptions</select>
+                                <a class='js-unselect unselect'>Unselect all</a>
+                            </p>";
+                echo $input;
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Creates a checkbox -----------------------------------------------
+            public function checkbox($name, $label){
+                $input = "  <p class='checkbox'>
+                                <input type='checkbox' value='1' name='$name' id='$name' />
+                                <label for='$name'>$label</label>
+                            </p>";
+                echo $input;
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Creates a compact checkbox ---------------------------------------
+            public function checkboxCompact($name, $label){
+                $input = "  <p class='checkbox close'>
+                                <input type='checkbox' value='1' name='$name' id='$name' />
+                                <label for='$name'>$label</label>
+                            </p>";
+                echo $input;
             }
 
-            echo $input;
-
-        }
+        // ---------------------------------------------------------------------
 
         // -- Creates a special livestock multiselect field --------------------
-        // -- Allows for selection of multiple livestock 
+            // -- Allows for selection of multiple livestock
             public function multiselect(){
 
                 $livestock = new Livestock();

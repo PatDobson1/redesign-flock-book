@@ -173,7 +173,7 @@
                         echo "<div>";
                             $form_element -> required();
                             $form_element -> text('product_name', 'Product name', true, 'required', 'Please enter a product name');
-                            $form_element -> input('select', 'supplier', 'Supplier', true, 'required', 'Please select a supplier', $supplier_list);
+                            $form_element -> select('supplier', 'Supplier', true, 'required', 'Please select a supplier', $supplier_list);
                             $form_element -> date('purchase_date', 'Purchase date', false, '', '');
                             $form_element -> date('expiration_date', 'Expiration date', false, '', '');
                             $form_element -> date('finished_date', 'Finished date', false, '', '');
@@ -271,7 +271,7 @@
                         echo "<div>";
                             $form_element -> required();
                             $form_element -> text('product_name', 'Product name', true, 'required', 'Please enter a product name');
-                            $form_element -> input('select', 'supplier', 'Supplier', true, 'required', 'Please select a supplier', $supplier_list);
+                            $form_element -> select('supplier', 'Supplier', true, 'required', 'Please select a supplier', $supplier_list);
                             $form_element -> date('purchase_date', 'Purchase date', false, '', '');
                             $form_element -> date('expiration_date', 'Expiration date', false, '', '');
                             $form_element -> date('finished_date', 'Finished date', false, '', '');
