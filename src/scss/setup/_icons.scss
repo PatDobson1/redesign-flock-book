@@ -57,6 +57,17 @@
                 background-image: url('#{$site-root}/assets/img/reminder_white.svg');
             }
         }
+        &_settings{
+            cursor: pointer;
+            background-image: url('#{$site-root}/assets/img/cog.svg');
+            background-size: 20px;
+            background-repeat: no-repeat;
+            background-position: 10px 50%;
+            padding: 10px 10px 10px 45px;
+            &:hover{
+                background-image: url('#{$site-root}/assets/img/cog_white.svg');                
+            }
+        }
         &_menuTrigger{
             background-image: url('#{$site-root}/assets/img/menu.svg');
             background-size: 30px;

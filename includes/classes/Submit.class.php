@@ -8,6 +8,7 @@
                 $form_action = $payload['action'];
                 $form_data = $payload['formData'];
 
+                $settings = new Settings();
                 $species = new Species();
                 $breeds = new Breeds();
                 $livestock = new Livestock();
@@ -20,6 +21,12 @@
                 $reminders = new Reminders();
 
                 switch($form_action){
+
+                    // -- Settings ---------------------------------------------
+                        case 'change_password':
+                            $settings -> sql_changePassword($form_data);
+                            break;
+                    // ---------------------------------------------------------
 
                     // -- Species ----------------------------------------------
                         case 'add_species':

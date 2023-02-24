@@ -73,13 +73,21 @@
         // -- Display forms ----------------------------------------------------
             $(document).on('click','.js_showForm',function(){
                 var form = '.' + $(this).data('form');
-                $(this).slideUp(300,function(){
+                if( $(this).hasClass('js_dontHide') ){
                     $(form).slideDown(500,function(){
                         $('body').animate({
                             scrollTop: $(form).offset().top
                         }, 500);
                     });
-                });
+                }else{
+                    $(this).slideUp(300,function(){
+                        $(form).slideDown(500,function(){
+                            $('body').animate({
+                                scrollTop: $(form).offset().top
+                            }, 500);
+                        });
+                    });
+                }
             })
         // ---------------------------------------------------------------------
 
@@ -310,6 +318,15 @@
             var processSubmit = function(data){
                 var returnedData = JSON.parse(data);
                 switch(returnedData.action){
+
+                    // -- Settings ---------------------------------------------
+                        case 'passwordChanged':
+                            $('.change_password').slideUp(500,function(){
+                                displayMessage("Your password has been changed");
+                                $('form')[0].reset();
+                            });
+                        break;
+                    // ---------------------------------------------------------
 
                     // -- Species ----------------------------------------------
                         case 'speciesAdded':
@@ -766,7 +783,6 @@
 $(document).ready(function(){
 
     hostname = 'http://' + window.location.hostname + '/';
-    console.log(hostname);
     applySorting();
     form_functions();
     pikaday();

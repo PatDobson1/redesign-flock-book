@@ -33,6 +33,7 @@
                     <li><a href='#'>Menu 2</a></li>
                     <li class='dropdown'><a href='#'>Control</a>
                         <ul>
+                            <li><a class='icon_settings' href='$site_data[site_root]/settings'>Settings</a></li>
                             <li><a class='icon_reminder' href='$site_data[site_root]/reminders'>Reminders</a></li>
                             <li><a class='icon_reminder' href='$site_data[site_root]/emailTest'>Email test</a></li>
                             <li><a class='js_print icon_print'>Print</a></li>
@@ -44,8 +45,7 @@
         }
 
         public function mobileMenu($site_data){
-            echo "<!--<a class='menuTrigger icon_menuTrigger'></a>-->
-                <div class='menuTrigger'><p></p><p></p><p></p></div>
+            echo "<div class='menuTrigger'><p></p><p></p><p></p></div>
                 <div class='mobileMenu'>
                     <ul>
                         <li class='topLevel'><a href='$site_data[site_root]'>Dashboard</a></li>
@@ -60,9 +60,10 @@
                         <li><a href='$site_data[site_root]/medicine'>Medicine</a></li>
                         <li><a href='$site_data[site_root]/manualTreatment'>Manual treatment</a></li>
                         <li class='title'>Control</li>
+                        <li><a class='icon_settings' href='$site_data[site_root]/settings'>Settings</a></li>
                         <li><a class='icon_reminder' href='$site_data[site_root]/reminders'>Reminders</a></li>
                         <li><a class='js_print icon_print'>Print</a></li>
-                        <li><a class='icon_logOut'>Log out</a></li>
+                        <li><a class='icon_logOut' href='$site_data[site_root]/?logout'>Log out</a></li>
                     </ul>
                 </div>";
         }

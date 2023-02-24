@@ -4,7 +4,7 @@
 
         // -- Attempt login ----------------------------------------------------
             public function attemptLogin($postData){
-                $query = "SELECT password FROM users WHERE username = :username";
+                $query = "SELECT user_password, id, previous_login FROM users WHERE username = :username";
                 $this -> connect();
                     $sql = self::$conn -> prepare($query);
                     $sql -> bindParam(':username', $postData['username']);
@@ -14,8 +14,13 @@
                 $this -> disconnect();
 
                 if( $count ){
-                    if( password_verify($_POST['password'], $row['password']) ){
+                    if( password_verify($_POST['password'], $row['user_password']) ){
                         $_SESSION['loggedIn'] = true;
+                        $_SESSION['userId'] = $row['id'];
+                        $_SESSION['changePassword'] = false;
+                        if(!$row['previous_login']){
+                            $_SESSION['changePassword'] = true;
+                        }
                         header("Refresh:0");
                         exit;
     				}
@@ -23,6 +28,27 @@
                 $_SESSION['loggedIn'] = false;
                 header("Refresh:0");
                 exit;
+            }
+        // ---------------------------------------------------------------------
+
+        // -- Change password - first login ------------------------------------
+            public function changePasswordFirstLogin($postData){
+                if( $postData['password'] == '' ){
+                    header("Refresh:0");
+                    exit;
+                }else{
+                    $password = password_hash($postData['password'], PASSWORD_DEFAULT);
+                    $query = "UPDATE users SET user_password = :password, previous_login = 1 WHERE id = :id";
+                    $this -> connect();
+                        $sql = self::$conn -> prepare($query);
+                        $sql -> bindParam(':password', $password);
+                        $sql -> bindParam(':id', $postData['id']);
+                        $sql -> execute();
+                    $this -> disconnect();
+                    $_SESSION['changePassword'] = false;
+                    header("Refresh:0");
+                    exit;
+                }
             }
         // ---------------------------------------------------------------------
 
